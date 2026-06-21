@@ -6,15 +6,31 @@ build-backend = "hatchling.build"
 
 [project]
 name = "article"
-version = "0.0.1"
+version = "0.1.0"
 description = "Tools to semi-automate the publication of articles"
 readme = "README.md"
 requires-python = ">=3.10"
-keywords = []
+keywords = [
+    "publishing",
+    "syndication",
+    "canonical-url",
+    "seo",
+    "substack",
+    "medium",
+    "dev.to",
+    "hashnode",
+    "automation",
+]
 authors = [
     { name = "Thor Whalen" },
 ]
-dependencies = []
+dependencies = [
+    "pydantic>=2",
+    "pydantic-settings>=2",
+    "argh",
+    "httpx",
+    "python-dotenv",
+]
 
 [project.license]
 text = "mit"
@@ -25,15 +41,27 @@ Repository = "https://github.com/thorwhalen/article"
 Documentation = "https://thorwhalen.github.io/article"
 
 [project.optional-dependencies]
+# Substack adapter (Phase 1) drives a real browser via Playwright.
+substack = [
+    "playwright",
+]
+# Shell tab-completion for the CLI.
+completion = [
+    "argcomplete",
+]
 dev = [
     "pytest>=7.0",
     "pytest-cov>=4.0",
     "ruff>=0.1.0",
+    "playwright",
 ]
 docs = [
     "sphinx>=6.0",
     "sphinx-rtd-theme>=1.0",
 ]
+
+[project.scripts]
+article = "article.__main__:main"
 
 [tool.ruff]
 line-length = 88

@@ -1,0 +1,16 @@
+{
+  "title": "Designing an SSOT Publishing Pipeline",
+  "subtitle": "Author once, syndicate everywhere — with canonical SEO done right",
+  "slug": "ssot-publishing-pipeline",
+  "content_markdown": "# Designing an SSOT Publishing Pipeline\n\nWrite the article once, publish it to a primary home, then syndicate it to other platforms while pointing every copy's canonical URL back to the original.\n\n## Why canonical URLs matter\n\nDuplicate content across platforms dilutes SEO unless each copy declares its canonical source. This pipeline captures the primary URL once and injects it everywhere.\n",
+  "tags": ["python", "automation", "seo", "writing"],
+  "keywords": ["single source of truth", "canonical url", "syndication"],
+  "cover_image_url": "https://example.com/cover.png",
+  "description": "How to author an article once and syndicate it with correct canonical URLs.",
+  "platforms": {
+    "substack": { "publish_as_draft": false, "send_email": false },
+    "medium": { "publish_as_draft": true, "notify_followers": false },
+    "dev_to": { "publish_as_draft": true, "tags": ["python", "automation"] },
+    "hashnode": { "publish_as_draft": true, "subtitle": "An SSOT approach" }
+  }
+}
