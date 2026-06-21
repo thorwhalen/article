@@ -1,0 +1,4 @@
+article.config
+==============
+.. automodule:: article.config
+   :members:

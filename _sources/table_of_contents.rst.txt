@@ -1,0 +1,17 @@
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+   module_docs/article
+   module_docs/article/__main__
+   module_docs/article/adapters
+   module_docs/article/adapters/dev_to
+   module_docs/article/adapters/hashnode
+   module_docs/article/adapters/medium
+   module_docs/article/adapters/substack
+   module_docs/article/base
+   module_docs/article/config
+   module_docs/article/engine
+   module_docs/article/registry
+   module_docs/article/state
+   module_docs/article/util

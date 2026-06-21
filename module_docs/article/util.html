@@ -1,0 +1,239 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>article.util &mdash; article 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="article.state" href="state.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            article
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../article.html">article</a></li>
+<li class="toctree-l1"><a class="reference internal" href="__main__.html">article.__main__</a></li>
+<li class="toctree-l1"><a class="reference internal" href="adapters.html">article.adapters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="adapters/dev_to.html">article.adapters.dev_to</a></li>
+<li class="toctree-l1"><a class="reference internal" href="adapters/hashnode.html">article.adapters.hashnode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="adapters/medium.html">article.adapters.medium</a></li>
+<li class="toctree-l1"><a class="reference internal" href="adapters/substack.html">article.adapters.substack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="base.html">article.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">article.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="engine.html">article.engine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="registry.html">article.registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="state.html">article.state</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">article.util</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#article.util.atomic_write_json"><code class="docutils literal notranslate"><span class="pre">atomic_write_json()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#article.util.coalesce"><code class="docutils literal notranslate"><span class="pre">coalesce()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#article.util.get_logger"><code class="docutils literal notranslate"><span class="pre">get_logger()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#article.util.human_delay"><code class="docutils literal notranslate"><span class="pre">human_delay()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#article.util.read_json"><code class="docutils literal notranslate"><span class="pre">read_json()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#article.util.require_canonical_url"><code class="docutils literal notranslate"><span class="pre">require_canonical_url()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#article.util.run_sync"><code class="docutils literal notranslate"><span class="pre">run_sync()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#article.util.suppress_errors"><code class="docutils literal notranslate"><span class="pre">suppress_errors</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#article.util.utcnow_iso"><code class="docutils literal notranslate"><span class="pre">utcnow_iso()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">article</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">article.util</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/module_docs/article/util.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-article.util">
+<span id="article-util"></span><h1>article.util<a class="headerlink" href="#module-article.util" title="Link to this heading"></a></h1>
+<p>Thin, dependency-light utilities shared across the package.</p>
+<p>Nothing here knows about platforms or pipelines — these are general helpers:
+logging, human-like async pacing (so automating your <em>own</em> account doesn’t trip
+automated-traffic heuristics), atomic JSON IO for the state store, and the
+canonical-URL guard that every secondary adapter calls so the SSOT link is
+never silently dropped.</p>
+<p>Side-effecting primitives (sleeping, the clock, the RNG) are injected as
+keyword-only parameters so the helpers stay deterministic under test.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="article.util.atomic_write_json">
+<span class="sig-prename descclassname"><span class="pre">article.util.</span></span><span class="sig-name descname"><span class="pre">atomic_write_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">PathLike</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">indent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/article/util.html#atomic_write_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.util.atomic_write_json" title="Link to this definition"></a></dt>
+<dd><p>Write <code class="docutils literal notranslate"><span class="pre">data</span></code> as JSON atomically (temp file + <code class="docutils literal notranslate"><span class="pre">os.replace</span></code>).</p>
+<p>Creates parent directories as needed. The temp-then-replace dance means a
+crashed write never leaves a half-written state file behind.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="article.util.coalesce">
+<span class="sig-prename descclassname"><span class="pre">article.util.</span></span><span class="sig-name descname"><span class="pre">coalesce</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">T</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">T</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/article/util.html#coalesce"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.util.coalesce" title="Link to this definition"></a></dt>
+<dd><p>First non-<code class="docutils literal notranslate"><span class="pre">None</span></code> value, else <code class="docutils literal notranslate"><span class="pre">None</span></code> (SQL <code class="docutils literal notranslate"><span class="pre">COALESCE</span></code>).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">coalesce</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">coalesce</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="article.util.get_logger">
+<span class="sig-prename descclassname"><span class="pre">article.util.</span></span><span class="sig-name descname"><span class="pre">get_logger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'article'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Logger</span></span></span><a class="reference internal" href="../../_modules/article/util.html#get_logger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.util.get_logger" title="Link to this definition"></a></dt>
+<dd><p>Return the package logger, attaching a single stderr handler once.</p>
+<p>Idempotent: repeated calls don’t stack handlers.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">log</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">log</span><span class="o">.</span><span class="n">name</span>
+<span class="go">&#39;article&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_logger</span><span class="p">()</span> <span class="ow">is</span> <span class="n">log</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="article.util.human_delay">
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">article.util.</span></span><span class="sig-name descname"><span class="pre">human_delay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">min_seconds:</span> <span class="pre">float,</span> <span class="pre">max_seconds:</span> <span class="pre">float,</span> <span class="pre">*,</span> <span class="pre">_sleep:</span> <span class="pre">~typing.Callable[[float],</span> <span class="pre">~typing.Awaitable[None]]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">sleep&gt;,</span> <span class="pre">_rand:</span> <span class="pre">~typing.Callable[[float,</span> <span class="pre">float],</span> <span class="pre">float]</span> <span class="pre">=</span> <span class="pre">&lt;bound</span> <span class="pre">method</span> <span class="pre">Random.uniform</span> <span class="pre">of</span> <span class="pre">&lt;random.Random</span> <span class="pre">object&gt;&gt;</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../../_modules/article/util.html#human_delay"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.util.human_delay" title="Link to this definition"></a></dt>
+<dd><p>Sleep a randomized, human-like interval; return the delay used.</p>
+<p>Used between scripted browser actions so automation of one’s own account
+paces like a person. The sleeper and RNG are injectable for deterministic
+tests:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_no_sleep</span><span class="p">(</span><span class="n">_</span><span class="p">):</span> <span class="k">pass</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">human_delay</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">_sleep</span><span class="o">=</span><span class="n">_no_sleep</span><span class="p">))</span>
+<span class="go">0.5</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="article.util.read_json">
+<span class="sig-prename descclassname"><span class="pre">article.util.</span></span><span class="sig-name descname"><span class="pre">read_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">PathLike</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../../_modules/article/util.html#read_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.util.read_json" title="Link to this definition"></a></dt>
+<dd><p>Read and parse a JSON file, returning <code class="docutils literal notranslate"><span class="pre">default</span></code> if it doesn’t exist.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="article.util.require_canonical_url">
+<span class="sig-prename descclassname"><span class="pre">article.util.</span></span><span class="sig-name descname"><span class="pre">require_canonical_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">platform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">canonical_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/article/util.html#require_canonical_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.util.require_canonical_url" title="Link to this definition"></a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">canonical_url</span></code> or raise — the SSOT link is never optional.</p>
+<p>Every <em>secondary</em> adapter calls this first so a missing canonical link
+fails loudly instead of silently emitting a self-canonical post.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">require_canonical_url</span><span class="p">(</span><span class="s2">&quot;medium&quot;</span><span class="p">,</span> <span class="s2">&quot;https://x.substack.com/p/y&quot;</span><span class="p">)</span>
+<span class="go">&#39;https://x.substack.com/p/y&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">require_canonical_url</span><span class="p">(</span><span class="s2">&quot;medium&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">article.base.AdapterError</span>: <span class="n">medium: canonical_url is required for syndication but was missing</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="article.util.run_sync">
+<span class="sig-prename descclassname"><span class="pre">article.util.</span></span><span class="sig-name descname"><span class="pre">run_sync</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coro</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Awaitable</span><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">T</span></span></span><a class="reference internal" href="../../_modules/article/util.html#run_sync"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.util.run_sync" title="Link to this definition"></a></dt>
+<dd><p>Run an async coroutine to completion from sync code (CLI entry points).</p>
+<p>A thin, named wrapper over <code class="xref py py-func docutils literal notranslate"><span class="pre">asyncio.run()</span></code> so the dispatch-to-interface
+seam is obvious and easy to swap (e.g. for an existing event loop later).</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="article.util.suppress_errors">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">article.util.</span></span><span class="sig-name descname"><span class="pre">suppress_errors</span></span><a class="reference internal" href="../../_modules/article/util.html#suppress_errors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.util.suppress_errors" title="Link to this definition"></a></dt>
+<dd><p>A tiny <code class="docutils literal notranslate"><span class="pre">contextlib.suppress(Exception)</span></code> without the import churn.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="article.util.utcnow_iso">
+<span class="sig-prename descclassname"><span class="pre">article.util.</span></span><span class="sig-name descname"><span class="pre">utcnow_iso</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_now</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable[[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~datetime.datetime]</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/article/util.html#utcnow_iso"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.util.utcnow_iso" title="Link to this definition"></a></dt>
+<dd><p>Current UTC time as an ISO-8601 string (clock injectable for tests).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timezone</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">utcnow_iso</span><span class="p">(</span><span class="n">_now</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2026</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="n">tzinfo</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">))</span>
+<span class="go">&#39;2026-06-21T00:00:00+00:00&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="state.html" class="btn btn-neutral float-left" title="article.state" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

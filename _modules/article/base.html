@@ -1,0 +1,422 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>article.base &mdash; article 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            article
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/article.html">article</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/article/__main__.html">article.__main__</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/article/adapters.html">article.adapters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/article/adapters/dev_to.html">article.adapters.dev_to</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/article/adapters/hashnode.html">article.adapters.hashnode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/article/adapters/medium.html">article.adapters.medium</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/article/adapters/substack.html">article.adapters.substack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/article/base.html">article.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/article/config.html">article.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/article/engine.html">article.engine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/article/registry.html">article.registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/article/state.html">article.state</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/article/util.html">article.util</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">article</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">article.base</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for article.base</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Core vocabulary for the ``article`` publishing pipeline.</span>
+
+<span class="sd">This module holds only *foundational* types — the names every other layer</span>
+<span class="sd">speaks in — and no business logic:</span>
+
+<span class="sd">- :data:`PlatformName` and the platform-name constants</span>
+<span class="sd">  (:data:`SUBSTACK`, :data:`MEDIUM`, :data:`DEV_TO`, :data:`HASHNODE`).</span>
+<span class="sd">- :class:`PublishResult` — the immutable, per-platform outcome of one publish</span>
+<span class="sd">  attempt, with :meth:`PublishResult.success` / :meth:`~PublishResult.failure`</span>
+<span class="sd">  / :meth:`~PublishResult.skipped` constructors so call sites read declaratively.</span>
+<span class="sd">- :class:`RunSummary` — the structured result of a whole phase (a tuple of</span>
+<span class="sd">  :class:`PublishResult` plus the resolved ``canonical_url``).</span>
+<span class="sd">- The package exception hierarchy, all rooted at :class:`ArticleError`.</span>
+
+<span class="sd">Keeping these here (rather than scattered) is the SSOT for the package&#39;s shared</span>
+<span class="sd">types and keeps import edges acyclic: ``base`` imports nothing from the package.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="c1"># --------------------------------------------------------------------------- #</span>
+<span class="c1"># Platform identifiers (SSOT for the names used as registry/config/state keys) #</span>
+<span class="c1"># --------------------------------------------------------------------------- #</span>
+
+<span class="n">PlatformName</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;substack&quot;</span><span class="p">,</span> <span class="s2">&quot;medium&quot;</span><span class="p">,</span> <span class="s2">&quot;dev_to&quot;</span><span class="p">,</span> <span class="s2">&quot;hashnode&quot;</span><span class="p">]</span>
+
+<span class="n">SUBSTACK</span><span class="p">:</span> <span class="n">PlatformName</span> <span class="o">=</span> <span class="s2">&quot;substack&quot;</span>
+<span class="n">MEDIUM</span><span class="p">:</span> <span class="n">PlatformName</span> <span class="o">=</span> <span class="s2">&quot;medium&quot;</span>
+<span class="n">DEV_TO</span><span class="p">:</span> <span class="n">PlatformName</span> <span class="o">=</span> <span class="s2">&quot;dev_to&quot;</span>
+<span class="n">HASHNODE</span><span class="p">:</span> <span class="n">PlatformName</span> <span class="o">=</span> <span class="s2">&quot;hashnode&quot;</span>
+
+<span class="c1">#: The primary platform whose assigned public URL becomes the canonical SSOT.</span>
+<span class="n">PRIMARY_PLATFORM</span><span class="p">:</span> <span class="n">PlatformName</span> <span class="o">=</span> <span class="n">SUBSTACK</span>
+
+<span class="c1">#: The platforms syndicated to in phase 2, each pointing canonically at the primary.</span>
+<span class="n">SECONDARY_PLATFORMS</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">PlatformName</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">MEDIUM</span><span class="p">,</span> <span class="n">DEV_TO</span><span class="p">,</span> <span class="n">HASHNODE</span><span class="p">)</span>
+
+<span class="c1">#: All known platforms, primary first.</span>
+<span class="n">ALL_PLATFORMS</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">PlatformName</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">PRIMARY_PLATFORM</span><span class="p">,</span> <span class="o">*</span><span class="n">SECONDARY_PLATFORMS</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Phase">
+<a class="viewcode-back" href="../../module_docs/article/base.html#article.Phase">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Phase</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The two pipeline phases, named exactly as their CLI commands.&quot;&quot;&quot;</span>
+
+    <span class="n">PUBLISH_PRIMARY</span> <span class="o">=</span> <span class="s2">&quot;publish-primary&quot;</span>
+    <span class="n">SYNDICATE_SECONDARY</span> <span class="o">=</span> <span class="s2">&quot;syndicate-secondary&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="PublishState">
+<a class="viewcode-back" href="../../module_docs/article/base.html#article.PublishState">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PublishState</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Outcome state of a single platform publish attempt.&quot;&quot;&quot;</span>
+
+    <span class="n">SUCCESS</span> <span class="o">=</span> <span class="s2">&quot;success&quot;</span>
+    <span class="n">FAILED</span> <span class="o">=</span> <span class="s2">&quot;failed&quot;</span>
+    <span class="n">SKIPPED</span> <span class="o">=</span> <span class="s2">&quot;skipped&quot;</span></div>
+
+
+
+<span class="c1"># --------------------------------------------------------------------------- #</span>
+<span class="c1"># Result types                                                                #</span>
+<span class="c1"># --------------------------------------------------------------------------- #</span>
+
+
+<div class="viewcode-block" id="PublishResult">
+<a class="viewcode-back" href="../../module_docs/article/base.html#article.PublishResult">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">slots</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PublishResult</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Immutable outcome of one platform publish attempt.</span>
+
+<span class="sd">    Construct via the classmethods rather than the raw initializer so intent is</span>
+<span class="sd">    explicit at the call site:</span>
+
+<span class="sd">    &gt;&gt;&gt; PublishResult.success(&quot;medium&quot;, url=&quot;https://medium.com/p/x&quot;, status=&quot;draft&quot;).ok</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; r = PublishResult.failure(&quot;hashnode&quot;, error=&quot;HTTP 401&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; r.ok, r.state.value, r.error</span>
+<span class="sd">    (False, &#39;failed&#39;, &#39;HTTP 401&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; PublishResult.skipped(&quot;dev_to&quot;, reason=&quot;not configured&quot;).state.value</span>
+<span class="sd">    &#39;skipped&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">platform</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">state</span><span class="p">:</span> <span class="n">PublishState</span>
+    <span class="n">url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">status</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># platform-native status, e.g. &quot;draft&quot;/&quot;published&quot;</span>
+    <span class="n">canonical_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">error</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">detail</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ok</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;True iff the attempt succeeded.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="ow">is</span> <span class="n">PublishState</span><span class="o">.</span><span class="n">SUCCESS</span>
+
+<div class="viewcode-block" id="PublishResult.success">
+<a class="viewcode-back" href="../../module_docs/article/base.html#article.PublishResult.success">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">success</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">platform</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">status</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">canonical_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">detail</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;PublishResult&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;A successful publish/draft to ``platform``.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">platform</span><span class="o">=</span><span class="n">platform</span><span class="p">,</span>
+            <span class="n">state</span><span class="o">=</span><span class="n">PublishState</span><span class="o">.</span><span class="n">SUCCESS</span><span class="p">,</span>
+            <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+            <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="p">,</span>
+            <span class="n">canonical_url</span><span class="o">=</span><span class="n">canonical_url</span><span class="p">,</span>
+            <span class="n">detail</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">detail</span> <span class="ow">or</span> <span class="p">{}),</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PublishResult.failure">
+<a class="viewcode-back" href="../../module_docs/article/base.html#article.PublishResult.failure">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">failure</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">platform</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">error</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">detail</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;PublishResult&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;A failed attempt on ``platform`` — the run continues past it.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">platform</span><span class="o">=</span><span class="n">platform</span><span class="p">,</span>
+            <span class="n">state</span><span class="o">=</span><span class="n">PublishState</span><span class="o">.</span><span class="n">FAILED</span><span class="p">,</span>
+            <span class="n">error</span><span class="o">=</span><span class="n">error</span><span class="p">,</span>
+            <span class="n">detail</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">detail</span> <span class="ow">or</span> <span class="p">{}),</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PublishResult.skipped">
+<a class="viewcode-back" href="../../module_docs/article/base.html#article.PublishResult.skipped">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">skipped</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">platform</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">reason</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">detail</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;PublishResult&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;``platform`` was not attempted (e.g. absent from the article config).&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">platform</span><span class="o">=</span><span class="n">platform</span><span class="p">,</span>
+            <span class="n">state</span><span class="o">=</span><span class="n">PublishState</span><span class="o">.</span><span class="n">SKIPPED</span><span class="p">,</span>
+            <span class="n">error</span><span class="o">=</span><span class="n">reason</span><span class="p">,</span>
+            <span class="n">detail</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">detail</span> <span class="ow">or</span> <span class="p">{}),</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PublishResult.as_record">
+<a class="viewcode-back" href="../../module_docs/article/base.html#article.PublishResult.as_record">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">as_record</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;A JSON-serializable summary, suitable for the state store.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;platform&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">platform</span><span class="p">,</span>
+            <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
+            <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="p">,</span>
+            <span class="s2">&quot;canonical_url&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">canonical_url</span><span class="p">,</span>
+            <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">error</span><span class="p">,</span>
+            <span class="s2">&quot;detail&quot;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">),</span>
+        <span class="p">}</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="RunSummary">
+<a class="viewcode-back" href="../../module_docs/article/base.html#article.RunSummary">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">slots</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">RunSummary</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Structured result of one pipeline phase across all targeted platforms.</span>
+
+<span class="sd">    &gt;&gt;&gt; results = (</span>
+<span class="sd">    ...     PublishResult.success(&quot;medium&quot;, url=&quot;m&quot;),</span>
+<span class="sd">    ...     PublishResult.failure(&quot;dev_to&quot;, error=&quot;boom&quot;),</span>
+<span class="sd">    ... )</span>
+<span class="sd">    &gt;&gt;&gt; summary = RunSummary(phase=&quot;syndicate-secondary&quot;, results=results, canonical_url=&quot;c&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; summary.ok</span>
+<span class="sd">    False</span>
+<span class="sd">    &gt;&gt;&gt; [r.platform for r in summary.failures]</span>
+<span class="sd">    [&#39;dev_to&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; summary.by_platform[&quot;medium&quot;].url</span>
+<span class="sd">    &#39;m&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">phase</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">results</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">PublishResult</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+    <span class="n">canonical_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ok</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;True iff no targeted platform failed (skipped platforms don&#39;t count).&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">failures</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">failures</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">PublishResult</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The subset of results that failed.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">state</span> <span class="ow">is</span> <span class="n">PublishState</span><span class="o">.</span><span class="n">FAILED</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">successes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">PublishResult</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The subset of results that succeeded.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">state</span> <span class="ow">is</span> <span class="n">PublishState</span><span class="o">.</span><span class="n">SUCCESS</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">by_platform</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">PublishResult</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Results keyed by platform name.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">r</span><span class="o">.</span><span class="n">platform</span><span class="p">:</span> <span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">}</span>
+
+<div class="viewcode-block" id="RunSummary.render">
+<a class="viewcode-back" href="../../module_docs/article/base.html#article.RunSummary.render">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;A compact human-readable, multi-line summary.&quot;&quot;&quot;</span>
+        <span class="n">glyph</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">PublishState</span><span class="o">.</span><span class="n">SUCCESS</span><span class="p">:</span> <span class="s2">&quot;[ok]  &quot;</span><span class="p">,</span>
+            <span class="n">PublishState</span><span class="o">.</span><span class="n">FAILED</span><span class="p">:</span> <span class="s2">&quot;[fail]&quot;</span><span class="p">,</span>
+            <span class="n">PublishState</span><span class="o">.</span><span class="n">SKIPPED</span><span class="p">:</span> <span class="s2">&quot;[skip]&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;Phase: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">phase</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">canonical_url</span><span class="p">:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;canonical_url: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">canonical_url</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">:</span>
+            <span class="n">tail</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">url</span> <span class="ow">or</span> <span class="n">r</span><span class="o">.</span><span class="n">error</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">status</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot; (</span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">status</span><span class="si">}</span><span class="s2">)&quot;</span> <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">status</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">glyph</span><span class="p">[</span><span class="n">r</span><span class="o">.</span><span class="n">state</span><span class="p">]</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">platform</span><span class="si">}{</span><span class="n">status</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">tail</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">rstrip</span><span class="p">())</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;=&gt; </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">successes</span><span class="p">)</span><span class="si">}</span><span class="s2"> ok, </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">failures</span><span class="p">)</span><span class="si">}</span><span class="s2"> failed, &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">successes</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">failures</span><span class="p">)</span><span class="si">}</span><span class="s2"> skipped&quot;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RunSummary.as_record">
+<a class="viewcode-back" href="../../module_docs/article/base.html#article.RunSummary.as_record">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">as_record</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;A JSON-serializable summary, suitable for the state store.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;phase&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">phase</span><span class="p">,</span>
+            <span class="s2">&quot;canonical_url&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">canonical_url</span><span class="p">,</span>
+            <span class="s2">&quot;results&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">r</span><span class="o">.</span><span class="n">as_record</span><span class="p">()</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">],</span>
+        <span class="p">}</span></div>
+</div>
+
+
+
+<span class="c1"># --------------------------------------------------------------------------- #</span>
+<span class="c1"># Exception hierarchy                                                          #</span>
+<span class="c1"># --------------------------------------------------------------------------- #</span>
+
+
+<div class="viewcode-block" id="ArticleError">
+<a class="viewcode-back" href="../../module_docs/article/base.html#article.ArticleError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ArticleError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for every error this package raises deliberately.&quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="ArticleValidationError">
+<a class="viewcode-back" href="../../module_docs/article/base.html#article.ArticleValidationError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ArticleValidationError</span><span class="p">(</span><span class="n">ArticleError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An article JSON file failed schema validation (with a friendly message).&quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="ConfigError">
+<a class="viewcode-back" href="../../module_docs/article/base.html#article.ConfigError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ConfigError</span><span class="p">(</span><span class="n">ArticleError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Required configuration or secret is missing/invalid.&quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="AdapterError">
+<a class="viewcode-back" href="../../module_docs/article/base.html#article.AdapterError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AdapterError</span><span class="p">(</span><span class="n">ArticleError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A platform adapter could not complete its publish attempt.&quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="UnknownPlatformError">
+<a class="viewcode-back" href="../../module_docs/article/base.html#article.UnknownPlatformError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">UnknownPlatformError</span><span class="p">(</span><span class="n">ArticleError</span><span class="p">,</span> <span class="ne">KeyError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;No adapter is registered under the requested platform name.&quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="CanonicalUrlMissing">
+<a class="viewcode-back" href="../../module_docs/article/base.html#article.CanonicalUrlMissing">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CanonicalUrlMissing</span><span class="p">(</span><span class="n">ArticleError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Phase 2 was requested before phase 1 recorded a canonical_url.&quot;&quot;&quot;</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

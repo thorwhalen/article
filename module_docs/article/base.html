@@ -1,0 +1,339 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>article.base &mdash; article 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="article.config" href="config.html" />
+    <link rel="prev" title="article.adapters.substack" href="adapters/substack.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            article
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../article.html">article</a></li>
+<li class="toctree-l1"><a class="reference internal" href="__main__.html">article.__main__</a></li>
+<li class="toctree-l1"><a class="reference internal" href="adapters.html">article.adapters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="adapters/dev_to.html">article.adapters.dev_to</a></li>
+<li class="toctree-l1"><a class="reference internal" href="adapters/hashnode.html">article.adapters.hashnode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="adapters/medium.html">article.adapters.medium</a></li>
+<li class="toctree-l1"><a class="reference internal" href="adapters/substack.html">article.adapters.substack</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">article.base</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#article.base.ALL_PLATFORMS"><code class="docutils literal notranslate"><span class="pre">ALL_PLATFORMS</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#article.base.AdapterError"><code class="docutils literal notranslate"><span class="pre">AdapterError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#article.base.ArticleError"><code class="docutils literal notranslate"><span class="pre">ArticleError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#article.base.ArticleValidationError"><code class="docutils literal notranslate"><span class="pre">ArticleValidationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#article.base.CanonicalUrlMissing"><code class="docutils literal notranslate"><span class="pre">CanonicalUrlMissing</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#article.base.ConfigError"><code class="docutils literal notranslate"><span class="pre">ConfigError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#article.base.PRIMARY_PLATFORM"><code class="docutils literal notranslate"><span class="pre">PRIMARY_PLATFORM</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#article.base.Phase"><code class="docutils literal notranslate"><span class="pre">Phase</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#article.base.PublishResult"><code class="docutils literal notranslate"><span class="pre">PublishResult</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#article.base.PublishResult.as_record"><code class="docutils literal notranslate"><span class="pre">PublishResult.as_record()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#article.base.PublishResult.failure"><code class="docutils literal notranslate"><span class="pre">PublishResult.failure()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#article.base.PublishResult.ok"><code class="docutils literal notranslate"><span class="pre">PublishResult.ok</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#article.base.PublishResult.skipped"><code class="docutils literal notranslate"><span class="pre">PublishResult.skipped()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#article.base.PublishResult.success"><code class="docutils literal notranslate"><span class="pre">PublishResult.success()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#article.base.PublishState"><code class="docutils literal notranslate"><span class="pre">PublishState</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#article.base.RunSummary"><code class="docutils literal notranslate"><span class="pre">RunSummary</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#article.base.RunSummary.as_record"><code class="docutils literal notranslate"><span class="pre">RunSummary.as_record()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#article.base.RunSummary.by_platform"><code class="docutils literal notranslate"><span class="pre">RunSummary.by_platform</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#article.base.RunSummary.failures"><code class="docutils literal notranslate"><span class="pre">RunSummary.failures</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#article.base.RunSummary.ok"><code class="docutils literal notranslate"><span class="pre">RunSummary.ok</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#article.base.RunSummary.render"><code class="docutils literal notranslate"><span class="pre">RunSummary.render()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#article.base.RunSummary.successes"><code class="docutils literal notranslate"><span class="pre">RunSummary.successes</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#article.base.SECONDARY_PLATFORMS"><code class="docutils literal notranslate"><span class="pre">SECONDARY_PLATFORMS</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#article.base.UnknownPlatformError"><code class="docutils literal notranslate"><span class="pre">UnknownPlatformError</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">article.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="engine.html">article.engine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="registry.html">article.registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="state.html">article.state</a></li>
+<li class="toctree-l1"><a class="reference internal" href="util.html">article.util</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">article</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">article.base</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/module_docs/article/base.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-article.base">
+<span id="article-base"></span><h1>article.base<a class="headerlink" href="#module-article.base" title="Link to this heading"></a></h1>
+<p>Core vocabulary for the <code class="docutils literal notranslate"><span class="pre">article</span></code> publishing pipeline.</p>
+<p>This module holds only <em>foundational</em> types — the names every other layer
+speaks in — and no business logic:</p>
+<ul class="simple">
+<li><p><code class="xref py py-data docutils literal notranslate"><span class="pre">PlatformName</span></code> and the platform-name constants
+(<code class="xref py py-data docutils literal notranslate"><span class="pre">SUBSTACK</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">MEDIUM</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">DEV_TO</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">HASHNODE</span></code>).</p></li>
+<li><p><a class="reference internal" href="#article.base.PublishResult" title="article.base.PublishResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">PublishResult</span></code></a> — the immutable, per-platform outcome of one publish
+attempt, with <a class="reference internal" href="#article.base.PublishResult.success" title="article.base.PublishResult.success"><code class="xref py py-meth docutils literal notranslate"><span class="pre">PublishResult.success()</span></code></a> / <a class="reference internal" href="#article.base.PublishResult.failure" title="article.base.PublishResult.failure"><code class="xref py py-meth docutils literal notranslate"><span class="pre">failure()</span></code></a>
+/ <a class="reference internal" href="#article.base.PublishResult.skipped" title="article.base.PublishResult.skipped"><code class="xref py py-meth docutils literal notranslate"><span class="pre">skipped()</span></code></a> constructors so call sites read declaratively.</p></li>
+<li><p><a class="reference internal" href="#article.base.RunSummary" title="article.base.RunSummary"><code class="xref py py-class docutils literal notranslate"><span class="pre">RunSummary</span></code></a> — the structured result of a whole phase (a tuple of
+<a class="reference internal" href="#article.base.PublishResult" title="article.base.PublishResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">PublishResult</span></code></a> plus the resolved <code class="docutils literal notranslate"><span class="pre">canonical_url</span></code>).</p></li>
+<li><p>The package exception hierarchy, all rooted at <a class="reference internal" href="#article.base.ArticleError" title="article.base.ArticleError"><code class="xref py py-class docutils literal notranslate"><span class="pre">ArticleError</span></code></a>.</p></li>
+</ul>
+<p>Keeping these here (rather than scattered) is the SSOT for the package’s shared
+types and keeps import edges acyclic: <code class="docutils literal notranslate"><span class="pre">base</span></code> imports nothing from the package.</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="article.base.ALL_PLATFORMS">
+<span class="sig-prename descclassname"><span class="pre">article.base.</span></span><span class="sig-name descname"><span class="pre">ALL_PLATFORMS</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'substack'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'medium'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'dev_to'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'hashnode'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('substack',</span> <span class="pre">'medium',</span> <span class="pre">'dev_to',</span> <span class="pre">'hashnode')</span></span><a class="headerlink" href="#article.base.ALL_PLATFORMS" title="Link to this definition"></a></dt>
+<dd><p>All known platforms, primary first.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="article.base.AdapterError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">article.base.</span></span><span class="sig-name descname"><span class="pre">AdapterError</span></span><a class="reference internal" href="../../_modules/article/base.html#AdapterError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.base.AdapterError" title="Link to this definition"></a></dt>
+<dd><p>A platform adapter could not complete its publish attempt.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="article.base.ArticleError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">article.base.</span></span><span class="sig-name descname"><span class="pre">ArticleError</span></span><a class="reference internal" href="../../_modules/article/base.html#ArticleError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.base.ArticleError" title="Link to this definition"></a></dt>
+<dd><p>Base class for every error this package raises deliberately.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="article.base.ArticleValidationError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">article.base.</span></span><span class="sig-name descname"><span class="pre">ArticleValidationError</span></span><a class="reference internal" href="../../_modules/article/base.html#ArticleValidationError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.base.ArticleValidationError" title="Link to this definition"></a></dt>
+<dd><p>An article JSON file failed schema validation (with a friendly message).</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="article.base.CanonicalUrlMissing">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">article.base.</span></span><span class="sig-name descname"><span class="pre">CanonicalUrlMissing</span></span><a class="reference internal" href="../../_modules/article/base.html#CanonicalUrlMissing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.base.CanonicalUrlMissing" title="Link to this definition"></a></dt>
+<dd><p>Phase 2 was requested before phase 1 recorded a canonical_url.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="article.base.ConfigError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">article.base.</span></span><span class="sig-name descname"><span class="pre">ConfigError</span></span><a class="reference internal" href="../../_modules/article/base.html#ConfigError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.base.ConfigError" title="Link to this definition"></a></dt>
+<dd><p>Required configuration or secret is missing/invalid.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="article.base.PRIMARY_PLATFORM">
+<span class="sig-prename descclassname"><span class="pre">article.base.</span></span><span class="sig-name descname"><span class="pre">PRIMARY_PLATFORM</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'substack'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'medium'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'dev_to'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'hashnode'</span></span><span class="p"><span class="pre">]</span></span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'substack'</span></span><a class="headerlink" href="#article.base.PRIMARY_PLATFORM" title="Link to this definition"></a></dt>
+<dd><p>The primary platform whose assigned public URL becomes the canonical SSOT.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="article.base.Phase">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">article.base.</span></span><span class="sig-name descname"><span class="pre">Phase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/article/base.html#Phase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.base.Phase" title="Link to this definition"></a></dt>
+<dd><p>The two pipeline phases, named exactly as their CLI commands.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="article.base.PublishResult">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">article.base.</span></span><span class="sig-name descname"><span class="pre">PublishResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">platform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#article.base.PublishState" title="article.base.PublishState"><span class="pre">PublishState</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">canonical_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detail</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~typing.Any]</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/article/base.html#PublishResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.base.PublishResult" title="Link to this definition"></a></dt>
+<dd><p>Immutable outcome of one platform publish attempt.</p>
+<p>Construct via the classmethods rather than the raw initializer so intent is
+explicit at the call site:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">PublishResult</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="s2">&quot;medium&quot;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s2">&quot;https://medium.com/p/x&quot;</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="s2">&quot;draft&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">ok</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">PublishResult</span><span class="o">.</span><span class="n">failure</span><span class="p">(</span><span class="s2">&quot;hashnode&quot;</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="s2">&quot;HTTP 401&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">ok</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">error</span>
+<span class="go">(False, &#39;failed&#39;, &#39;HTTP 401&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">PublishResult</span><span class="o">.</span><span class="n">skipped</span><span class="p">(</span><span class="s2">&quot;dev_to&quot;</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;not configured&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">value</span>
+<span class="go">&#39;skipped&#39;</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="article.base.PublishResult.as_record">
+<span class="sig-name descname"><span class="pre">as_record</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/article/base.html#PublishResult.as_record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.base.PublishResult.as_record" title="Link to this definition"></a></dt>
+<dd><p>A JSON-serializable summary, suitable for the state store.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="article.base.PublishResult.failure">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">failure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">platform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detail</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#article.base.PublishResult" title="article.base.PublishResult"><span class="pre">PublishResult</span></a></span></span><a class="reference internal" href="../../_modules/article/base.html#PublishResult.failure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.base.PublishResult.failure" title="Link to this definition"></a></dt>
+<dd><p>A failed attempt on <code class="docutils literal notranslate"><span class="pre">platform</span></code> — the run continues past it.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="article.base.PublishResult.ok">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">ok</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#article.base.PublishResult.ok" title="Link to this definition"></a></dt>
+<dd><p>True iff the attempt succeeded.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="article.base.PublishResult.skipped">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">skipped</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">platform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">reason</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detail</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#article.base.PublishResult" title="article.base.PublishResult"><span class="pre">PublishResult</span></a></span></span><a class="reference internal" href="../../_modules/article/base.html#PublishResult.skipped"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.base.PublishResult.skipped" title="Link to this definition"></a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">platform</span></code> was not attempted (e.g. absent from the article config).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="article.base.PublishResult.success">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">success</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">platform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">canonical_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detail</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#article.base.PublishResult" title="article.base.PublishResult"><span class="pre">PublishResult</span></a></span></span><a class="reference internal" href="../../_modules/article/base.html#PublishResult.success"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.base.PublishResult.success" title="Link to this definition"></a></dt>
+<dd><p>A successful publish/draft to <code class="docutils literal notranslate"><span class="pre">platform</span></code>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="article.base.PublishState">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">article.base.</span></span><span class="sig-name descname"><span class="pre">PublishState</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/article/base.html#PublishState"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.base.PublishState" title="Link to this definition"></a></dt>
+<dd><p>Outcome state of a single platform publish attempt.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="article.base.RunSummary">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">article.base.</span></span><span class="sig-name descname"><span class="pre">RunSummary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phase</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#article.base.PublishResult" title="article.base.PublishResult"><span class="pre">PublishResult</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">canonical_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/article/base.html#RunSummary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.base.RunSummary" title="Link to this definition"></a></dt>
+<dd><p>Structured result of one pipeline phase across all targeted platforms.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="p">(</span>
+<span class="gp">... </span>    <span class="n">PublishResult</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="s2">&quot;medium&quot;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s2">&quot;m&quot;</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="n">PublishResult</span><span class="o">.</span><span class="n">failure</span><span class="p">(</span><span class="s2">&quot;dev_to&quot;</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="s2">&quot;boom&quot;</span><span class="p">),</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span> <span class="o">=</span> <span class="n">RunSummary</span><span class="p">(</span><span class="n">phase</span><span class="o">=</span><span class="s2">&quot;syndicate-secondary&quot;</span><span class="p">,</span> <span class="n">results</span><span class="o">=</span><span class="n">results</span><span class="p">,</span> <span class="n">canonical_url</span><span class="o">=</span><span class="s2">&quot;c&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span><span class="o">.</span><span class="n">ok</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">r</span><span class="o">.</span><span class="n">platform</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">summary</span><span class="o">.</span><span class="n">failures</span><span class="p">]</span>
+<span class="go">[&#39;dev_to&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span><span class="o">.</span><span class="n">by_platform</span><span class="p">[</span><span class="s2">&quot;medium&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">url</span>
+<span class="go">&#39;m&#39;</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="article.base.RunSummary.as_record">
+<span class="sig-name descname"><span class="pre">as_record</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/article/base.html#RunSummary.as_record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.base.RunSummary.as_record" title="Link to this definition"></a></dt>
+<dd><p>A JSON-serializable summary, suitable for the state store.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="article.base.RunSummary.by_platform">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">by_platform</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#article.base.PublishResult" title="article.base.PublishResult"><span class="pre">PublishResult</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#article.base.RunSummary.by_platform" title="Link to this definition"></a></dt>
+<dd><p>Results keyed by platform name.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="article.base.RunSummary.failures">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">failures</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#article.base.PublishResult" title="article.base.PublishResult"><span class="pre">PublishResult</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#article.base.RunSummary.failures" title="Link to this definition"></a></dt>
+<dd><p>The subset of results that failed.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="article.base.RunSummary.ok">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">ok</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#article.base.RunSummary.ok" title="Link to this definition"></a></dt>
+<dd><p>True iff no targeted platform failed (skipped platforms don’t count).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="article.base.RunSummary.render">
+<span class="sig-name descname"><span class="pre">render</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/article/base.html#RunSummary.render"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.base.RunSummary.render" title="Link to this definition"></a></dt>
+<dd><p>A compact human-readable, multi-line summary.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="article.base.RunSummary.successes">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">successes</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#article.base.PublishResult" title="article.base.PublishResult"><span class="pre">PublishResult</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#article.base.RunSummary.successes" title="Link to this definition"></a></dt>
+<dd><p>The subset of results that succeeded.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="article.base.SECONDARY_PLATFORMS">
+<span class="sig-prename descclassname"><span class="pre">article.base.</span></span><span class="sig-name descname"><span class="pre">SECONDARY_PLATFORMS</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'substack'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'medium'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'dev_to'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'hashnode'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('medium',</span> <span class="pre">'dev_to',</span> <span class="pre">'hashnode')</span></span><a class="headerlink" href="#article.base.SECONDARY_PLATFORMS" title="Link to this definition"></a></dt>
+<dd><p>The platforms syndicated to in phase 2, each pointing canonically at the primary.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="article.base.UnknownPlatformError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">article.base.</span></span><span class="sig-name descname"><span class="pre">UnknownPlatformError</span></span><a class="reference internal" href="../../_modules/article/base.html#UnknownPlatformError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.base.UnknownPlatformError" title="Link to this definition"></a></dt>
+<dd><p>No adapter is registered under the requested platform name.</p>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="adapters/substack.html" class="btn btn-neutral float-left" title="article.adapters.substack" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="config.html" class="btn btn-neutral float-right" title="article.config" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

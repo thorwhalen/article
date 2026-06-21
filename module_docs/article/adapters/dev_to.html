@@ -1,0 +1,169 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>article.adapters.dev_to &mdash; article 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="article.adapters.hashnode" href="hashnode.html" />
+    <link rel="prev" title="article.adapters" href="../adapters.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            article
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../article.html">article</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../__main__.html">article.__main__</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../adapters.html">article.adapters</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">article.adapters.dev_to</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#article.adapters.dev_to.publish"><code class="docutils literal notranslate"><span class="pre">publish()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="hashnode.html">article.adapters.hashnode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="medium.html">article.adapters.medium</a></li>
+<li class="toctree-l1"><a class="reference internal" href="substack.html">article.adapters.substack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../base.html">article.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config.html">article.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../engine.html">article.engine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../registry.html">article.registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../state.html">article.state</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../util.html">article.util</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">article</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">article.adapters.dev_to</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/module_docs/article/adapters/dev_to.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-article.adapters.dev_to">
+<span id="article-adapters-dev-to"></span><h1>article.adapters.dev_to<a class="headerlink" href="#module-article.adapters.dev_to" title="Link to this heading"></a></h1>
+<p>Dev.to adapter — Phase 2 syndication via the Forem API V1 (<code class="docutils literal notranslate"><span class="pre">httpx</span></code>).</p>
+<p>Endpoint (verified against the Forem OpenAPI spec, <code class="docutils literal notranslate"><span class="pre">swagger/v1/api_v1.json</span></code>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">POST</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">dev</span><span class="o">.</span><span class="n">to</span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">articles</span>
+</pre></div>
+</div>
+<p>Auth + headers:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">api</span><span class="o">-</span><span class="n">key</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">YOUR_API_KEY</span><span class="o">&gt;</span>
+<span class="n">Accept</span><span class="p">:</span> <span class="n">application</span><span class="o">/</span><span class="n">vnd</span><span class="o">.</span><span class="n">forem</span><span class="o">.</span><span class="n">api</span><span class="o">-</span><span class="n">v1</span><span class="o">+</span><span class="n">json</span>    <span class="c1"># selects API V1</span>
+<span class="n">Content</span><span class="o">-</span><span class="n">Type</span><span class="p">:</span> <span class="n">application</span><span class="o">/</span><span class="n">json</span>
+</pre></div>
+</div>
+<p>Canonical SEO: the <strong>``canonical_url``</strong> field (inside the wrapped <code class="docutils literal notranslate"><span class="pre">article</span></code>
+object) carries the Substack SSOT URL.</p>
+<p>Quirks encoded here (these <em>drift</em> — verified live):</p>
+<ul class="simple">
+<li><p>The payload is <strong>wrapped</strong> under a top-level <code class="docutils literal notranslate"><span class="pre">&quot;article&quot;</span></code> key; flat fields fail.</p></li>
+<li><p>In API V1, <strong>``tags`` is a comma-separated string</strong>, not an array.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">published:</span> <span class="pre">false</span></code> is the <em>only</em> draft control (no separate draft flag).</p></li>
+</ul>
+<dl class="py function">
+<dt class="sig sig-object py" id="article.adapters.dev_to.publish">
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">article.adapters.dev_to.</span></span><span class="sig-name descname"><span class="pre">publish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">article</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../config.html#article.config.Article" title="article.config.Article"><span class="pre">Article</span></a></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">canonical_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../config.html#article.config.DevToConfig" title="article.config.DevToConfig"><span class="pre">DevToConfig</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">secrets</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../base.html#article.base.PublishResult" title="article.base.PublishResult"><span class="pre">PublishResult</span></a></span></span><a class="reference internal" href="../../../_modules/article/adapters/dev_to.html#publish"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.adapters.dev_to.publish" title="Link to this definition"></a></dt>
+<dd><p>Syndicate <code class="docutils literal notranslate"><span class="pre">article</span></code> to Dev.to with <code class="docutils literal notranslate"><span class="pre">canonical_url</span></code> pointing at the SSOT.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">article.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">Article</span><span class="p">,</span> <span class="n">DevToConfig</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">art</span> <span class="o">=</span> <span class="n">Article</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="s2">&quot;t&quot;</span><span class="p">,</span> <span class="n">content_markdown</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;py&quot;</span><span class="p">,</span> <span class="s2">&quot;web&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">publish</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">art</span><span class="p">,</span> <span class="n">canonical_url</span><span class="o">=</span><span class="s2">&quot;https://me.substack.com/p/t&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">config</span><span class="o">=</span><span class="n">DevToConfig</span><span class="p">(),</span> <span class="n">secrets</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;api_key&quot;</span><span class="p">:</span> <span class="s2">&quot;k&quot;</span><span class="p">},</span>
+<span class="gp">... </span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="o">.</span><span class="n">detail</span><span class="p">[</span><span class="s2">&quot;payload&quot;</span><span class="p">][</span><span class="s2">&quot;article&quot;</span><span class="p">][</span><span class="s2">&quot;canonical_url&quot;</span><span class="p">]</span>
+<span class="go">&#39;https://me.substack.com/p/t&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="o">.</span><span class="n">detail</span><span class="p">[</span><span class="s2">&quot;payload&quot;</span><span class="p">][</span><span class="s2">&quot;article&quot;</span><span class="p">][</span><span class="s2">&quot;tags&quot;</span><span class="p">]</span>  <span class="c1"># comma-separated string, not a list</span>
+<span class="go">&#39;py,web&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="o">.</span><span class="n">detail</span><span class="p">[</span><span class="s2">&quot;payload&quot;</span><span class="p">][</span><span class="s2">&quot;article&quot;</span><span class="p">][</span><span class="s2">&quot;published&quot;</span><span class="p">]</span>  <span class="c1"># draft default =&gt; False</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../adapters.html" class="btn btn-neutral float-left" title="article.adapters" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="hashnode.html" class="btn btn-neutral float-right" title="article.adapters.hashnode" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,4 @@
+article.adapters.hashnode
+=========================
+.. automodule:: article.adapters.hashnode
+   :members:

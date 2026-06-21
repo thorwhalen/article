@@ -1,0 +1,271 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>article.adapters.hashnode &mdash; article 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            article
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/article.html">article</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/article/__main__.html">article.__main__</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/article/adapters.html">article.adapters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/article/adapters/dev_to.html">article.adapters.dev_to</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/article/adapters/hashnode.html">article.adapters.hashnode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/article/adapters/medium.html">article.adapters.medium</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/article/adapters/substack.html">article.adapters.substack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/article/base.html">article.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/article/config.html">article.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/article/engine.html">article.engine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/article/registry.html">article.registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/article/state.html">article.state</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/article/util.html">article.util</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">article</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">article.adapters.hashnode</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for article.adapters.hashnode</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Hashnode adapter — Phase 2 syndication via the Hashnode GraphQL API (``httpx``).</span>
+
+<span class="sd">Endpoint (verified against Hashnode&#39;s generated ``schema.graphql``)::</span>
+
+<span class="sd">    POST https://gql.hashnode.com</span>
+
+<span class="sd">Auth (a common gotcha)::</span>
+
+<span class="sd">    Authorization: &lt;PersonalAccessToken&gt;     # RAW token, NO &quot;Bearer&quot; prefix</span>
+
+<span class="sd">Canonical SEO: the **``originalArticleURL``** field of the input carries the</span>
+<span class="sd">Substack SSOT URL.</span>
+
+<span class="sd">Draft vs publish (encoded here — verified, and it *drifts*):</span>
+
+<span class="sd">- ``publishPost(input: PublishPostInput!)`` **always publishes live** — there</span>
+<span class="sd">  is no draft flag on it.</span>
+<span class="sd">- To create a **draft**, use the *separate* ``createDraft(input: CreateDraftInput!)``</span>
+<span class="sd">  mutation (its input mirrors ``PublishPostInput``).</span>
+
+<span class="sd">So this adapter picks the mutation based on ``config.publish_as_draft``. The</span>
+<span class="sd">older ``createPublicationStory`` mutation and ``api.hashnode.com`` host are</span>
+<span class="sd">removed — don&#39;t use them.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">..base</span><span class="w"> </span><span class="kn">import</span> <span class="n">HASHNODE</span><span class="p">,</span> <span class="n">AdapterError</span><span class="p">,</span> <span class="n">PublishResult</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..config</span><span class="w"> </span><span class="kn">import</span> <span class="n">Article</span><span class="p">,</span> <span class="n">HashnodeConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_adapter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..util</span><span class="w"> </span><span class="kn">import</span> <span class="n">coalesce</span><span class="p">,</span> <span class="n">get_logger</span><span class="p">,</span> <span class="n">require_canonical_url</span>
+
+<span class="n">_log</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">()</span>
+
+<span class="n">_ENDPOINT</span> <span class="o">=</span> <span class="s2">&quot;https://gql.hashnode.com&quot;</span>
+
+<span class="n">_PUBLISH_MUTATION</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;mutation PublishPost($input: PublishPostInput!) &quot;</span>
+    <span class="s2">&quot;{ publishPost(input: $input) { post { id slug url } } }&quot;</span>
+<span class="p">)</span>
+<span class="n">_DRAFT_MUTATION</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;mutation CreateDraft($input: CreateDraftInput!) &quot;</span>
+    <span class="s2">&quot;{ createDraft(input: $input) { draft { id slug } } }&quot;</span>
+<span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_tags</span><span class="p">(</span><span class="n">article</span><span class="p">:</span> <span class="n">Article</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">HashnodeConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Hashnode tag inputs: ``{name, slug}`` per tag (id wins if both given).&quot;&quot;&quot;</span>
+    <span class="n">tags</span> <span class="o">=</span> <span class="n">coalesce</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">tags</span><span class="p">,</span> <span class="n">article</span><span class="o">.</span><span class="n">tags</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
+    <span class="k">return</span> <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">t</span><span class="p">,</span> <span class="s2">&quot;slug&quot;</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">)}</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tags</span><span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_build_input</span><span class="p">(</span><span class="n">article</span><span class="p">:</span> <span class="n">Article</span><span class="p">,</span> <span class="n">canonical_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">HashnodeConfig</span><span class="p">,</span> <span class="n">publication_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The shared input for ``publishPost`` / ``createDraft`` (canonical injected).&quot;&quot;&quot;</span>
+    <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="n">coalesce</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">article</span><span class="o">.</span><span class="n">title</span><span class="p">),</span>
+        <span class="s2">&quot;subtitle&quot;</span><span class="p">:</span> <span class="n">coalesce</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">subtitle</span><span class="p">,</span> <span class="n">article</span><span class="o">.</span><span class="n">subtitle</span><span class="p">),</span>
+        <span class="s2">&quot;publicationId&quot;</span><span class="p">:</span> <span class="n">publication_id</span><span class="p">,</span>
+        <span class="s2">&quot;contentMarkdown&quot;</span><span class="p">:</span> <span class="n">article</span><span class="o">.</span><span class="n">content_markdown</span><span class="p">,</span>
+        <span class="s2">&quot;slug&quot;</span><span class="p">:</span> <span class="n">article</span><span class="o">.</span><span class="n">slug</span><span class="p">,</span>
+        <span class="s2">&quot;tags&quot;</span><span class="p">:</span> <span class="n">_tags</span><span class="p">(</span><span class="n">article</span><span class="p">,</span> <span class="n">config</span><span class="p">),</span>
+        <span class="s2">&quot;originalArticleURL&quot;</span><span class="p">:</span> <span class="n">canonical_url</span><span class="p">,</span>  <span class="c1"># &lt;-- SEO canonical back to the SSOT</span>
+        <span class="s2">&quot;seriesId&quot;</span><span class="p">:</span> <span class="n">config</span><span class="o">.</span><span class="n">series_id</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="n">article</span><span class="o">.</span><span class="n">cover_image_url</span><span class="p">:</span>
+        <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;coverImageOptions&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;coverImageURL&quot;</span><span class="p">:</span> <span class="n">article</span><span class="o">.</span><span class="n">cover_image_url</span><span class="p">}</span>
+    <span class="c1"># Drop unset optionals so the GraphQL request stays clean.</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">payload</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">}</span>
+
+
+<div class="viewcode-block" id="publish">
+<a class="viewcode-back" href="../../../module_docs/article/adapters/hashnode.html#article.adapters.hashnode.publish">[docs]</a>
+<span class="nd">@register_adapter</span><span class="p">(</span><span class="n">HASHNODE</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">publish</span><span class="p">(</span>
+    <span class="n">article</span><span class="p">:</span> <span class="n">Article</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">canonical_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">config</span><span class="p">:</span> <span class="n">HashnodeConfig</span><span class="p">,</span>
+    <span class="n">secrets</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PublishResult</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Syndicate ``article`` to Hashnode with ``originalArticleURL`` set to the SSOT.</span>
+
+<span class="sd">    &gt;&gt;&gt; import asyncio</span>
+<span class="sd">    &gt;&gt;&gt; from article.config import Article, HashnodeConfig</span>
+<span class="sd">    &gt;&gt;&gt; art = Article(title=&quot;T&quot;, slug=&quot;t&quot;, content_markdown=&quot;x&quot;, tags=[&quot;Python&quot;])</span>
+<span class="sd">    &gt;&gt;&gt; res = asyncio.run(publish(</span>
+<span class="sd">    ...     art, canonical_url=&quot;https://me.substack.com/p/t&quot;,</span>
+<span class="sd">    ...     config=HashnodeConfig(publish_as_draft=True),</span>
+<span class="sd">    ...     secrets={&quot;token&quot;: &quot;pat&quot;, &quot;publication_id&quot;: &quot;pub123&quot;},</span>
+<span class="sd">    ... ))</span>
+<span class="sd">    &gt;&gt;&gt; res.detail[&quot;variables&quot;][&quot;input&quot;][&quot;originalArticleURL&quot;]</span>
+<span class="sd">    &#39;https://me.substack.com/p/t&#39;</span>
+<span class="sd">    &gt;&gt;&gt; res.detail[&quot;mutation&quot;].startswith(&quot;mutation CreateDraft&quot;)  # draft path</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; res.detail[&quot;variables&quot;][&quot;input&quot;][&quot;tags&quot;]</span>
+<span class="sd">    [{&#39;name&#39;: &#39;Python&#39;, &#39;slug&#39;: &#39;python&#39;}]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">require_canonical_url</span><span class="p">(</span><span class="n">HASHNODE</span><span class="p">,</span> <span class="n">canonical_url</span><span class="p">)</span>
+    <span class="n">token</span> <span class="o">=</span> <span class="n">secrets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span>
+    <span class="n">publication_id</span> <span class="o">=</span> <span class="n">coalesce</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">publication_id</span><span class="p">,</span> <span class="n">secrets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;publication_id&quot;</span><span class="p">))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">publication_id</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">AdapterError</span><span class="p">(</span>
+            <span class="s2">&quot;hashnode: a publication_id is required (set platforms.hashnode.publication_id &quot;</span>
+            <span class="s2">&quot;or HASHNODE_PUBLICATION_ID)&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">mutation</span> <span class="o">=</span> <span class="n">_DRAFT_MUTATION</span> <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">publish_as_draft</span> <span class="k">else</span> <span class="n">_PUBLISH_MUTATION</span>
+    <span class="n">variables</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;input&quot;</span><span class="p">:</span> <span class="n">_build_input</span><span class="p">(</span><span class="n">article</span><span class="p">,</span> <span class="n">canonical_url</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">publication_id</span><span class="p">)}</span>
+    <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="n">token</span> <span class="ow">or</span> <span class="s2">&quot;&lt;HASHNODE_TOKEN&gt;&quot;</span><span class="p">,</span>  <span class="c1"># RAW PAT, no &quot;Bearer&quot;</span>
+        <span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="c1"># ----------------------------------------------------------------- #</span>
+    <span class="c1"># TODO(network): replace this stub with the real httpx GraphQL call. #</span>
+    <span class="c1">#                                                                    #</span>
+    <span class="c1"># import httpx                                                       #</span>
+    <span class="c1"># async with httpx.AsyncClient(timeout=30) as client:               #</span>
+    <span class="c1">#     resp = await client.post(                                     #</span>
+    <span class="c1">#         _ENDPOINT, headers=headers,                               #</span>
+    <span class="c1">#         json={&quot;query&quot;: mutation, &quot;variables&quot;: variables},        #</span>
+    <span class="c1">#     )                                                             #</span>
+    <span class="c1">#     resp.raise_for_status()                                       #</span>
+    <span class="c1">#     body = resp.json()                                            #</span>
+    <span class="c1">#     if body.get(&quot;errors&quot;):                                        #</span>
+    <span class="c1">#         return PublishResult.failure(HASHNODE, error=str(body[&quot;errors&quot;]))</span>
+    <span class="c1">#     data = body[&quot;data&quot;]                                           #</span>
+    <span class="c1">#     if config.publish_as_draft:                                   #</span>
+    <span class="c1">#         return PublishResult.success(HASHNODE, status=&quot;draft&quot;,    #</span>
+    <span class="c1">#             canonical_url=canonical_url, detail=data)             #</span>
+    <span class="c1">#     post = data[&quot;publishPost&quot;][&quot;post&quot;]                            #</span>
+    <span class="c1">#     return PublishResult.success(HASHNODE, url=post[&quot;url&quot;],       #</span>
+    <span class="c1">#         status=&quot;published&quot;, canonical_url=canonical_url)          #</span>
+    <span class="c1"># ----------------------------------------------------------------- #</span>
+
+    <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;draft&quot;</span> <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">publish_as_draft</span> <span class="k">else</span> <span class="s2">&quot;published&quot;</span>
+    <span class="n">_log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;[hashnode] STUB: would POST </span><span class="si">%s</span><span class="s2"> (</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">_ENDPOINT</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">PublishResult</span><span class="o">.</span><span class="n">success</span><span class="p">(</span>
+        <span class="n">HASHNODE</span><span class="p">,</span>
+        <span class="n">url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="p">,</span>
+        <span class="n">canonical_url</span><span class="o">=</span><span class="n">canonical_url</span><span class="p">,</span>
+        <span class="n">detail</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;stub&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">&quot;endpoint&quot;</span><span class="p">:</span> <span class="n">_ENDPOINT</span><span class="p">,</span>
+            <span class="s2">&quot;credentialed&quot;</span><span class="p">:</span> <span class="nb">bool</span><span class="p">(</span><span class="n">token</span><span class="p">),</span>
+            <span class="s2">&quot;mutation&quot;</span><span class="p">:</span> <span class="n">mutation</span><span class="p">,</span>
+            <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="n">variables</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

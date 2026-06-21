@@ -1,0 +1,4 @@
+article.adapters.dev_to
+=======================
+.. automodule:: article.adapters.dev_to
+   :members:

@@ -1,0 +1,219 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>article.state &mdash; article 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="article.util" href="util.html" />
+    <link rel="prev" title="article.registry" href="registry.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            article
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../article.html">article</a></li>
+<li class="toctree-l1"><a class="reference internal" href="__main__.html">article.__main__</a></li>
+<li class="toctree-l1"><a class="reference internal" href="adapters.html">article.adapters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="adapters/dev_to.html">article.adapters.dev_to</a></li>
+<li class="toctree-l1"><a class="reference internal" href="adapters/hashnode.html">article.adapters.hashnode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="adapters/medium.html">article.adapters.medium</a></li>
+<li class="toctree-l1"><a class="reference internal" href="adapters/substack.html">article.adapters.substack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="base.html">article.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">article.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="engine.html">article.engine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="registry.html">article.registry</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">article.state</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#article.state.CANONICAL_URL_KEY"><code class="docutils literal notranslate"><span class="pre">CANONICAL_URL_KEY</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#article.state.JsonStateStore"><code class="docutils literal notranslate"><span class="pre">JsonStateStore</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#article.state.JsonStateStore.get_canonical_url"><code class="docutils literal notranslate"><span class="pre">JsonStateStore.get_canonical_url()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#article.state.JsonStateStore.set_canonical_url"><code class="docutils literal notranslate"><span class="pre">JsonStateStore.set_canonical_url()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#article.state.JsonStateStore.update_record"><code class="docutils literal notranslate"><span class="pre">JsonStateStore.update_record()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#article.state.default_state_store"><code class="docutils literal notranslate"><span class="pre">default_state_store()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="util.html">article.util</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">article</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">article.state</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/module_docs/article/state.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-article.state">
+<span id="article-state"></span><h1>article.state<a class="headerlink" href="#module-article.state" title="Link to this heading"></a></h1>
+<p>Pipeline state store — a <code class="docutils literal notranslate"><span class="pre">MutableMapping</span></code> facade over a JSON backend.</p>
+<p>The canonical URL produced in phase 1 is the SSOT that ties the two phases
+together, and it lives here, keyed by article <code class="docutils literal notranslate"><span class="pre">slug</span></code>. Exposing it as a
+<code class="xref py py-class docutils literal notranslate"><span class="pre">collections.abc.MutableMapping</span></code> means callers depend only on the
+mapping interface — the JSON file can later be swapped for SQLite, Redis, S3
+(e.g. any <code class="docutils literal notranslate"><span class="pre">dol</span></code> store), or a cloud KV with zero changes upstream
+(open-closed). Each value is a JSON-serializable per-article record, e.g.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;slug&quot;</span><span class="p">:</span> <span class="s2">&quot;hello-world&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Hello World&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;canonical_url&quot;</span><span class="p">:</span> <span class="s2">&quot;https://me.substack.com/p/hello-world&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;primary&quot;</span><span class="p">:</span> <span class="p">{</span><span class="o">...</span><span class="p">},</span>          <span class="c1"># phase-1 result record</span>
+    <span class="s2">&quot;syndication&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;medium&quot;</span><span class="p">:</span> <span class="p">{</span><span class="o">...</span><span class="p">},</span> <span class="s2">&quot;dev_to&quot;</span><span class="p">:</span> <span class="p">{</span><span class="o">...</span><span class="p">}},</span>
+    <span class="s2">&quot;updated_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2026-06-21T...&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<dl class="py data">
+<dt class="sig sig-object py" id="article.state.CANONICAL_URL_KEY">
+<span class="sig-prename descclassname"><span class="pre">article.state.</span></span><span class="sig-name descname"><span class="pre">CANONICAL_URL_KEY</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'canonical_url'</span></span><a class="headerlink" href="#article.state.CANONICAL_URL_KEY" title="Link to this definition"></a></dt>
+<dd><p>The state-record key holding the canonical SSOT URL.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="article.state.JsonStateStore">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">article.state.</span></span><span class="sig-name descname"><span class="pre">JsonStateStore</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">PathLike</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/article/state.html#JsonStateStore"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.state.JsonStateStore" title="Link to this definition"></a></dt>
+<dd><p>A whole-file JSON <code class="docutils literal notranslate"><span class="pre">MutableMapping</span></code> keyed by article slug.</p>
+<p>Reads parse the file fresh and writes replace it atomically, so the file on
+disk is always the source of truth (no in-memory drift) and never left
+half-written.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span><span class="o">,</span><span class="w"> </span><span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">(),</span> <span class="s2">&quot;pipeline_state.json&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">store</span> <span class="o">=</span> <span class="n">JsonStateStore</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">store</span><span class="p">[</span><span class="s2">&quot;hello-world&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;canonical_url&quot;</span><span class="p">:</span> <span class="s2">&quot;https://me.substack.com/p/hello-world&quot;</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># A fresh instance over the same file sees the persisted record:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">JsonStateStore</span><span class="p">(</span><span class="n">path</span><span class="p">)[</span><span class="s2">&quot;hello-world&quot;</span><span class="p">][</span><span class="s2">&quot;canonical_url&quot;</span><span class="p">]</span>
+<span class="go">&#39;https://me.substack.com/p/hello-world&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">store</span><span class="p">)</span>
+<span class="go">[&#39;hello-world&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">store</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">store</span><span class="p">[</span><span class="s2">&quot;hello-world&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">store</span><span class="p">)</span>
+<span class="go">[]</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="article.state.JsonStateStore.get_canonical_url">
+<span class="sig-name descname"><span class="pre">get_canonical_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">slug</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/article/state.html#JsonStateStore.get_canonical_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.state.JsonStateStore.get_canonical_url" title="Link to this definition"></a></dt>
+<dd><p>The recorded canonical URL for <code class="docutils literal notranslate"><span class="pre">slug</span></code>, or <code class="docutils literal notranslate"><span class="pre">None</span></code> if not yet set.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="article.state.JsonStateStore.set_canonical_url">
+<span class="sig-name descname"><span class="pre">set_canonical_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">slug</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">canonical_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/article/state.html#JsonStateStore.set_canonical_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.state.JsonStateStore.set_canonical_url" title="Link to this definition"></a></dt>
+<dd><p>Record <code class="docutils literal notranslate"><span class="pre">canonical_url</span></code> for <code class="docutils literal notranslate"><span class="pre">slug</span></code> (the phase-1 → phase-2 SSOT handoff).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="article.state.JsonStateStore.update_record">
+<span class="sig-name descname"><span class="pre">update_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">slug</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/article/state.html#JsonStateStore.update_record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.state.JsonStateStore.update_record" title="Link to this definition"></a></dt>
+<dd><p>Merge <code class="docutils literal notranslate"><span class="pre">fields</span></code> into the record for <code class="docutils literal notranslate"><span class="pre">slug</span></code> (read-modify-write).</p>
+<p>Creates the record if absent and stamps <code class="docutils literal notranslate"><span class="pre">updated_at</span></code>. Returns the
+merged record.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span><span class="o">,</span><span class="w"> </span><span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">store</span> <span class="o">=</span> <span class="n">JsonStateStore</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">(),</span> <span class="s2">&quot;s.json&quot;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">_</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">update_record</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;T&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rec</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">update_record</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">canonical_url</span><span class="o">=</span><span class="s2">&quot;c&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rec</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">],</span> <span class="n">rec</span><span class="p">[</span><span class="s2">&quot;canonical_url&quot;</span><span class="p">]</span>
+<span class="go">(&#39;T&#39;, &#39;c&#39;)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="article.state.default_state_store">
+<span class="sig-prename descclassname"><span class="pre">article.state.</span></span><span class="sig-name descname"><span class="pre">default_state_store</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">PathLike</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#article.state.JsonStateStore" title="article.state.JsonStateStore"><span class="pre">JsonStateStore</span></a></span></span><a class="reference internal" href="../../_modules/article/state.html#default_state_store"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.state.default_state_store" title="Link to this definition"></a></dt>
+<dd><p>Construct the default (JSON-file) state store at <code class="docutils literal notranslate"><span class="pre">state_path</span></code>.</p>
+<p>A single seam to swap the backend implementation package-wide.</p>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="registry.html" class="btn btn-neutral float-left" title="article.registry" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="util.html" class="btn btn-neutral float-right" title="article.util" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

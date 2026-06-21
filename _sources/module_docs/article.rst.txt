@@ -1,0 +1,4 @@
+article
+=======
+.. automodule:: article
+   :members:

@@ -1,0 +1,4 @@
+article.registry
+================
+.. automodule:: article.registry
+   :members:
