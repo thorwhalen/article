@@ -52,7 +52,9 @@ def _tags(article: Article, config: HashnodeConfig) -> list[dict]:
     return [{"name": t, "slug": t.lower().replace(" ", "-")} for t in tags]
 
 
-def _build_input(article: Article, canonical_url: str, config: HashnodeConfig, publication_id: str) -> dict:
+def _build_input(
+    article: Article, canonical_url: str, config: HashnodeConfig, publication_id: str
+) -> dict:
     """The shared input for ``publishPost`` / ``createDraft`` (canonical injected)."""
     payload = {
         "title": coalesce(config.title, article.title),

@@ -216,7 +216,9 @@ class PipelineEngine:
             syndication = dict(record.get("syndication", {}))
             syndication[result.platform] = result.as_record()
             record["syndication"] = syndication
-        self.store.update_record(article.slug, **{k: v for k, v in record.items() if k != "slug"})
+        self.store.update_record(
+            article.slug, **{k: v for k, v in record.items() if k != "slug"}
+        )
 
 
 # --------------------------------------------------------------------------- #

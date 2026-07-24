@@ -44,7 +44,9 @@ def get_logger(name: str = _LOGGER_NAME) -> logging.Logger:
     logger = logging.getLogger(name)
     if not logger.handlers:
         handler = logging.StreamHandler()
-        handler.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(name)s: %(message)s"))
+        handler.setFormatter(
+            logging.Formatter("%(asctime)s %(levelname)s %(name)s: %(message)s")
+        )
         logger.addHandler(handler)
         logger.setLevel(logging.INFO)
     return logger
@@ -61,7 +63,9 @@ def coalesce(*values: Optional[T]) -> Optional[T]:
     return next((v for v in values if v is not None), None)
 
 
-def utcnow_iso(*, _now: Callable[[], datetime] = lambda: datetime.now(timezone.utc)) -> str:
+def utcnow_iso(
+    *, _now: Callable[[], datetime] = lambda: datetime.now(timezone.utc)
+) -> str:
     """Current UTC time as an ISO-8601 string (clock injectable for tests).
 
     >>> from datetime import datetime, timezone

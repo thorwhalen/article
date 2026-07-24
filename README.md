@@ -88,8 +88,8 @@ import asyncio
 from article import load_article, publish_primary, syndicate_secondary
 
 art = load_article("article.json")
-asyncio.run(publish_primary(art))        # phase 1 → records canonical_url
-asyncio.run(syndicate_secondary(art))    # phase 2 → canonical SEO everywhere
+asyncio.run(publish_primary(art))  # phase 1 → records canonical_url
+asyncio.run(syndicate_secondary(art))  # phase 2 → canonical SEO everywhere
 ```
 
 ## Adding a platform
@@ -101,6 +101,7 @@ no core changes:
 ```python
 from article import register_adapter, PublishResult
 from article.util import require_canonical_url
+
 
 @register_adapter("my_platform")
 async def publish(article, *, canonical_url, config, secrets):

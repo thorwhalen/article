@@ -53,7 +53,9 @@ def publish_primary(
     json_out: bool = False,
 ):
     """Phase 1 — publish to the primary platform (Substack) and record canonical_url."""
-    settings, article, store = _prepare(article_path, env_file=env_file, state_path=state_path)
+    settings, article, store = _prepare(
+        article_path, env_file=env_file, state_path=state_path
+    )
     summary = run_sync(_publish_primary(article, settings=settings, store=store))
     return _render(summary, json_out=json_out)
 
@@ -68,11 +70,15 @@ def syndicate_secondary(
     json_out: bool = False,
 ):
     """Phase 2 — syndicate to secondary platforms, injecting canonical_url for SEO."""
-    settings, article, store = _prepare(article_path, env_file=env_file, state_path=state_path)
+    settings, article, store = _prepare(
+        article_path, env_file=env_file, state_path=state_path
+    )
     selected = [p.strip() for p in platforms.split(",")] if platforms else None
     try:
         summary = run_sync(
-            _syndicate_secondary(article, settings=settings, store=store, platforms=selected)
+            _syndicate_secondary(
+                article, settings=settings, store=store, platforms=selected
+            )
         )
     except ArticleError as e:
         raise argh.CommandError(str(e)) from e
