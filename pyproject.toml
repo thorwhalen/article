@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "article"
-version = "0.1.0"
+version = "0.1.1"
 description = "Tools to semi-automate the publication of articles"
 readme = "README.md"
 requires-python = ">=3.10"
