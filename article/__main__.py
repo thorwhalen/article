@@ -15,10 +15,11 @@ takes ``--platforms medium,dev_to`` to syndicate a subset.
 
 from __future__ import annotations
 
+import argparse
 import json
 from typing import Optional
 
-import argh
+import cw
 
 from .base import ArticleError, RunSummary
 from .config import load_article, load_settings
@@ -39,12 +40,11 @@ def _prepare(article_path: str, *, env_file: Optional[str], state_path: Optional
         settings = load_settings(env_file=env_file, **overrides)
         article = load_article(article_path)
     except ArticleError as e:
-        raise argh.CommandError(str(e)) from e
+        raise cw.CommandError(str(e)) from e
     store = JsonStateStore(settings.state_path)
     return settings, article, store
 
 
-@argh.arg("article_path", help="Path to the article JSON file")
 def publish_primary(
     article_path: str,
     *,
@@ -60,7 +60,6 @@ def publish_primary(
     return _render(summary, json_out=json_out)
 
 
-@argh.arg("article_path", help="Path to the article JSON file")
 def syndicate_secondary(
     article_path: str,
     *,
@@ -81,26 +80,40 @@ def syndicate_secondary(
             )
         )
     except ArticleError as e:
-        raise argh.CommandError(str(e)) from e
+        raise cw.CommandError(str(e)) from e
     return _render(summary, json_out=json_out)
 
 
-#: SSOT list of dispatchable commands (argh maps ``_`` in names to ``-``).
+#: SSOT list of dispatchable commands (``cw`` maps ``_`` in names to ``-``).
 _dispatch_funcs = [publish_primary, syndicate_secondary]
 
+#: Per-parameter ``add_argument`` particulars the signature cannot carry -- here, the
+#: one ``help`` string that used to ride on an ``@argh.arg`` decorator. ``cw`` reads
+#: ``config``, never decorator metadata, so this is where such declarations live now.
+_dispatch_config = {
+    command: {"article_path": {"help": "Path to the article JSON file"}}
+    for command in ("publish-primary", "syndicate-secondary")
+}
 
-def main() -> None:
-    """Assemble the argh parser and dispatch (with optional tab completion)."""
-    parser = argh.ArghParser()
-    parser.add_commands(_dispatch_funcs)
-    try:
-        import argcomplete
 
-        argcomplete.autocomplete(parser)
-    except ImportError:
-        pass
-    parser.dispatch()
+def mk_parser() -> argparse.ArgumentParser:
+    """Build the CLI parser -- a plain :class:`argparse.ArgumentParser`, no I/O.
+
+    The single place the command list and its per-parameter declarations meet, so a
+    test that inspects the grammar inspects the very parser :func:`main` dispatches.
+    """
+    return cw.mk_parser(_dispatch_funcs, config=_dispatch_config)
+
+
+def main() -> int:
+    """Dispatch a CLI command and return its exit code.
+
+    ``cw.run`` offers the parser to ``argcomplete`` itself (the
+    ``# PYTHON_ARGCOMPLETE_OK`` marker on line 1 is what the shell hook looks for),
+    so there is no hand-written completion block to keep in step.
+    """
+    return cw.run(mk_parser())
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
