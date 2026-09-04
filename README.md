@@ -120,7 +120,7 @@ async def publish(article, *, canonical_url, config, secrets):
 | Registry | `article/registry.py` | `PublishAdapter` protocol + open-closed registry |
 | Engine | `article/engine.py` | Orchestrates phase 1 → phase 2; canonical handoff; graceful errors |
 | Adapters | `article/adapters/*` | One module per platform (config + secrets injected) |
-| CLI | `article/__main__.py` | `argh` dispatch of the two commands |
+| CLI | `article/__main__.py` | `cw` dispatch of the two commands |
 
 > **Status:** the layers above are complete and tested; each adapter's actual
 > network / Playwright call is a clearly-marked `TODO` stub that returns a typed
