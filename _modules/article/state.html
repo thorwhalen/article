@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>article.state &mdash; article 0.1.1 documentation</title>
+  <title>article.state &mdash; article 0.1.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=a58bc63e"></script>
+      <script src="../../_static/documentation_options.js?v=92734c54"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -86,7 +86,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for article.state</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Pipeline state store — a ``MutableMapping`` facade over a JSON backend.</span>
+<span></span><span class="sd">"""Pipeline state store — a ``MutableMapping`` facade over a JSON backend.</span>
 
 <span class="sd">The canonical URL produced in phase 1 is the SSOT that ties the two phases</span>
 <span class="sd">together, and it lives here, keyed by article ``slug``. Exposing it as a</span>
@@ -96,14 +96,14 @@
 <span class="sd">(open-closed). Each value is a JSON-serializable per-article record, e.g.::</span>
 
 <span class="sd">    {</span>
-<span class="sd">        &quot;slug&quot;: &quot;hello-world&quot;,</span>
-<span class="sd">        &quot;title&quot;: &quot;Hello World&quot;,</span>
-<span class="sd">        &quot;canonical_url&quot;: &quot;https://me.substack.com/p/hello-world&quot;,</span>
-<span class="sd">        &quot;primary&quot;: {...},          # phase-1 result record</span>
-<span class="sd">        &quot;syndication&quot;: {&quot;medium&quot;: {...}, &quot;dev_to&quot;: {...}},</span>
-<span class="sd">        &quot;updated_at&quot;: &quot;2026-06-21T...&quot;,</span>
+<span class="sd">        "slug": "hello-world",</span>
+<span class="sd">        "title": "Hello World",</span>
+<span class="sd">        "canonical_url": "https://me.substack.com/p/hello-world",</span>
+<span class="sd">        "primary": {...},          # phase-1 result record</span>
+<span class="sd">        "syndication": {"medium": {...}, "dev_to": {...}},</span>
+<span class="sd">        "updated_at": "2026-06-21T...",</span>
 <span class="sd">    }</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -113,33 +113,33 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">PathLike</span><span class="p">,</span> <span class="n">atomic_write_json</span><span class="p">,</span> <span class="n">read_json</span><span class="p">,</span> <span class="n">utcnow_iso</span>
 
 <span class="c1">#: The state-record key holding the canonical SSOT URL.</span>
-<span class="n">CANONICAL_URL_KEY</span> <span class="o">=</span> <span class="s2">&quot;canonical_url&quot;</span>
+<span class="n">CANONICAL_URL_KEY</span> <span class="o">=</span> <span class="s2">"canonical_url"</span>
 
 
 <div class="viewcode-block" id="JsonStateStore">
 <a class="viewcode-back" href="../../module_docs/article/state.html#article.JsonStateStore">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">JsonStateStore</span><span class="p">(</span><span class="n">MutableMapping</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A whole-file JSON ``MutableMapping`` keyed by article slug.</span>
+<span class="w">    </span><span class="sd">"""A whole-file JSON ``MutableMapping`` keyed by article slug.</span>
 
 <span class="sd">    Reads parse the file fresh and writes replace it atomically, so the file on</span>
 <span class="sd">    disk is always the source of truth (no in-memory drift) and never left</span>
 <span class="sd">    half-written.</span>
 
 <span class="sd">    &gt;&gt;&gt; import tempfile, os</span>
-<span class="sd">    &gt;&gt;&gt; path = os.path.join(tempfile.mkdtemp(), &quot;pipeline_state.json&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; path = os.path.join(tempfile.mkdtemp(), "pipeline_state.json")</span>
 <span class="sd">    &gt;&gt;&gt; store = JsonStateStore(path)</span>
-<span class="sd">    &gt;&gt;&gt; store[&quot;hello-world&quot;] = {&quot;canonical_url&quot;: &quot;https://me.substack.com/p/hello-world&quot;}</span>
+<span class="sd">    &gt;&gt;&gt; store["hello-world"] = {"canonical_url": "https://me.substack.com/p/hello-world"}</span>
 <span class="sd">    &gt;&gt;&gt; # A fresh instance over the same file sees the persisted record:</span>
-<span class="sd">    &gt;&gt;&gt; JsonStateStore(path)[&quot;hello-world&quot;][&quot;canonical_url&quot;]</span>
-<span class="sd">    &#39;https://me.substack.com/p/hello-world&#39;</span>
+<span class="sd">    &gt;&gt;&gt; JsonStateStore(path)["hello-world"]["canonical_url"]</span>
+<span class="sd">    'https://me.substack.com/p/hello-world'</span>
 <span class="sd">    &gt;&gt;&gt; list(store)</span>
-<span class="sd">    [&#39;hello-world&#39;]</span>
+<span class="sd">    ['hello-world']</span>
 <span class="sd">    &gt;&gt;&gt; len(store)</span>
 <span class="sd">    1</span>
-<span class="sd">    &gt;&gt;&gt; del store[&quot;hello-world&quot;]</span>
+<span class="sd">    &gt;&gt;&gt; del store["hello-world"]</span>
 <span class="sd">    &gt;&gt;&gt; list(store)</span>
 <span class="sd">    []</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">PathLike</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">path</span>
@@ -178,22 +178,22 @@
 <div class="viewcode-block" id="JsonStateStore.update_record">
 <a class="viewcode-back" href="../../module_docs/article/state.html#article.JsonStateStore.update_record">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">update_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slug</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">fields</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Merge ``fields`` into the record for ``slug`` (read-modify-write).</span>
+<span class="w">        </span><span class="sd">"""Merge ``fields`` into the record for ``slug`` (read-modify-write).</span>
 
 <span class="sd">        Creates the record if absent and stamps ``updated_at``. Returns the</span>
 <span class="sd">        merged record.</span>
 
 <span class="sd">        &gt;&gt;&gt; import tempfile, os</span>
-<span class="sd">        &gt;&gt;&gt; store = JsonStateStore(os.path.join(tempfile.mkdtemp(), &quot;s.json&quot;))</span>
-<span class="sd">        &gt;&gt;&gt; _ = store.update_record(&quot;x&quot;, title=&quot;T&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; rec = store.update_record(&quot;x&quot;, canonical_url=&quot;c&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; rec[&quot;title&quot;], rec[&quot;canonical_url&quot;]</span>
-<span class="sd">        (&#39;T&#39;, &#39;c&#39;)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        &gt;&gt;&gt; store = JsonStateStore(os.path.join(tempfile.mkdtemp(), "s.json"))</span>
+<span class="sd">        &gt;&gt;&gt; _ = store.update_record("x", title="T")</span>
+<span class="sd">        &gt;&gt;&gt; rec = store.update_record("x", canonical_url="c")</span>
+<span class="sd">        &gt;&gt;&gt; rec["title"], rec["canonical_url"]</span>
+<span class="sd">        ('T', 'c')</span>
+<span class="sd">        """</span>
         <span class="n">record</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">slug</span><span class="p">,</span> <span class="p">{}))</span>
-        <span class="n">record</span><span class="p">[</span><span class="s2">&quot;slug&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">slug</span>
+        <span class="n">record</span><span class="p">[</span><span class="s2">"slug"</span><span class="p">]</span> <span class="o">=</span> <span class="n">slug</span>
         <span class="n">record</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span>
-        <span class="n">record</span><span class="p">[</span><span class="s2">&quot;updated_at&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">utcnow_iso</span><span class="p">()</span>
+        <span class="n">record</span><span class="p">[</span><span class="s2">"updated_at"</span><span class="p">]</span> <span class="o">=</span> <span class="n">utcnow_iso</span><span class="p">()</span>
         <span class="bp">self</span><span class="p">[</span><span class="n">slug</span><span class="p">]</span> <span class="o">=</span> <span class="n">record</span>
         <span class="k">return</span> <span class="n">record</span></div>
 
@@ -201,14 +201,14 @@
 <div class="viewcode-block" id="JsonStateStore.get_canonical_url">
 <a class="viewcode-back" href="../../module_docs/article/state.html#article.JsonStateStore.get_canonical_url">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_canonical_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slug</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The recorded canonical URL for ``slug``, or ``None`` if not yet set.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""The recorded canonical URL for ``slug``, or ``None`` if not yet set."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">slug</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">CANONICAL_URL_KEY</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="JsonStateStore.set_canonical_url">
 <a class="viewcode-back" href="../../module_docs/article/state.html#article.JsonStateStore.set_canonical_url">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_canonical_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slug</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">canonical_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Record ``canonical_url`` for ``slug`` (the phase-1 → phase-2 SSOT handoff).&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Record ``canonical_url`` for ``slug`` (the phase-1 → phase-2 SSOT handoff)."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">update_record</span><span class="p">(</span><span class="n">slug</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="n">CANONICAL_URL_KEY</span><span class="p">:</span> <span class="n">canonical_url</span><span class="p">})</span></div>
 </div>
 
@@ -217,10 +217,10 @@
 <div class="viewcode-block" id="default_state_store">
 <a class="viewcode-back" href="../../module_docs/article/state.html#article.default_state_store">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">default_state_store</span><span class="p">(</span><span class="n">state_path</span><span class="p">:</span> <span class="n">PathLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JsonStateStore</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Construct the default (JSON-file) state store at ``state_path``.</span>
+<span class="w">    </span><span class="sd">"""Construct the default (JSON-file) state store at ``state_path``.</span>
 
 <span class="sd">    A single seam to swap the backend implementation package-wide.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">JsonStateStore</span><span class="p">(</span><span class="n">state_path</span><span class="p">)</span></div>
 
 </pre></div>

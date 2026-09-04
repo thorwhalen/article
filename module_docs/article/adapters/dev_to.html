@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>article.adapters.dev_to &mdash; article 0.1.1 documentation</title>
+  <title>article.adapters.dev_to &mdash; article 0.1.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=a58bc63e"></script>
+      <script src="../../../_static/documentation_options.js?v=92734c54"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -118,16 +118,16 @@ object) carries the Substack SSOT URL.</p>
 <dd><p>Syndicate <code class="docutils literal notranslate"><span class="pre">article</span></code> to Dev.to with <code class="docutils literal notranslate"><span class="pre">canonical_url</span></code> pointing at the SSOT.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">article.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">Article</span><span class="p">,</span> <span class="n">DevToConfig</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">art</span> <span class="o">=</span> <span class="n">Article</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="s2">&quot;t&quot;</span><span class="p">,</span> <span class="n">content_markdown</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;py&quot;</span><span class="p">,</span> <span class="s2">&quot;web&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">art</span> <span class="o">=</span> <span class="n">Article</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"T"</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="s2">"t"</span><span class="p">,</span> <span class="n">content_markdown</span><span class="o">=</span><span class="s2">"x"</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">"py"</span><span class="p">,</span> <span class="s2">"web"</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">publish</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">art</span><span class="p">,</span> <span class="n">canonical_url</span><span class="o">=</span><span class="s2">&quot;https://me.substack.com/p/t&quot;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">config</span><span class="o">=</span><span class="n">DevToConfig</span><span class="p">(),</span> <span class="n">secrets</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;api_key&quot;</span><span class="p">:</span> <span class="s2">&quot;k&quot;</span><span class="p">},</span>
+<span class="gp">... </span>    <span class="n">art</span><span class="p">,</span> <span class="n">canonical_url</span><span class="o">=</span><span class="s2">"https://me.substack.com/p/t"</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">config</span><span class="o">=</span><span class="n">DevToConfig</span><span class="p">(),</span> <span class="n">secrets</span><span class="o">=</span><span class="p">{</span><span class="s2">"api_key"</span><span class="p">:</span> <span class="s2">"k"</span><span class="p">},</span>
 <span class="gp">... </span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="o">.</span><span class="n">detail</span><span class="p">[</span><span class="s2">&quot;payload&quot;</span><span class="p">][</span><span class="s2">&quot;article&quot;</span><span class="p">][</span><span class="s2">&quot;canonical_url&quot;</span><span class="p">]</span>
-<span class="go">&#39;https://me.substack.com/p/t&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="o">.</span><span class="n">detail</span><span class="p">[</span><span class="s2">&quot;payload&quot;</span><span class="p">][</span><span class="s2">&quot;article&quot;</span><span class="p">][</span><span class="s2">&quot;tags&quot;</span><span class="p">]</span>  <span class="c1"># comma-separated string, not a list</span>
-<span class="go">&#39;py,web&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="o">.</span><span class="n">detail</span><span class="p">[</span><span class="s2">&quot;payload&quot;</span><span class="p">][</span><span class="s2">&quot;article&quot;</span><span class="p">][</span><span class="s2">&quot;published&quot;</span><span class="p">]</span>  <span class="c1"># draft default =&gt; False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="o">.</span><span class="n">detail</span><span class="p">[</span><span class="s2">"payload"</span><span class="p">][</span><span class="s2">"article"</span><span class="p">][</span><span class="s2">"canonical_url"</span><span class="p">]</span>
+<span class="go">'https://me.substack.com/p/t'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="o">.</span><span class="n">detail</span><span class="p">[</span><span class="s2">"payload"</span><span class="p">][</span><span class="s2">"article"</span><span class="p">][</span><span class="s2">"tags"</span><span class="p">]</span>  <span class="c1"># comma-separated string, not a list</span>
+<span class="go">'py,web'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="o">.</span><span class="n">detail</span><span class="p">[</span><span class="s2">"payload"</span><span class="p">][</span><span class="s2">"article"</span><span class="p">][</span><span class="s2">"published"</span><span class="p">]</span>  <span class="c1"># draft default =&gt; False</span>
 <span class="go">False</span>
 </pre></div>
 </div>

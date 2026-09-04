@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>article.registry &mdash; article 0.1.1 documentation</title>
+  <title>article.registry &mdash; article 0.1.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=a58bc63e"></script>
+      <script src="../../_static/documentation_options.js?v=92734c54"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -86,14 +86,14 @@
            <div itemprop="articleBody">
              
   <h1>Source code for article.registry</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Adapter ``Protocol`` + an open-closed registry keyed by platform name.</span>
+<span></span><span class="sd">"""Adapter ``Protocol`` + an open-closed registry keyed by platform name.</span>
 
 <span class="sd">Adding a platform means writing one async adapter function and decorating it</span>
 <span class="sd">with :func:`register_adapter` — no edits to the engine, the CLI, or any switch</span>
 <span class="sd">statement (open-closed). Adapters are plain async callables (favour functions</span>
 <span class="sd">over classes) that satisfy :class:`PublishAdapter`; they receive their config</span>
 <span class="sd">and secrets by injection from the engine and never reach into globals.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -109,22 +109,22 @@
 <a class="viewcode-back" href="../../module_docs/article/registry.html#article.PublishAdapter">[docs]</a>
 <span class="nd">@runtime_checkable</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">PublishAdapter</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The contract every platform adapter satisfies.</span>
+<span class="w">    </span><span class="sd">"""The contract every platform adapter satisfies.</span>
 
 <span class="sd">    An adapter is an ``async`` callable. The engine injects:</span>
 
 <span class="sd">    - ``article``: the validated :class:`~article.config.Article`.</span>
 <span class="sd">    - ``canonical_url``: the SSOT URL (``None`` only for the primary, which</span>
 <span class="sd">      *defines* it; secondaries must receive and honour it).</span>
-<span class="sd">    - ``config``: the platform&#39;s config model (overrides + options).</span>
+<span class="sd">    - ``config``: the platform's config model (overrides + options).</span>
 <span class="sd">    - ``secrets``: the minimal credentials/identity for this platform.</span>
 
 <span class="sd">    and receives a :class:`~article.base.PublishResult` back.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">article</span><span class="p">:</span> <span class="s2">&quot;Article&quot;</span><span class="p">,</span>
+        <span class="n">article</span><span class="p">:</span> <span class="s2">"Article"</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">canonical_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
         <span class="n">config</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
@@ -139,12 +139,12 @@
 <div class="viewcode-block" id="register_adapter">
 <a class="viewcode-back" href="../../module_docs/article/registry.html#article.register_adapter">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">register_adapter</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="n">PlatformName</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Decorator registering an adapter callable under ``name``.</span>
+<span class="w">    </span><span class="sd">"""Decorator registering an adapter callable under ``name``.</span>
 
-<span class="sd">    &gt;&gt;&gt; @register_adapter(&quot;demo&quot;)  # doctest: +SKIP</span>
+<span class="sd">    &gt;&gt;&gt; @register_adapter("demo")  # doctest: +SKIP</span>
 <span class="sd">    ... async def publish(article, *, canonical_url, config, secrets):</span>
 <span class="sd">    ...     ...</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_register</span><span class="p">(</span><span class="n">adapter</span><span class="p">:</span> <span class="n">PublishAdapter</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PublishAdapter</span><span class="p">:</span>
         <span class="n">_REGISTRY</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">adapter</span>
@@ -157,18 +157,18 @@
 <div class="viewcode-block" id="get_adapter">
 <a class="viewcode-back" href="../../module_docs/article/registry.html#article.get_adapter">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_adapter</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PublishAdapter</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Resolve the adapter registered under ``name``.</span>
+<span class="w">    </span><span class="sd">"""Resolve the adapter registered under ``name``.</span>
 
-<span class="sd">    &gt;&gt;&gt; get_adapter(&quot;nope&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; get_adapter("nope")</span>
 <span class="sd">    Traceback (most recent call last):</span>
 <span class="sd">    ...</span>
-<span class="sd">    article.base.UnknownPlatformError: ...no adapter registered for &#39;nope&#39;...</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    article.base.UnknownPlatformError: ...no adapter registered for 'nope'...</span>
+<span class="sd">    """</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">_REGISTRY</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">UnknownPlatformError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;no adapter registered for </span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s2">; available: </span><span class="si">{</span><span class="n">available_adapters</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">"no adapter registered for </span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s2">; available: </span><span class="si">{</span><span class="n">available_adapters</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span>
         <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span></div>
 
 
@@ -176,7 +176,7 @@
 <div class="viewcode-block" id="available_adapters">
 <a class="viewcode-back" href="../../module_docs/article/registry.html#article.available_adapters">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">available_adapters</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The platform names with a registered adapter (sorted).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""The platform names with a registered adapter (sorted)."""</span>
     <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">_REGISTRY</span><span class="p">))</span></div>
 
 
@@ -184,7 +184,7 @@
 <div class="viewcode-block" id="is_registered">
 <a class="viewcode-back" href="../../module_docs/article/registry.html#article.is_registered">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">is_registered</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Whether an adapter is registered under ``name``.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Whether an adapter is registered under ``name``."""</span>
     <span class="k">return</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">_REGISTRY</span></div>
 
 </pre></div>

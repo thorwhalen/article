@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>article.__main__ &mdash; article 0.1.1 documentation</title>
+  <title>article.__main__ &mdash; article 0.1.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=a58bc63e"></script>
+      <script src="../../_static/documentation_options.js?v=92734c54"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -87,7 +87,7 @@
              
   <h1>Source code for article.__main__</h1><div class="highlight"><pre>
 <span></span><span class="c1"># PYTHON_ARGCOMPLETE_OK</span>
-<span class="sd">&quot;&quot;&quot;Command-line entry point for the ``article`` publishing pipeline.</span>
+<span class="sd">"""Command-line entry point for the ``article`` publishing pipeline.</span>
 
 <span class="sd">Two commands, mirroring the two phases — both thin wrappers over the very same</span>
 <span class="sd">:mod:`article.engine` functions the Python API exposes (dispatch-to-interface:</span>
@@ -99,14 +99,15 @@
 <span class="sd">Common options: ``--env-file`` (where to read secrets), ``--state-path``</span>
 <span class="sd">(the SSOT state file), ``--json-out`` (machine-readable summary). Phase 2 also</span>
 <span class="sd">takes ``--platforms medium,dev_to`` to syndicate a subset.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">argh</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cw</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">ArticleError</span><span class="p">,</span> <span class="n">RunSummary</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_article</span><span class="p">,</span> <span class="n">load_settings</span>
@@ -121,20 +122,19 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_prepare</span><span class="p">(</span><span class="n">article_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">env_file</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">state_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Shared setup: load settings + article + state store (with friendly errors).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Shared setup: load settings + article + state store (with friendly errors)."""</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">overrides</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;state_path&quot;</span><span class="p">:</span> <span class="n">state_path</span><span class="p">}</span> <span class="k">if</span> <span class="n">state_path</span> <span class="k">else</span> <span class="p">{}</span>
+        <span class="n">overrides</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"state_path"</span><span class="p">:</span> <span class="n">state_path</span><span class="p">}</span> <span class="k">if</span> <span class="n">state_path</span> <span class="k">else</span> <span class="p">{}</span>
         <span class="n">settings</span> <span class="o">=</span> <span class="n">load_settings</span><span class="p">(</span><span class="n">env_file</span><span class="o">=</span><span class="n">env_file</span><span class="p">,</span> <span class="o">**</span><span class="n">overrides</span><span class="p">)</span>
         <span class="n">article</span> <span class="o">=</span> <span class="n">load_article</span><span class="p">(</span><span class="n">article_path</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">ArticleError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">argh</span><span class="o">.</span><span class="n">CommandError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+        <span class="k">raise</span> <span class="n">cw</span><span class="o">.</span><span class="n">CommandError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
     <span class="n">store</span> <span class="o">=</span> <span class="n">JsonStateStore</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">state_path</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">settings</span><span class="p">,</span> <span class="n">article</span><span class="p">,</span> <span class="n">store</span>
 
 
 <div class="viewcode-block" id="publish_primary">
 <a class="viewcode-back" href="../../module_docs/article/__main__.html#article.__main__.publish_primary">[docs]</a>
-<span class="nd">@argh</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="s2">&quot;article_path&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Path to the article JSON file&quot;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">publish_primary</span><span class="p">(</span>
     <span class="n">article_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
@@ -142,8 +142,10 @@
     <span class="n">state_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">json_out</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Phase 1 — publish to the primary platform (Substack) and record canonical_url.&quot;&quot;&quot;</span>
-    <span class="n">settings</span><span class="p">,</span> <span class="n">article</span><span class="p">,</span> <span class="n">store</span> <span class="o">=</span> <span class="n">_prepare</span><span class="p">(</span><span class="n">article_path</span><span class="p">,</span> <span class="n">env_file</span><span class="o">=</span><span class="n">env_file</span><span class="p">,</span> <span class="n">state_path</span><span class="o">=</span><span class="n">state_path</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Phase 1 — publish to the primary platform (Substack) and record canonical_url."""</span>
+    <span class="n">settings</span><span class="p">,</span> <span class="n">article</span><span class="p">,</span> <span class="n">store</span> <span class="o">=</span> <span class="n">_prepare</span><span class="p">(</span>
+        <span class="n">article_path</span><span class="p">,</span> <span class="n">env_file</span><span class="o">=</span><span class="n">env_file</span><span class="p">,</span> <span class="n">state_path</span><span class="o">=</span><span class="n">state_path</span>
+    <span class="p">)</span>
     <span class="n">summary</span> <span class="o">=</span> <span class="n">run_sync</span><span class="p">(</span><span class="n">_publish_primary</span><span class="p">(</span><span class="n">article</span><span class="p">,</span> <span class="n">settings</span><span class="o">=</span><span class="n">settings</span><span class="p">,</span> <span class="n">store</span><span class="o">=</span><span class="n">store</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">_render</span><span class="p">(</span><span class="n">summary</span><span class="p">,</span> <span class="n">json_out</span><span class="o">=</span><span class="n">json_out</span><span class="p">)</span></div>
 
@@ -151,7 +153,6 @@
 
 <div class="viewcode-block" id="syndicate_secondary">
 <a class="viewcode-back" href="../../module_docs/article/__main__.html#article.__main__.syndicate_secondary">[docs]</a>
-<span class="nd">@argh</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="s2">&quot;article_path&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Path to the article JSON file&quot;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">syndicate_secondary</span><span class="p">(</span>
     <span class="n">article_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
@@ -160,41 +161,62 @@
     <span class="n">platforms</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">json_out</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Phase 2 — syndicate to secondary platforms, injecting canonical_url for SEO.&quot;&quot;&quot;</span>
-    <span class="n">settings</span><span class="p">,</span> <span class="n">article</span><span class="p">,</span> <span class="n">store</span> <span class="o">=</span> <span class="n">_prepare</span><span class="p">(</span><span class="n">article_path</span><span class="p">,</span> <span class="n">env_file</span><span class="o">=</span><span class="n">env_file</span><span class="p">,</span> <span class="n">state_path</span><span class="o">=</span><span class="n">state_path</span><span class="p">)</span>
-    <span class="n">selected</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">platforms</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)]</span> <span class="k">if</span> <span class="n">platforms</span> <span class="k">else</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Phase 2 — syndicate to secondary platforms, injecting canonical_url for SEO."""</span>
+    <span class="n">settings</span><span class="p">,</span> <span class="n">article</span><span class="p">,</span> <span class="n">store</span> <span class="o">=</span> <span class="n">_prepare</span><span class="p">(</span>
+        <span class="n">article_path</span><span class="p">,</span> <span class="n">env_file</span><span class="o">=</span><span class="n">env_file</span><span class="p">,</span> <span class="n">state_path</span><span class="o">=</span><span class="n">state_path</span>
+    <span class="p">)</span>
+    <span class="n">selected</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">platforms</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">)]</span> <span class="k">if</span> <span class="n">platforms</span> <span class="k">else</span> <span class="kc">None</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">summary</span> <span class="o">=</span> <span class="n">run_sync</span><span class="p">(</span>
-            <span class="n">_syndicate_secondary</span><span class="p">(</span><span class="n">article</span><span class="p">,</span> <span class="n">settings</span><span class="o">=</span><span class="n">settings</span><span class="p">,</span> <span class="n">store</span><span class="o">=</span><span class="n">store</span><span class="p">,</span> <span class="n">platforms</span><span class="o">=</span><span class="n">selected</span><span class="p">)</span>
+            <span class="n">_syndicate_secondary</span><span class="p">(</span>
+                <span class="n">article</span><span class="p">,</span> <span class="n">settings</span><span class="o">=</span><span class="n">settings</span><span class="p">,</span> <span class="n">store</span><span class="o">=</span><span class="n">store</span><span class="p">,</span> <span class="n">platforms</span><span class="o">=</span><span class="n">selected</span>
+            <span class="p">)</span>
         <span class="p">)</span>
     <span class="k">except</span> <span class="n">ArticleError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">argh</span><span class="o">.</span><span class="n">CommandError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+        <span class="k">raise</span> <span class="n">cw</span><span class="o">.</span><span class="n">CommandError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
     <span class="k">return</span> <span class="n">_render</span><span class="p">(</span><span class="n">summary</span><span class="p">,</span> <span class="n">json_out</span><span class="o">=</span><span class="n">json_out</span><span class="p">)</span></div>
 
 
 
-<span class="c1">#: SSOT list of dispatchable commands (argh maps ``_`` in names to ``-``).</span>
+<span class="c1">#: SSOT list of dispatchable commands (``cw`` maps ``_`` in names to ``-``).</span>
 <span class="n">_dispatch_funcs</span> <span class="o">=</span> <span class="p">[</span><span class="n">publish_primary</span><span class="p">,</span> <span class="n">syndicate_secondary</span><span class="p">]</span>
+
+<span class="c1">#: Per-parameter ``add_argument`` particulars the signature cannot carry -- here, the</span>
+<span class="c1">#: one ``help`` string that used to ride on an ``@argh.arg`` decorator. ``cw`` reads</span>
+<span class="c1">#: ``config``, never decorator metadata, so this is where such declarations live now.</span>
+<span class="n">_dispatch_config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">command</span><span class="p">:</span> <span class="p">{</span><span class="s2">"article_path"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"help"</span><span class="p">:</span> <span class="s2">"Path to the article JSON file"</span><span class="p">}}</span>
+    <span class="k">for</span> <span class="n">command</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"publish-primary"</span><span class="p">,</span> <span class="s2">"syndicate-secondary"</span><span class="p">)</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="mk_parser">
+<a class="viewcode-back" href="../../module_docs/article/__main__.html#article.__main__.mk_parser">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">mk_parser</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Build the CLI parser -- a plain :class:`argparse.ArgumentParser`, no I/O.</span>
+
+<span class="sd">    The single place the command list and its per-parameter declarations meet, so a</span>
+<span class="sd">    test that inspects the grammar inspects the very parser :func:`main` dispatches.</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">cw</span><span class="o">.</span><span class="n">mk_parser</span><span class="p">(</span><span class="n">_dispatch_funcs</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">_dispatch_config</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="main">
 <a class="viewcode-back" href="../../module_docs/article/__main__.html#article.__main__.main">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Assemble the argh parser and dispatch (with optional tab completion).&quot;&quot;&quot;</span>
-    <span class="n">parser</span> <span class="o">=</span> <span class="n">argh</span><span class="o">.</span><span class="n">ArghParser</span><span class="p">()</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_commands</span><span class="p">(</span><span class="n">_dispatch_funcs</span><span class="p">)</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="kn">import</span><span class="w"> </span><span class="nn">argcomplete</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Dispatch a CLI command and return its exit code.</span>
 
-        <span class="n">argcomplete</span><span class="o">.</span><span class="n">autocomplete</span><span class="p">(</span><span class="n">parser</span><span class="p">)</span>
-    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-        <span class="k">pass</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">dispatch</span><span class="p">()</span></div>
+<span class="sd">    ``cw.run`` offers the parser to ``argcomplete`` itself (the</span>
+<span class="sd">    ``# PYTHON_ARGCOMPLETE_OK`` marker on line 1 is what the shell hook looks for),</span>
+<span class="sd">    so there is no hand-written completion block to keep in step.</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">cw</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">mk_parser</span><span class="p">())</span></div>
 
 
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="n">main</span><span class="p">()</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">SystemExit</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
 </pre></div>
 
            </div>

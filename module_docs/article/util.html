@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>article.util &mdash; article 0.1.1 documentation</title>
+  <title>article.util &mdash; article 0.1.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=a58bc63e"></script>
+      <script src="../../_static/documentation_options.js?v=92734c54"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -135,7 +135,7 @@ crashed write never leaves a half-written state file behind.</p>
 <p>Idempotent: repeated calls don’t stack handlers.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">log</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">log</span><span class="o">.</span><span class="n">name</span>
-<span class="go">&#39;article&#39;</span>
+<span class="go">'article'</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">get_logger</span><span class="p">()</span> <span class="ow">is</span> <span class="n">log</span>
 <span class="go">True</span>
 </pre></div>
@@ -169,9 +169,9 @@ tests:</p>
 <dd><p>Return <code class="docutils literal notranslate"><span class="pre">canonical_url</span></code> or raise — the SSOT link is never optional.</p>
 <p>Every <em>secondary</em> adapter calls this first so a missing canonical link
 fails loudly instead of silently emitting a self-canonical post.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">require_canonical_url</span><span class="p">(</span><span class="s2">&quot;medium&quot;</span><span class="p">,</span> <span class="s2">&quot;https://x.substack.com/p/y&quot;</span><span class="p">)</span>
-<span class="go">&#39;https://x.substack.com/p/y&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">require_canonical_url</span><span class="p">(</span><span class="s2">&quot;medium&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">require_canonical_url</span><span class="p">(</span><span class="s2">"medium"</span><span class="p">,</span> <span class="s2">"https://x.substack.com/p/y"</span><span class="p">)</span>
+<span class="go">'https://x.substack.com/p/y'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">require_canonical_url</span><span class="p">(</span><span class="s2">"medium"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 <span class="gt">Traceback (most recent call last):</span>
 <span class="c">...</span>
 <span class="gr">article.base.AdapterError</span>: <span class="n">medium: canonical_url is required for syndication but was missing</span>
@@ -199,7 +199,7 @@ seam is obvious and easy to swap (e.g. for an existing event loop later).</p>
 <dd><p>Current UTC time as an ISO-8601 string (clock injectable for tests).</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timezone</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">utcnow_iso</span><span class="p">(</span><span class="n">_now</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2026</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="n">tzinfo</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">))</span>
-<span class="go">&#39;2026-06-21T00:00:00+00:00&#39;</span>
+<span class="go">'2026-06-21T00:00:00+00:00'</span>
 </pre></div>
 </div>
 </dd></dl>

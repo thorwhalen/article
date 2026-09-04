@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>article.adapters.hashnode &mdash; article 0.1.1 documentation</title>
+  <title>article.adapters.hashnode &mdash; article 0.1.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=a58bc63e"></script>
+      <script src="../../../_static/documentation_options.js?v=92734c54"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -99,7 +99,7 @@
 </pre></div>
 </div>
 <p>Auth (a common gotcha):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Authorization</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">PersonalAccessToken</span><span class="o">&gt;</span>     <span class="c1"># RAW token, NO &quot;Bearer&quot; prefix</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Authorization</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">PersonalAccessToken</span><span class="o">&gt;</span>     <span class="c1"># RAW token, NO "Bearer" prefix</span>
 </pre></div>
 </div>
 <p>Canonical SEO: the <strong>``originalArticleURL``</strong> field of the input carries the
@@ -120,18 +120,18 @@ removed — don’t use them.</p>
 <dd><p>Syndicate <code class="docutils literal notranslate"><span class="pre">article</span></code> to Hashnode with <code class="docutils literal notranslate"><span class="pre">originalArticleURL</span></code> set to the SSOT.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">article.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">Article</span><span class="p">,</span> <span class="n">HashnodeConfig</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">art</span> <span class="o">=</span> <span class="n">Article</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="s2">&quot;t&quot;</span><span class="p">,</span> <span class="n">content_markdown</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Python&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">art</span> <span class="o">=</span> <span class="n">Article</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"T"</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="s2">"t"</span><span class="p">,</span> <span class="n">content_markdown</span><span class="o">=</span><span class="s2">"x"</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">"Python"</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">publish</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">art</span><span class="p">,</span> <span class="n">canonical_url</span><span class="o">=</span><span class="s2">&quot;https://me.substack.com/p/t&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">art</span><span class="p">,</span> <span class="n">canonical_url</span><span class="o">=</span><span class="s2">"https://me.substack.com/p/t"</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">config</span><span class="o">=</span><span class="n">HashnodeConfig</span><span class="p">(</span><span class="n">publish_as_draft</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-<span class="gp">... </span>    <span class="n">secrets</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;token&quot;</span><span class="p">:</span> <span class="s2">&quot;pat&quot;</span><span class="p">,</span> <span class="s2">&quot;publication_id&quot;</span><span class="p">:</span> <span class="s2">&quot;pub123&quot;</span><span class="p">},</span>
+<span class="gp">... </span>    <span class="n">secrets</span><span class="o">=</span><span class="p">{</span><span class="s2">"token"</span><span class="p">:</span> <span class="s2">"pat"</span><span class="p">,</span> <span class="s2">"publication_id"</span><span class="p">:</span> <span class="s2">"pub123"</span><span class="p">},</span>
 <span class="gp">... </span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="o">.</span><span class="n">detail</span><span class="p">[</span><span class="s2">&quot;variables&quot;</span><span class="p">][</span><span class="s2">&quot;input&quot;</span><span class="p">][</span><span class="s2">&quot;originalArticleURL&quot;</span><span class="p">]</span>
-<span class="go">&#39;https://me.substack.com/p/t&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="o">.</span><span class="n">detail</span><span class="p">[</span><span class="s2">&quot;mutation&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;mutation CreateDraft&quot;</span><span class="p">)</span>  <span class="c1"># draft path</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="o">.</span><span class="n">detail</span><span class="p">[</span><span class="s2">"variables"</span><span class="p">][</span><span class="s2">"input"</span><span class="p">][</span><span class="s2">"originalArticleURL"</span><span class="p">]</span>
+<span class="go">'https://me.substack.com/p/t'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="o">.</span><span class="n">detail</span><span class="p">[</span><span class="s2">"mutation"</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"mutation CreateDraft"</span><span class="p">)</span>  <span class="c1"># draft path</span>
 <span class="go">True</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="o">.</span><span class="n">detail</span><span class="p">[</span><span class="s2">&quot;variables&quot;</span><span class="p">][</span><span class="s2">&quot;input&quot;</span><span class="p">][</span><span class="s2">&quot;tags&quot;</span><span class="p">]</span>
-<span class="go">[{&#39;name&#39;: &#39;Python&#39;, &#39;slug&#39;: &#39;python&#39;}]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="o">.</span><span class="n">detail</span><span class="p">[</span><span class="s2">"variables"</span><span class="p">][</span><span class="s2">"input"</span><span class="p">][</span><span class="s2">"tags"</span><span class="p">]</span>
+<span class="go">[{'name': 'Python', 'slug': 'python'}]</span>
 </pre></div>
 </div>
 </dd></dl>

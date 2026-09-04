@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>article.adapters.hashnode &mdash; article 0.1.1 documentation</title>
+  <title>article.adapters.hashnode &mdash; article 0.1.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=a58bc63e"></script>
+      <script src="../../../_static/documentation_options.js?v=92734c54"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -86,15 +86,15 @@
            <div itemprop="articleBody">
              
   <h1>Source code for article.adapters.hashnode</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Hashnode adapter — Phase 2 syndication via the Hashnode GraphQL API (``httpx``).</span>
+<span></span><span class="sd">"""Hashnode adapter — Phase 2 syndication via the Hashnode GraphQL API (``httpx``).</span>
 
-<span class="sd">Endpoint (verified against Hashnode&#39;s generated ``schema.graphql``)::</span>
+<span class="sd">Endpoint (verified against Hashnode's generated ``schema.graphql``)::</span>
 
 <span class="sd">    POST https://gql.hashnode.com</span>
 
 <span class="sd">Auth (a common gotcha)::</span>
 
-<span class="sd">    Authorization: &lt;PersonalAccessToken&gt;     # RAW token, NO &quot;Bearer&quot; prefix</span>
+<span class="sd">    Authorization: &lt;PersonalAccessToken&gt;     # RAW token, NO "Bearer" prefix</span>
 
 <span class="sd">Canonical SEO: the **``originalArticleURL``** field of the input carries the</span>
 <span class="sd">Substack SSOT URL.</span>
@@ -108,8 +108,8 @@
 
 <span class="sd">So this adapter picks the mutation based on ``config.publish_as_draft``. The</span>
 <span class="sd">older ``createPublicationStory`` mutation and ``api.hashnode.com`` host are</span>
-<span class="sd">removed — don&#39;t use them.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">removed — don't use them.</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -122,38 +122,40 @@
 
 <span class="n">_log</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">()</span>
 
-<span class="n">_ENDPOINT</span> <span class="o">=</span> <span class="s2">&quot;https://gql.hashnode.com&quot;</span>
+<span class="n">_ENDPOINT</span> <span class="o">=</span> <span class="s2">"https://gql.hashnode.com"</span>
 
 <span class="n">_PUBLISH_MUTATION</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="s2">&quot;mutation PublishPost($input: PublishPostInput!) &quot;</span>
-    <span class="s2">&quot;{ publishPost(input: $input) { post { id slug url } } }&quot;</span>
+    <span class="s2">"mutation PublishPost($input: PublishPostInput!) "</span>
+    <span class="s2">"{ publishPost(input: $input) { post { id slug url } } }"</span>
 <span class="p">)</span>
 <span class="n">_DRAFT_MUTATION</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="s2">&quot;mutation CreateDraft($input: CreateDraftInput!) &quot;</span>
-    <span class="s2">&quot;{ createDraft(input: $input) { draft { id slug } } }&quot;</span>
+    <span class="s2">"mutation CreateDraft($input: CreateDraftInput!) "</span>
+    <span class="s2">"{ createDraft(input: $input) { draft { id slug } } }"</span>
 <span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_tags</span><span class="p">(</span><span class="n">article</span><span class="p">:</span> <span class="n">Article</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">HashnodeConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Hashnode tag inputs: ``{name, slug}`` per tag (id wins if both given).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Hashnode tag inputs: ``{name, slug}`` per tag (id wins if both given)."""</span>
     <span class="n">tags</span> <span class="o">=</span> <span class="n">coalesce</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">tags</span><span class="p">,</span> <span class="n">article</span><span class="o">.</span><span class="n">tags</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
-    <span class="k">return</span> <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">t</span><span class="p">,</span> <span class="s2">&quot;slug&quot;</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">)}</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tags</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">[{</span><span class="s2">"name"</span><span class="p">:</span> <span class="n">t</span><span class="p">,</span> <span class="s2">"slug"</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">" "</span><span class="p">,</span> <span class="s2">"-"</span><span class="p">)}</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tags</span><span class="p">]</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_build_input</span><span class="p">(</span><span class="n">article</span><span class="p">:</span> <span class="n">Article</span><span class="p">,</span> <span class="n">canonical_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">HashnodeConfig</span><span class="p">,</span> <span class="n">publication_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The shared input for ``publishPost`` / ``createDraft`` (canonical injected).&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_build_input</span><span class="p">(</span>
+    <span class="n">article</span><span class="p">:</span> <span class="n">Article</span><span class="p">,</span> <span class="n">canonical_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">HashnodeConfig</span><span class="p">,</span> <span class="n">publication_id</span><span class="p">:</span> <span class="nb">str</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""The shared input for ``publishPost`` / ``createDraft`` (canonical injected)."""</span>
     <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="n">coalesce</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">article</span><span class="o">.</span><span class="n">title</span><span class="p">),</span>
-        <span class="s2">&quot;subtitle&quot;</span><span class="p">:</span> <span class="n">coalesce</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">subtitle</span><span class="p">,</span> <span class="n">article</span><span class="o">.</span><span class="n">subtitle</span><span class="p">),</span>
-        <span class="s2">&quot;publicationId&quot;</span><span class="p">:</span> <span class="n">publication_id</span><span class="p">,</span>
-        <span class="s2">&quot;contentMarkdown&quot;</span><span class="p">:</span> <span class="n">article</span><span class="o">.</span><span class="n">content_markdown</span><span class="p">,</span>
-        <span class="s2">&quot;slug&quot;</span><span class="p">:</span> <span class="n">article</span><span class="o">.</span><span class="n">slug</span><span class="p">,</span>
-        <span class="s2">&quot;tags&quot;</span><span class="p">:</span> <span class="n">_tags</span><span class="p">(</span><span class="n">article</span><span class="p">,</span> <span class="n">config</span><span class="p">),</span>
-        <span class="s2">&quot;originalArticleURL&quot;</span><span class="p">:</span> <span class="n">canonical_url</span><span class="p">,</span>  <span class="c1"># &lt;-- SEO canonical back to the SSOT</span>
-        <span class="s2">&quot;seriesId&quot;</span><span class="p">:</span> <span class="n">config</span><span class="o">.</span><span class="n">series_id</span><span class="p">,</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="n">coalesce</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">article</span><span class="o">.</span><span class="n">title</span><span class="p">),</span>
+        <span class="s2">"subtitle"</span><span class="p">:</span> <span class="n">coalesce</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">subtitle</span><span class="p">,</span> <span class="n">article</span><span class="o">.</span><span class="n">subtitle</span><span class="p">),</span>
+        <span class="s2">"publicationId"</span><span class="p">:</span> <span class="n">publication_id</span><span class="p">,</span>
+        <span class="s2">"contentMarkdown"</span><span class="p">:</span> <span class="n">article</span><span class="o">.</span><span class="n">content_markdown</span><span class="p">,</span>
+        <span class="s2">"slug"</span><span class="p">:</span> <span class="n">article</span><span class="o">.</span><span class="n">slug</span><span class="p">,</span>
+        <span class="s2">"tags"</span><span class="p">:</span> <span class="n">_tags</span><span class="p">(</span><span class="n">article</span><span class="p">,</span> <span class="n">config</span><span class="p">),</span>
+        <span class="s2">"originalArticleURL"</span><span class="p">:</span> <span class="n">canonical_url</span><span class="p">,</span>  <span class="c1"># &lt;-- SEO canonical back to the SSOT</span>
+        <span class="s2">"seriesId"</span><span class="p">:</span> <span class="n">config</span><span class="o">.</span><span class="n">series_id</span><span class="p">,</span>
     <span class="p">}</span>
     <span class="k">if</span> <span class="n">article</span><span class="o">.</span><span class="n">cover_image_url</span><span class="p">:</span>
-        <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;coverImageOptions&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;coverImageURL&quot;</span><span class="p">:</span> <span class="n">article</span><span class="o">.</span><span class="n">cover_image_url</span><span class="p">}</span>
+        <span class="n">payload</span><span class="p">[</span><span class="s2">"coverImageOptions"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"coverImageURL"</span><span class="p">:</span> <span class="n">article</span><span class="o">.</span><span class="n">cover_image_url</span><span class="p">}</span>
     <span class="c1"># Drop unset optionals so the GraphQL request stays clean.</span>
     <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">payload</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">}</span>
 
@@ -168,37 +170,37 @@
     <span class="n">config</span><span class="p">:</span> <span class="n">HashnodeConfig</span><span class="p">,</span>
     <span class="n">secrets</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PublishResult</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Syndicate ``article`` to Hashnode with ``originalArticleURL`` set to the SSOT.</span>
+<span class="w">    </span><span class="sd">"""Syndicate ``article`` to Hashnode with ``originalArticleURL`` set to the SSOT.</span>
 
 <span class="sd">    &gt;&gt;&gt; import asyncio</span>
 <span class="sd">    &gt;&gt;&gt; from article.config import Article, HashnodeConfig</span>
-<span class="sd">    &gt;&gt;&gt; art = Article(title=&quot;T&quot;, slug=&quot;t&quot;, content_markdown=&quot;x&quot;, tags=[&quot;Python&quot;])</span>
+<span class="sd">    &gt;&gt;&gt; art = Article(title="T", slug="t", content_markdown="x", tags=["Python"])</span>
 <span class="sd">    &gt;&gt;&gt; res = asyncio.run(publish(</span>
-<span class="sd">    ...     art, canonical_url=&quot;https://me.substack.com/p/t&quot;,</span>
+<span class="sd">    ...     art, canonical_url="https://me.substack.com/p/t",</span>
 <span class="sd">    ...     config=HashnodeConfig(publish_as_draft=True),</span>
-<span class="sd">    ...     secrets={&quot;token&quot;: &quot;pat&quot;, &quot;publication_id&quot;: &quot;pub123&quot;},</span>
+<span class="sd">    ...     secrets={"token": "pat", "publication_id": "pub123"},</span>
 <span class="sd">    ... ))</span>
-<span class="sd">    &gt;&gt;&gt; res.detail[&quot;variables&quot;][&quot;input&quot;][&quot;originalArticleURL&quot;]</span>
-<span class="sd">    &#39;https://me.substack.com/p/t&#39;</span>
-<span class="sd">    &gt;&gt;&gt; res.detail[&quot;mutation&quot;].startswith(&quot;mutation CreateDraft&quot;)  # draft path</span>
+<span class="sd">    &gt;&gt;&gt; res.detail["variables"]["input"]["originalArticleURL"]</span>
+<span class="sd">    'https://me.substack.com/p/t'</span>
+<span class="sd">    &gt;&gt;&gt; res.detail["mutation"].startswith("mutation CreateDraft")  # draft path</span>
 <span class="sd">    True</span>
-<span class="sd">    &gt;&gt;&gt; res.detail[&quot;variables&quot;][&quot;input&quot;][&quot;tags&quot;]</span>
-<span class="sd">    [{&#39;name&#39;: &#39;Python&#39;, &#39;slug&#39;: &#39;python&#39;}]</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    &gt;&gt;&gt; res.detail["variables"]["input"]["tags"]</span>
+<span class="sd">    [{'name': 'Python', 'slug': 'python'}]</span>
+<span class="sd">    """</span>
     <span class="n">require_canonical_url</span><span class="p">(</span><span class="n">HASHNODE</span><span class="p">,</span> <span class="n">canonical_url</span><span class="p">)</span>
-    <span class="n">token</span> <span class="o">=</span> <span class="n">secrets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span>
-    <span class="n">publication_id</span> <span class="o">=</span> <span class="n">coalesce</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">publication_id</span><span class="p">,</span> <span class="n">secrets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;publication_id&quot;</span><span class="p">))</span>
+    <span class="n">token</span> <span class="o">=</span> <span class="n">secrets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span>
+    <span class="n">publication_id</span> <span class="o">=</span> <span class="n">coalesce</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">publication_id</span><span class="p">,</span> <span class="n">secrets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"publication_id"</span><span class="p">))</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">publication_id</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">AdapterError</span><span class="p">(</span>
-            <span class="s2">&quot;hashnode: a publication_id is required (set platforms.hashnode.publication_id &quot;</span>
-            <span class="s2">&quot;or HASHNODE_PUBLICATION_ID)&quot;</span>
+            <span class="s2">"hashnode: a publication_id is required (set platforms.hashnode.publication_id "</span>
+            <span class="s2">"or HASHNODE_PUBLICATION_ID)"</span>
         <span class="p">)</span>
 
     <span class="n">mutation</span> <span class="o">=</span> <span class="n">_DRAFT_MUTATION</span> <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">publish_as_draft</span> <span class="k">else</span> <span class="n">_PUBLISH_MUTATION</span>
-    <span class="n">variables</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;input&quot;</span><span class="p">:</span> <span class="n">_build_input</span><span class="p">(</span><span class="n">article</span><span class="p">,</span> <span class="n">canonical_url</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">publication_id</span><span class="p">)}</span>
+    <span class="n">variables</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"input"</span><span class="p">:</span> <span class="n">_build_input</span><span class="p">(</span><span class="n">article</span><span class="p">,</span> <span class="n">canonical_url</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">publication_id</span><span class="p">)}</span>
     <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="n">token</span> <span class="ow">or</span> <span class="s2">&quot;&lt;HASHNODE_TOKEN&gt;&quot;</span><span class="p">,</span>  <span class="c1"># RAW PAT, no &quot;Bearer&quot;</span>
-        <span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
+        <span class="s2">"Authorization"</span><span class="p">:</span> <span class="n">token</span> <span class="ow">or</span> <span class="s2">"&lt;HASHNODE_TOKEN&gt;"</span><span class="p">,</span>  <span class="c1"># RAW PAT, no "Bearer"</span>
+        <span class="s2">"Content-Type"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
     <span class="p">}</span>
 
     <span class="c1"># ----------------------------------------------------------------- #</span>
@@ -208,34 +210,34 @@
     <span class="c1"># async with httpx.AsyncClient(timeout=30) as client:               #</span>
     <span class="c1">#     resp = await client.post(                                     #</span>
     <span class="c1">#         _ENDPOINT, headers=headers,                               #</span>
-    <span class="c1">#         json={&quot;query&quot;: mutation, &quot;variables&quot;: variables},        #</span>
+    <span class="c1">#         json={"query": mutation, "variables": variables},        #</span>
     <span class="c1">#     )                                                             #</span>
     <span class="c1">#     resp.raise_for_status()                                       #</span>
     <span class="c1">#     body = resp.json()                                            #</span>
-    <span class="c1">#     if body.get(&quot;errors&quot;):                                        #</span>
-    <span class="c1">#         return PublishResult.failure(HASHNODE, error=str(body[&quot;errors&quot;]))</span>
-    <span class="c1">#     data = body[&quot;data&quot;]                                           #</span>
+    <span class="c1">#     if body.get("errors"):                                        #</span>
+    <span class="c1">#         return PublishResult.failure(HASHNODE, error=str(body["errors"]))</span>
+    <span class="c1">#     data = body["data"]                                           #</span>
     <span class="c1">#     if config.publish_as_draft:                                   #</span>
-    <span class="c1">#         return PublishResult.success(HASHNODE, status=&quot;draft&quot;,    #</span>
+    <span class="c1">#         return PublishResult.success(HASHNODE, status="draft",    #</span>
     <span class="c1">#             canonical_url=canonical_url, detail=data)             #</span>
-    <span class="c1">#     post = data[&quot;publishPost&quot;][&quot;post&quot;]                            #</span>
-    <span class="c1">#     return PublishResult.success(HASHNODE, url=post[&quot;url&quot;],       #</span>
-    <span class="c1">#         status=&quot;published&quot;, canonical_url=canonical_url)          #</span>
+    <span class="c1">#     post = data["publishPost"]["post"]                            #</span>
+    <span class="c1">#     return PublishResult.success(HASHNODE, url=post["url"],       #</span>
+    <span class="c1">#         status="published", canonical_url=canonical_url)          #</span>
     <span class="c1"># ----------------------------------------------------------------- #</span>
 
-    <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;draft&quot;</span> <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">publish_as_draft</span> <span class="k">else</span> <span class="s2">&quot;published&quot;</span>
-    <span class="n">_log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;[hashnode] STUB: would POST </span><span class="si">%s</span><span class="s2"> (</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">_ENDPOINT</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="s2">"draft"</span> <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">publish_as_draft</span> <span class="k">else</span> <span class="s2">"published"</span>
+    <span class="n">_log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"[hashnode] STUB: would POST </span><span class="si">%s</span><span class="s2"> (</span><span class="si">%s</span><span class="s2">)"</span><span class="p">,</span> <span class="n">_ENDPOINT</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">PublishResult</span><span class="o">.</span><span class="n">success</span><span class="p">(</span>
         <span class="n">HASHNODE</span><span class="p">,</span>
         <span class="n">url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="p">,</span>
         <span class="n">canonical_url</span><span class="o">=</span><span class="n">canonical_url</span><span class="p">,</span>
         <span class="n">detail</span><span class="o">=</span><span class="p">{</span>
-            <span class="s2">&quot;stub&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-            <span class="s2">&quot;endpoint&quot;</span><span class="p">:</span> <span class="n">_ENDPOINT</span><span class="p">,</span>
-            <span class="s2">&quot;credentialed&quot;</span><span class="p">:</span> <span class="nb">bool</span><span class="p">(</span><span class="n">token</span><span class="p">),</span>
-            <span class="s2">&quot;mutation&quot;</span><span class="p">:</span> <span class="n">mutation</span><span class="p">,</span>
-            <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="n">variables</span><span class="p">,</span>
+            <span class="s2">"stub"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">"endpoint"</span><span class="p">:</span> <span class="n">_ENDPOINT</span><span class="p">,</span>
+            <span class="s2">"credentialed"</span><span class="p">:</span> <span class="nb">bool</span><span class="p">(</span><span class="n">token</span><span class="p">),</span>
+            <span class="s2">"mutation"</span><span class="p">:</span> <span class="n">mutation</span><span class="p">,</span>
+            <span class="s2">"variables"</span><span class="p">:</span> <span class="n">variables</span><span class="p">,</span>
         <span class="p">},</span>
     <span class="p">)</span></div>
 

@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>article.adapters.substack &mdash; article 0.1.1 documentation</title>
+  <title>article.adapters.substack &mdash; article 0.1.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=a58bc63e"></script>
+      <script src="../../../_static/documentation_options.js?v=92734c54"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -123,14 +123,14 @@ URL deterministically so the end-to-end SSOT handoff is exercisable now.
 <dd><p>Publish <code class="docutils literal notranslate"><span class="pre">article</span></code> to Substack and return its live public URL.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">article.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">Article</span><span class="p">,</span> <span class="n">SubstackConfig</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">art</span> <span class="o">=</span> <span class="n">Article</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Hi&quot;</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="s2">&quot;hi-there&quot;</span><span class="p">,</span> <span class="n">content_markdown</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">art</span> <span class="o">=</span> <span class="n">Article</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Hi"</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="s2">"hi-there"</span><span class="p">,</span> <span class="n">content_markdown</span><span class="o">=</span><span class="s2">"x"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">publish</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="n">art</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">config</span><span class="o">=</span><span class="n">SubstackConfig</span><span class="p">(</span><span class="n">publish_as_draft</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
-<span class="gp">... </span>    <span class="n">secrets</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;publication_url&quot;</span><span class="p">:</span> <span class="s2">&quot;https://me.substack.com&quot;</span><span class="p">},</span>
+<span class="gp">... </span>    <span class="n">secrets</span><span class="o">=</span><span class="p">{</span><span class="s2">"publication_url"</span><span class="p">:</span> <span class="s2">"https://me.substack.com"</span><span class="p">},</span>
 <span class="gp">... </span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="o">.</span><span class="n">ok</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">url</span>
-<span class="go">(True, &#39;https://me.substack.com/p/hi-there&#39;)</span>
+<span class="go">(True, 'https://me.substack.com/p/hi-there')</span>
 </pre></div>
 </div>
 </dd></dl>

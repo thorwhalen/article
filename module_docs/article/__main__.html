@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>article.__main__ &mdash; article 0.1.1 documentation</title>
+  <title>article.__main__ &mdash; article 0.1.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=a58bc63e"></script>
+      <script src="../../_static/documentation_options.js?v=92734c54"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -52,6 +52,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../article.html">article</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">article.__main__</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#article.__main__.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#article.__main__.mk_parser"><code class="docutils literal notranslate"><span class="pre">mk_parser()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#article.__main__.publish_primary"><code class="docutils literal notranslate"><span class="pre">publish_primary()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#article.__main__.syndicate_secondary"><code class="docutils literal notranslate"><span class="pre">syndicate_secondary()</span></code></a></li>
 </ul>
@@ -108,8 +109,19 @@ one implementation, many front-ends):</p>
 takes <code class="docutils literal notranslate"><span class="pre">--platforms</span> <span class="pre">medium,dev_to</span></code> to syndicate a subset.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="article.__main__.main">
-<span class="sig-prename descclassname"><span class="pre">article.__main__.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/article/__main__.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.__main__.main" title="Link to this definition"></a></dt>
-<dd><p>Assemble the argh parser and dispatch (with optional tab completion).</p>
+<span class="sig-prename descclassname"><span class="pre">article.__main__.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../../_modules/article/__main__.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.__main__.main" title="Link to this definition"></a></dt>
+<dd><p>Dispatch a CLI command and return its exit code.</p>
+<p><code class="docutils literal notranslate"><span class="pre">cw.run</span></code> offers the parser to <code class="docutils literal notranslate"><span class="pre">argcomplete</span></code> itself (the
+<code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">PYTHON_ARGCOMPLETE_OK</span></code> marker on line 1 is what the shell hook looks for),
+so there is no hand-written completion block to keep in step.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="article.__main__.mk_parser">
+<span class="sig-prename descclassname"><span class="pre">article.__main__.</span></span><span class="sig-name descname"><span class="pre">mk_parser</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ArgumentParser</span></span></span><a class="reference internal" href="../../_modules/article/__main__.html#mk_parser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.__main__.mk_parser" title="Link to this definition"></a></dt>
+<dd><p>Build the CLI parser – a plain <code class="xref py py-class docutils literal notranslate"><span class="pre">argparse.ArgumentParser</span></code>, no I/O.</p>
+<p>The single place the command list and its per-parameter declarations meet, so a
+test that inspects the grammar inspects the very parser <a class="reference internal" href="#article.__main__.main" title="article.__main__.main"><code class="xref py py-func docutils literal notranslate"><span class="pre">main()</span></code></a> dispatches.</p>
 </dd></dl>
 
 <dl class="py function">

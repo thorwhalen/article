@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>article.state &mdash; article 0.1.1 documentation</title>
+  <title>article.state &mdash; article 0.1.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=a58bc63e"></script>
+      <script src="../../_static/documentation_options.js?v=92734c54"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -108,12 +108,12 @@ mapping interface — the JSON file can later be swapped for SQLite, Redis, S3
 (e.g. any <code class="docutils literal notranslate"><span class="pre">dol</span></code> store), or a cloud KV with zero changes upstream
 (open-closed). Each value is a JSON-serializable per-article record, e.g.:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-    <span class="s2">&quot;slug&quot;</span><span class="p">:</span> <span class="s2">&quot;hello-world&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Hello World&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;canonical_url&quot;</span><span class="p">:</span> <span class="s2">&quot;https://me.substack.com/p/hello-world&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;primary&quot;</span><span class="p">:</span> <span class="p">{</span><span class="o">...</span><span class="p">},</span>          <span class="c1"># phase-1 result record</span>
-    <span class="s2">&quot;syndication&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;medium&quot;</span><span class="p">:</span> <span class="p">{</span><span class="o">...</span><span class="p">},</span> <span class="s2">&quot;dev_to&quot;</span><span class="p">:</span> <span class="p">{</span><span class="o">...</span><span class="p">}},</span>
-    <span class="s2">&quot;updated_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2026-06-21T...&quot;</span><span class="p">,</span>
+    <span class="s2">"slug"</span><span class="p">:</span> <span class="s2">"hello-world"</span><span class="p">,</span>
+    <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Hello World"</span><span class="p">,</span>
+    <span class="s2">"canonical_url"</span><span class="p">:</span> <span class="s2">"https://me.substack.com/p/hello-world"</span><span class="p">,</span>
+    <span class="s2">"primary"</span><span class="p">:</span> <span class="p">{</span><span class="o">...</span><span class="p">},</span>          <span class="c1"># phase-1 result record</span>
+    <span class="s2">"syndication"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"medium"</span><span class="p">:</span> <span class="p">{</span><span class="o">...</span><span class="p">},</span> <span class="s2">"dev_to"</span><span class="p">:</span> <span class="p">{</span><span class="o">...</span><span class="p">}},</span>
+    <span class="s2">"updated_at"</span><span class="p">:</span> <span class="s2">"2026-06-21T..."</span><span class="p">,</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -131,17 +131,17 @@ mapping interface — the JSON file can later be swapped for SQLite, Redis, S3
 disk is always the source of truth (no in-memory drift) and never left
 half-written.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span><span class="o">,</span><span class="w"> </span><span class="nn">os</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">(),</span> <span class="s2">&quot;pipeline_state.json&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">(),</span> <span class="s2">"pipeline_state.json"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">store</span> <span class="o">=</span> <span class="n">JsonStateStore</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">store</span><span class="p">[</span><span class="s2">&quot;hello-world&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;canonical_url&quot;</span><span class="p">:</span> <span class="s2">&quot;https://me.substack.com/p/hello-world&quot;</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">store</span><span class="p">[</span><span class="s2">"hello-world"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"canonical_url"</span><span class="p">:</span> <span class="s2">"https://me.substack.com/p/hello-world"</span><span class="p">}</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># A fresh instance over the same file sees the persisted record:</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">JsonStateStore</span><span class="p">(</span><span class="n">path</span><span class="p">)[</span><span class="s2">&quot;hello-world&quot;</span><span class="p">][</span><span class="s2">&quot;canonical_url&quot;</span><span class="p">]</span>
-<span class="go">&#39;https://me.substack.com/p/hello-world&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">JsonStateStore</span><span class="p">(</span><span class="n">path</span><span class="p">)[</span><span class="s2">"hello-world"</span><span class="p">][</span><span class="s2">"canonical_url"</span><span class="p">]</span>
+<span class="go">'https://me.substack.com/p/hello-world'</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">store</span><span class="p">)</span>
-<span class="go">[&#39;hello-world&#39;]</span>
+<span class="go">['hello-world']</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">store</span><span class="p">)</span>
 <span class="go">1</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">store</span><span class="p">[</span><span class="s2">&quot;hello-world&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">store</span><span class="p">[</span><span class="s2">"hello-world"</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">store</span><span class="p">)</span>
 <span class="go">[]</span>
 </pre></div>
@@ -165,11 +165,11 @@ half-written.</p>
 <p>Creates the record if absent and stamps <code class="docutils literal notranslate"><span class="pre">updated_at</span></code>. Returns the
 merged record.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span><span class="o">,</span><span class="w"> </span><span class="nn">os</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">store</span> <span class="o">=</span> <span class="n">JsonStateStore</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">(),</span> <span class="s2">&quot;s.json&quot;</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">_</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">update_record</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;T&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">rec</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">update_record</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">canonical_url</span><span class="o">=</span><span class="s2">&quot;c&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">rec</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">],</span> <span class="n">rec</span><span class="p">[</span><span class="s2">&quot;canonical_url&quot;</span><span class="p">]</span>
-<span class="go">(&#39;T&#39;, &#39;c&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">store</span> <span class="o">=</span> <span class="n">JsonStateStore</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">(),</span> <span class="s2">"s.json"</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">_</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">update_record</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"T"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rec</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">update_record</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="n">canonical_url</span><span class="o">=</span><span class="s2">"c"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rec</span><span class="p">[</span><span class="s2">"title"</span><span class="p">],</span> <span class="n">rec</span><span class="p">[</span><span class="s2">"canonical_url"</span><span class="p">]</span>
+<span class="go">('T', 'c')</span>
 </pre></div>
 </div>
 </dd></dl>

@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>article.adapters.medium &mdash; article 0.1.1 documentation</title>
+  <title>article.adapters.medium &mdash; article 0.1.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=a58bc63e"></script>
+      <script src="../../../_static/documentation_options.js?v=92734c54"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -86,7 +86,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for article.adapters.medium</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Medium adapter — Phase 2 syndication via the Medium REST API (``httpx``).</span>
+<span></span><span class="sd">"""Medium adapter — Phase 2 syndication via the Medium REST API (``httpx``).</span>
 
 <span class="sd">Endpoint (verified against github.com/Medium/medium-api-docs)::</span>
 
@@ -98,10 +98,10 @@
 <span class="sd">from ``GET /v1/me`` (``data.id``).</span>
 
 <span class="sd">Canonical SEO: the **``canonicalUrl``** field carries the Substack SSOT URL so</span>
-<span class="sd">Medium emits ``&lt;link rel=&quot;canonical&quot;&gt;`` back to it.</span>
+<span class="sd">Medium emits ``&lt;link rel="canonical"&gt;`` back to it.</span>
 
 <span class="sd">.. warning::</span>
-<span class="sd">   Medium&#39;s API is officially **deprecated** (&quot;no longer supported&quot;; the docs</span>
+<span class="sd">   Medium's API is officially **deprecated** ("no longer supported"; the docs</span>
 <span class="sd">   repo is archived and no new OAuth apps are issued). It still works for a</span>
 <span class="sd">   single user with a **self-issued integration token** (Settings → Security</span>
 <span class="sd">   and apps → Integration tokens). We implement to the documented shape; the</span>
@@ -109,7 +109,7 @@
 
 <span class="sd">Quirks encoded here: ``title`` is metadata only (the rendered title is the</span>
 <span class="sd">first heading in ``content``); only the first **3** tags are honoured.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -123,27 +123,27 @@
 <span class="n">_log</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">()</span>
 
 <span class="n">_MEDIUM_MAX_TAGS</span> <span class="o">=</span> <span class="mi">3</span>
-<span class="n">_API_ROOT</span> <span class="o">=</span> <span class="s2">&quot;https://api.medium.com/v1&quot;</span>
+<span class="n">_API_ROOT</span> <span class="o">=</span> <span class="s2">"https://api.medium.com/v1"</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_endpoint</span><span class="p">(</span><span class="n">config</span><span class="p">:</span> <span class="n">MediumConfig</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">publication_id</span><span class="p">:</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_API_ROOT</span><span class="si">}</span><span class="s2">/publications/</span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">publication_id</span><span class="si">}</span><span class="s2">/posts&quot;</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_API_ROOT</span><span class="si">}</span><span class="s2">/users/</span><span class="si">{</span><span class="n">user_id</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="s1">&#39;</span><span class="si">{userId}</span><span class="s1">&#39;</span><span class="si">}</span><span class="s2">/posts&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">_API_ROOT</span><span class="si">}</span><span class="s2">/publications/</span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">publication_id</span><span class="si">}</span><span class="s2">/posts"</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">_API_ROOT</span><span class="si">}</span><span class="s2">/users/</span><span class="si">{</span><span class="n">user_id</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="s1">'</span><span class="si">{userId}</span><span class="s1">'</span><span class="si">}</span><span class="s2">/posts"</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_build_payload</span><span class="p">(</span><span class="n">article</span><span class="p">:</span> <span class="n">Article</span><span class="p">,</span> <span class="n">canonical_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">MediumConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Construct the Medium create-post JSON body (canonical injected, not optional).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Construct the Medium create-post JSON body (canonical injected, not optional)."""</span>
     <span class="n">tags</span> <span class="o">=</span> <span class="n">coalesce</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">tags</span><span class="p">,</span> <span class="n">article</span><span class="o">.</span><span class="n">tags</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
     <span class="k">return</span> <span class="p">{</span>
-        <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="n">coalesce</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">article</span><span class="o">.</span><span class="n">title</span><span class="p">),</span>
-        <span class="s2">&quot;contentFormat&quot;</span><span class="p">:</span> <span class="s2">&quot;markdown&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">article</span><span class="o">.</span><span class="n">content_markdown</span><span class="p">,</span>
-        <span class="s2">&quot;tags&quot;</span><span class="p">:</span> <span class="n">tags</span><span class="p">[:</span><span class="n">_MEDIUM_MAX_TAGS</span><span class="p">],</span>
-        <span class="s2">&quot;canonicalUrl&quot;</span><span class="p">:</span> <span class="n">canonical_url</span><span class="p">,</span>  <span class="c1"># &lt;-- SEO canonical back to the SSOT</span>
-        <span class="s2">&quot;publishStatus&quot;</span><span class="p">:</span> <span class="s2">&quot;draft&quot;</span> <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">publish_as_draft</span> <span class="k">else</span> <span class="s2">&quot;public&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;license&quot;</span><span class="p">:</span> <span class="n">config</span><span class="o">.</span><span class="n">license</span><span class="p">,</span>
-        <span class="s2">&quot;notifyFollowers&quot;</span><span class="p">:</span> <span class="n">config</span><span class="o">.</span><span class="n">notify_followers</span><span class="p">,</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="n">coalesce</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">article</span><span class="o">.</span><span class="n">title</span><span class="p">),</span>
+        <span class="s2">"contentFormat"</span><span class="p">:</span> <span class="s2">"markdown"</span><span class="p">,</span>
+        <span class="s2">"content"</span><span class="p">:</span> <span class="n">article</span><span class="o">.</span><span class="n">content_markdown</span><span class="p">,</span>
+        <span class="s2">"tags"</span><span class="p">:</span> <span class="n">tags</span><span class="p">[:</span><span class="n">_MEDIUM_MAX_TAGS</span><span class="p">],</span>
+        <span class="s2">"canonicalUrl"</span><span class="p">:</span> <span class="n">canonical_url</span><span class="p">,</span>  <span class="c1"># &lt;-- SEO canonical back to the SSOT</span>
+        <span class="s2">"publishStatus"</span><span class="p">:</span> <span class="s2">"draft"</span> <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">publish_as_draft</span> <span class="k">else</span> <span class="s2">"public"</span><span class="p">,</span>
+        <span class="s2">"license"</span><span class="p">:</span> <span class="n">config</span><span class="o">.</span><span class="n">license</span><span class="p">,</span>
+        <span class="s2">"notifyFollowers"</span><span class="p">:</span> <span class="n">config</span><span class="o">.</span><span class="n">notify_followers</span><span class="p">,</span>
     <span class="p">}</span>
 
 
@@ -157,29 +157,29 @@
     <span class="n">config</span><span class="p">:</span> <span class="n">MediumConfig</span><span class="p">,</span>
     <span class="n">secrets</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PublishResult</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Syndicate ``article`` to Medium with ``canonicalUrl`` pointing at the SSOT.</span>
+<span class="w">    </span><span class="sd">"""Syndicate ``article`` to Medium with ``canonicalUrl`` pointing at the SSOT.</span>
 
 <span class="sd">    &gt;&gt;&gt; import asyncio</span>
 <span class="sd">    &gt;&gt;&gt; from article.config import Article, MediumConfig</span>
-<span class="sd">    &gt;&gt;&gt; art = Article(title=&quot;T&quot;, slug=&quot;t&quot;, content_markdown=&quot;x&quot;, tags=[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;])</span>
+<span class="sd">    &gt;&gt;&gt; art = Article(title="T", slug="t", content_markdown="x", tags=["a", "b", "c", "d"])</span>
 <span class="sd">    &gt;&gt;&gt; res = asyncio.run(publish(</span>
-<span class="sd">    ...     art, canonical_url=&quot;https://me.substack.com/p/t&quot;,</span>
-<span class="sd">    ...     config=MediumConfig(), secrets={&quot;token&quot;: &quot;tok&quot;, &quot;user_id&quot;: &quot;u1&quot;},</span>
+<span class="sd">    ...     art, canonical_url="https://me.substack.com/p/t",</span>
+<span class="sd">    ...     config=MediumConfig(), secrets={"token": "tok", "user_id": "u1"},</span>
 <span class="sd">    ... ))</span>
-<span class="sd">    &gt;&gt;&gt; res.detail[&quot;payload&quot;][&quot;canonicalUrl&quot;]</span>
-<span class="sd">    &#39;https://me.substack.com/p/t&#39;</span>
-<span class="sd">    &gt;&gt;&gt; res.detail[&quot;payload&quot;][&quot;tags&quot;]  # capped at 3</span>
-<span class="sd">    [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;]</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    &gt;&gt;&gt; res.detail["payload"]["canonicalUrl"]</span>
+<span class="sd">    'https://me.substack.com/p/t'</span>
+<span class="sd">    &gt;&gt;&gt; res.detail["payload"]["tags"]  # capped at 3</span>
+<span class="sd">    ['a', 'b', 'c']</span>
+<span class="sd">    """</span>
     <span class="n">require_canonical_url</span><span class="p">(</span><span class="n">MEDIUM</span><span class="p">,</span> <span class="n">canonical_url</span><span class="p">)</span>
-    <span class="n">token</span> <span class="o">=</span> <span class="n">secrets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span>
-    <span class="n">user_id</span> <span class="o">=</span> <span class="n">coalesce</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">publication_id</span><span class="p">,</span> <span class="n">secrets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;user_id&quot;</span><span class="p">))</span>
+    <span class="n">token</span> <span class="o">=</span> <span class="n">secrets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span>
+    <span class="n">user_id</span> <span class="o">=</span> <span class="n">coalesce</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">publication_id</span><span class="p">,</span> <span class="n">secrets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"user_id"</span><span class="p">))</span>
     <span class="n">payload</span> <span class="o">=</span> <span class="n">_build_payload</span><span class="p">(</span><span class="n">article</span><span class="p">,</span> <span class="n">canonical_url</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
-    <span class="n">endpoint</span> <span class="o">=</span> <span class="n">_endpoint</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">secrets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;user_id&quot;</span><span class="p">))</span>
+    <span class="n">endpoint</span> <span class="o">=</span> <span class="n">_endpoint</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">secrets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"user_id"</span><span class="p">))</span>
     <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Bearer </span><span class="si">{</span><span class="n">token</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">token</span> <span class="k">else</span> <span class="s2">&quot;Bearer &lt;MEDIUM_TOKEN&gt;&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Accept&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
+        <span class="s2">"Authorization"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Bearer </span><span class="si">{</span><span class="n">token</span><span class="si">}</span><span class="s2">"</span> <span class="k">if</span> <span class="n">token</span> <span class="k">else</span> <span class="s2">"Bearer &lt;MEDIUM_TOKEN&gt;"</span><span class="p">,</span>
+        <span class="s2">"Content-Type"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
+        <span class="s2">"Accept"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
     <span class="p">}</span>
 
     <span class="c1"># ----------------------------------------------------------------- #</span>
@@ -188,30 +188,30 @@
     <span class="c1"># import httpx                                                       #</span>
     <span class="c1"># async with httpx.AsyncClient(timeout=30) as client:               #</span>
     <span class="c1">#     if not user_id and not config.publication_id:                 #</span>
-    <span class="c1">#         me = await client.get(f&quot;{_API_ROOT}/me&quot;, headers=headers) #</span>
+    <span class="c1">#         me = await client.get(f"{_API_ROOT}/me", headers=headers) #</span>
     <span class="c1">#         me.raise_for_status()                                     #</span>
-    <span class="c1">#         endpoint = _endpoint(config, me.json()[&quot;data&quot;][&quot;id&quot;])     #</span>
+    <span class="c1">#         endpoint = _endpoint(config, me.json()["data"]["id"])     #</span>
     <span class="c1">#     resp = await client.post(endpoint, json=payload, headers=headers)</span>
     <span class="c1">#     resp.raise_for_status()                                       #</span>
-    <span class="c1">#     data = resp.json()[&quot;data&quot;]                                    #</span>
+    <span class="c1">#     data = resp.json()["data"]                                    #</span>
     <span class="c1">#     return PublishResult.success(                                 #</span>
-    <span class="c1">#         MEDIUM, url=data[&quot;url&quot;], status=data[&quot;publishStatus&quot;],    #</span>
-    <span class="c1">#         canonical_url=canonical_url, detail={&quot;id&quot;: data[&quot;id&quot;]},   #</span>
+    <span class="c1">#         MEDIUM, url=data["url"], status=data["publishStatus"],    #</span>
+    <span class="c1">#         canonical_url=canonical_url, detail={"id": data["id"]},   #</span>
     <span class="c1">#     )                                                             #</span>
     <span class="c1"># ----------------------------------------------------------------- #</span>
 
-    <span class="n">status</span> <span class="o">=</span> <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;publishStatus&quot;</span><span class="p">]</span>
-    <span class="n">_log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;[medium] STUB: would POST </span><span class="si">%s</span><span class="s2"> (</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">payload</span><span class="p">[</span><span class="s2">"publishStatus"</span><span class="p">]</span>
+    <span class="n">_log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"[medium] STUB: would POST </span><span class="si">%s</span><span class="s2"> (</span><span class="si">%s</span><span class="s2">)"</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">PublishResult</span><span class="o">.</span><span class="n">success</span><span class="p">(</span>
         <span class="n">MEDIUM</span><span class="p">,</span>
         <span class="n">url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="p">,</span>
         <span class="n">canonical_url</span><span class="o">=</span><span class="n">canonical_url</span><span class="p">,</span>
         <span class="n">detail</span><span class="o">=</span><span class="p">{</span>
-            <span class="s2">&quot;stub&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-            <span class="s2">&quot;endpoint&quot;</span><span class="p">:</span> <span class="n">endpoint</span><span class="p">,</span>
-            <span class="s2">&quot;credentialed&quot;</span><span class="p">:</span> <span class="nb">bool</span><span class="p">(</span><span class="n">token</span><span class="p">),</span>
-            <span class="s2">&quot;payload&quot;</span><span class="p">:</span> <span class="n">payload</span><span class="p">,</span>
+            <span class="s2">"stub"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">"endpoint"</span><span class="p">:</span> <span class="n">endpoint</span><span class="p">,</span>
+            <span class="s2">"credentialed"</span><span class="p">:</span> <span class="nb">bool</span><span class="p">(</span><span class="n">token</span><span class="p">),</span>
+            <span class="s2">"payload"</span><span class="p">:</span> <span class="n">payload</span><span class="p">,</span>
         <span class="p">},</span>
     <span class="p">)</span></div>
 
