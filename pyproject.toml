@@ -40,6 +40,7 @@ dependencies = [
     "cw>=0.1.1,<0.2",
     "httpx",
     "python-dotenv",
+    "pyyaml",
 ]
 
 
@@ -49,9 +50,12 @@ Repository = "https://github.com/thorwhalen/article"
 Documentation = "https://thorwhalen.github.io/article"
 
 [project.optional-dependencies]
-# Substack adapter (Phase 1) drives a real browser via Playwright.
+# Substack adapter (Phase 1): unpublished drafts via the unofficial python-substack
+# client. Pinned to a minor version: it wraps undocumented Substack interfaces.
 substack = [
-    "playwright",
+    "python-substack>=0.10,<0.11",
+    "markdown-it-py>=3",
+    "mdit-py-plugins>=0.4",
 ]
 # Shell tab-completion for the CLI.
 completion = [
@@ -61,7 +65,7 @@ dev = [
     "pytest>=7.0",
     "pytest-cov>=4.0",
     "ruff>=0.1.0",
-    "playwright",
+    "python-substack>=0.10,<0.11",
 ]
 docs = [
     "sphinx>=6.0",
@@ -128,6 +132,10 @@ test = []
 post_test = []
 lint = []
 format = []
+
+[tool.wads.ci.install]
+# The Substack tests convert real Markdown with python-substack (the client is mocked).
+extras = "substack"
 
 [tool.wads.ci.env]
 required_envvars = []

@@ -2,6 +2,15 @@
 
 AI-assisted change log (major changes only).
 
+## 2026-10-08 — Real Substack drafts; Medium becomes an Import-a-story step
+
+- **Substack** (`adapters/substack.py`): the stub is replaced by real draft creation through the unofficial [python-substack](https://github.com/ma2za/python-substack) client (new `substack` extra, pinned `>=0.10,<0.11`). Footnotes, image captions, LaTeX and local image uploads survive. **Drafts only**: there is no publish path, `SubstackConfig.publish_as_draft` now defaults to `true`, and `false` is refused. A preflight refuses, with every case listed, what the converter would drop silently: tables (or `tables="code"` / a callable renderer), images sharing a paragraph with text, missing local images, raw HTML blocks.
+- **Markdown input** (`md_source.py`): `load_article` reads a plain `.md` file: title from front matter or the first `# H1`, slug derived from the title, `assets_dir` set to the file's directory.
+- **CLI**: new `draft-substack` command, with `--dry-run` (no credentials) and `--tables`.
+- **Medium**: the API is closed to new integrations, so the adapter now sends nothing and returns a new `PublishState.MANUAL` result with the *Import a story* step.
+- **Settings**: `SUBSTACK_COOKIES` / `SUBSTACK_COOKIES_PATH` added; the Playwright session and pacing settings are gone.
+- **Tests**: offline tests against a fake client that fails on any publish call; a live smoke test, skipped without credentials. The pipeline tests now run the real Substack adapter with the fake client, and the CLI grammar test lists the new command.
+
 ## 2026-09-04 — CLI dispatch moves from argh to cw
 
 - **CLI** (`__main__.py`): replaced `argh` (LGPL) with

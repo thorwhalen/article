@@ -8,7 +8,7 @@
   "cover_image_url": "https://example.com/cover.png",
   "description": "How to author an article once and syndicate it with correct canonical URLs.",
   "platforms": {
-    "substack": { "publish_as_draft": false, "send_email": false },
+    "substack": { "tables": "error" },
     "medium": { "publish_as_draft": true, "notify_followers": false },
     "dev_to": { "publish_as_draft": true, "tags": ["python", "automation"] },
     "hashnode": { "publish_as_draft": true, "subtitle": "An SSOT approach" }
