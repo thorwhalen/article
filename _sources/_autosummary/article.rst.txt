@@ -1,0 +1,65 @@
+﻿article
+=======
+
+.. automodule:: article
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      load_article
+      load_settings
+      default_state_store
+      register_adapter
+      get_adapter
+      available_adapters
+      is_registered
+      build_engine
+      publish_primary
+      syndicate_secondary
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      Article
+      PlatformConfigs
+      SubstackConfig
+      MediumConfig
+      DevToConfig
+      HashnodeConfig
+      Settings
+      PublishResult
+      PublishState
+      RunSummary
+      Phase
+      JsonStateStore
+      PublishAdapter
+      PipelineEngine
+   
+   .. rubric:: Exceptions
+
+   .. autosummary::
+   
+      ArticleError
+      ArticleValidationError
+      ConfigError
+      AdapterError
+      UnknownPlatformError
+      CanonicalUrlMissing
+   
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   adapters
+   base
+   config
+   engine
+   md_source
+   registry
+   state
+   util

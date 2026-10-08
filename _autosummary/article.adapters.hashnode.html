@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en" data-accent-color="red" data-content_root="../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>article.adapters.hashnode - article</title><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="article.adapters.medium" href="article.adapters.medium.html" /><link rel="prev" title="article.adapters.dev_to" href="article.adapters.dev_to.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d88b86f9" />
+    <link rel="stylesheet" type="text/css" href="../_static/shibuya.css?v=2ceb65ce" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link media="print" rel="stylesheet" type="text/css" href="../_static/print.css?v=20ff2c19" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    
+  <meta property="og:type" content="website"/><meta property="og:title" content="article.adapters.hashnode"/>
+    <meta name="twitter:card" content="summary"/>
+  
+<link rel="alternate" type="text/markdown" href="article.adapters.hashnode.html.md">
+<link rel="describedby" href="../llms.txt" type="text/markdown">
+</head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../index.html">
+      
+      
+      <strong>article</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials">
+  <a href="https://github.com/thorwhalen/article" aria-label="GitHub">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </a></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2"></span>
+          <span class="hamburger_3"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="article.html">article</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="article.adapters.html">article.adapters</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="article.adapters.dev_to.html">article.adapters.dev_to</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">article.adapters.hashnode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="article.adapters.medium.html">article.adapters.medium</a></li>
+<li class="toctree-l4"><a class="reference internal" href="article.adapters.substack.html">article.adapters.substack</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="article.base.html">article.base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="article.config.html">article.config</a></li>
+<li class="toctree-l3"><a class="reference internal" href="article.engine.html">article.engine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="article.md_source.html">article.md_source</a></li>
+<li class="toctree-l3"><a class="reference internal" href="article.registry.html">article.registry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="article.state.html">article.state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="article.util.html">article.util</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#article.adapters.hashnode.publish"><code class="docutils literal notranslate"><span class="pre">publish()</span></code></a></li>
+</ul>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../index.html"><span itemprop="name">article</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../api.html"><span itemprop="name">API reference</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="2" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="article.html"><span itemprop="name">article</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="3" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="article.adapters.html"><span itemprop="name">article.adapters</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="4" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">article.adapters.hashnode</strong>
+        <meta itemprop="position" content="5" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="relative min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+  <article class="yue dark-code" role="main">
+          <section id="module-article.adapters.hashnode">
+<span id="article-adapters-hashnode"></span><h1>article.adapters.hashnode<a class="headerlink" href="#module-article.adapters.hashnode" title="Link to this heading">#</a></h1>
+<p>Hashnode adapter — Phase 2 syndication via the Hashnode GraphQL API (<code class="docutils literal notranslate"><span class="pre">httpx</span></code>).</p>
+<p>Endpoint (verified against Hashnode’s generated <code class="docutils literal notranslate"><span class="pre">schema.graphql</span></code>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">POST</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">gql</span><span class="o">.</span><span class="n">hashnode</span><span class="o">.</span><span class="n">com</span>
+</span></pre></div>
+</div>
+<p>Auth (a common gotcha):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">Authorization</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">PersonalAccessToken</span><span class="o">&gt;</span>     <span class="c1"># RAW token, NO "Bearer" prefix</span>
+</span></pre></div>
+</div>
+<p>Canonical SEO: the <strong>``originalArticleURL``</strong> field of the input carries the
+Substack SSOT URL.</p>
+<p>Draft vs publish (encoded here — verified, and it <em>drifts</em>):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">publishPost(input:</span> <span class="pre">PublishPostInput!)</span></code> <strong>always publishes live</strong> — there
+is no draft flag on it.</p></li>
+<li><p>To create a <strong>draft</strong>, use the <em>separate</em> <code class="docutils literal notranslate"><span class="pre">createDraft(input:</span> <span class="pre">CreateDraftInput!)</span></code>
+mutation (its input mirrors <code class="docutils literal notranslate"><span class="pre">PublishPostInput</span></code>).</p></li>
+</ul>
+<p>So this adapter picks the mutation based on <code class="docutils literal notranslate"><span class="pre">config.publish_as_draft</span></code>. The
+older <code class="docutils literal notranslate"><span class="pre">createPublicationStory</span></code> mutation and <code class="docutils literal notranslate"><span class="pre">api.hashnode.com</span></code> host are
+removed — don’t use them.</p>
+<p class="rubric">Functions</p>
+<div class="table-wrapper autosummary longtable docutils container">
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#article.adapters.hashnode.publish" title="article.adapters.hashnode.publish"><code class="xref py py-obj docutils literal notranslate"><span class="pre">publish</span></code></a>(article, *, canonical_url, config, ...)</p></td>
+<td><p>Syndicate <code class="docutils literal notranslate"><span class="pre">article</span></code> to Hashnode with <code class="docutils literal notranslate"><span class="pre">originalArticleURL</span></code> set to the SSOT.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="article.adapters.hashnode.publish">
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">article.adapters.hashnode.</span></span><span class="sig-name descname"><span class="pre">publish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">article</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">canonical_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">secrets</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/article/adapters/hashnode.html#publish"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.adapters.hashnode.publish" title="Link to this definition">#</a></dt>
+<dd><p>Syndicate <code class="docutils literal notranslate"><span class="pre">article</span></code> to Hashnode with <code class="docutils literal notranslate"><span class="pre">originalArticleURL</span></code> set to the SSOT.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="article.base.html#article.base.PublishResult" title="article.base.PublishResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">PublishResult</span></code></a></span></p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+</span><span data-line="2"><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">article.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">Article</span><span class="p">,</span> <span class="n">HashnodeConfig</span>
+</span><span data-line="3"><span class="gp">&gt;&gt;&gt; </span><span class="n">art</span> <span class="o">=</span> <span class="n">Article</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"T"</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="s2">"t"</span><span class="p">,</span> <span class="n">content_markdown</span><span class="o">=</span><span class="s2">"x"</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">"Python"</span><span class="p">])</span>
+</span><span data-line="4"><span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">publish</span><span class="p">(</span>
+</span><span data-line="5"><span class="gp">... </span>    <span class="n">art</span><span class="p">,</span> <span class="n">canonical_url</span><span class="o">=</span><span class="s2">"https://me.substack.com/p/t"</span><span class="p">,</span>
+</span><span data-line="6"><span class="gp">... </span>    <span class="n">config</span><span class="o">=</span><span class="n">HashnodeConfig</span><span class="p">(</span><span class="n">publish_as_draft</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+</span><span data-line="7"><span class="gp">... </span>    <span class="n">secrets</span><span class="o">=</span><span class="p">{</span><span class="s2">"token"</span><span class="p">:</span> <span class="s2">"pat"</span><span class="p">,</span> <span class="s2">"publication_id"</span><span class="p">:</span> <span class="s2">"pub123"</span><span class="p">},</span>
+</span><span data-line="8"><span class="gp">... </span><span class="p">))</span>
+</span><span data-line="9"><span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="o">.</span><span class="n">detail</span><span class="p">[</span><span class="s2">"variables"</span><span class="p">][</span><span class="s2">"input"</span><span class="p">][</span><span class="s2">"originalArticleURL"</span><span class="p">]</span>
+</span><span data-line="10"><span class="go">'https://me.substack.com/p/t'</span>
+</span><span data-line="11"><span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="o">.</span><span class="n">detail</span><span class="p">[</span><span class="s2">"mutation"</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"mutation CreateDraft"</span><span class="p">)</span>  <span class="c1"># draft path</span>
+</span><span data-line="12"><span class="go">True</span>
+</span><span data-line="13"><span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="o">.</span><span class="n">detail</span><span class="p">[</span><span class="s2">"variables"</span><span class="p">][</span><span class="s2">"input"</span><span class="p">][</span><span class="s2">"tags"</span><span class="p">]</span>
+</span><span data-line="14"><span class="go">[{'name': 'Python', 'slug': 'python'}]</span>
+</span></pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"><div class="navigation-prev">
+    <a href="article.adapters.dev_to.html">
+      <i class="i-lucide chevron-left"></i>
+      <div class="page-info">
+        <span>Previous</span><div class="title">article.adapters.dev_to</div></div>
+    </a>
+  </div><div class="navigation-next">
+    <a href="article.adapters.medium.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">article.adapters.medium</div>
+      </div>
+      <i class="i-lucide chevron-right"></i>
+    </a>
+  </div></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright">
+  <p>
+    Made with
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials">
+  <a href="https://github.com/thorwhalen/article" aria-label="GitHub">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </a></div>
+    </div>
+  </div>
+</footer>
+      <script src="../_static/documentation_options.js?v=360bc84d"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=fd10adb8"></script>
+      <script src="../_static/shibuya.js?v=50760d75"></script></body>
+</html>

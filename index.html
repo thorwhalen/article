@@ -1,257 +1,407 @@
-
-
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" data-content_root="./">
+<html lang="en" data-accent-color="red" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Welcome to article’s documentation! &mdash; article 0.1.2 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
-      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>article</title><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="API reference" href="api.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d88b86f9" />
+    <link rel="stylesheet" type="text/css" href="_static/shibuya.css?v=2ceb65ce" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link media="print" rel="stylesheet" type="text/css" href="_static/print.css?v=20ff2c19" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    
+  <meta property="og:type" content="website"/><meta property="og:title" content="article"/>
+    <meta name="twitter:card" content="summary"/>
   
-      <script src="_static/jquery.js?v=5d32c60e"></script>
-      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=92734c54"></script>
+<link rel="alternate" type="text/markdown" href="index.html.md">
+<link rel="describedby" href="llms.txt" type="text/markdown">
+</head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="#">
+      
+      
+      <strong>article</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials">
+  <a href="https://github.com/thorwhalen/article" aria-label="GitHub">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </a></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2"></span>
+          <span class="hamburger_3"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/article.html">article</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/article.adapters.html">article.adapters</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/article.adapters.dev_to.html">article.adapters.dev_to</a></li>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/article.adapters.hashnode.html">article.adapters.hashnode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/article.adapters.medium.html">article.adapters.medium</a></li>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/article.adapters.substack.html">article.adapters.substack</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/article.base.html">article.base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/article.config.html">article.config</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/article.engine.html">article.engine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/article.md_source.html">article.md_source</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/article.registry.html">article.registry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/article.state.html">article.state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/article.util.html">article.util</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#markdown-to-a-substack-draft">Markdown to a Substack draft</a><ul>
+<li><a class="reference internal" href="#substack-credentials">Substack credentials</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#the-single-source-of-truth">The single source of truth</a></li>
+<li><a class="reference internal" href="#two-command-flow">Two-command flow</a></li>
+<li><a class="reference internal" href="#the-article-json">The article JSON</a></li>
+<li><a class="reference internal" href="#configuration">Configuration</a></li>
+<li><a class="reference internal" href="#using-it-from-python">Using it from Python</a></li>
+<li><a class="reference internal" href="#adding-a-platform">Adding a platform</a></li>
+<li><a class="reference internal" href="#architecture">Architecture</a></li>
+</ul>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="#"><span itemprop="name">article</span></a>
+        <meta itemprop="position" content="1" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="relative min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+  <article class="yue dark-code" role="main">
+          <!-- generated by epythet -->
+<section id="article">
+<h1>article<a class="headerlink" href="#article" title="Link to this heading">#</a></h1>
+<p>Tools to semi-automate the publication of articles.</p>
+<p>Write an article <strong>once</strong> as a JSON file. Publish it to a <strong>primary</strong> platform
+(Substack), then <strong>syndicate</strong> it to secondary platforms (Medium, Dev.to,
+Hashnode) — each pointing its canonical URL back to the primary, so you get
+cross-platform reach without an SEO duplicate-content penalty.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">pip<span class="w"> </span>install<span class="w"> </span><span class="s1">'article[substack]'</span>
+</span><span data-line="2">article<span class="w"> </span>draft-substack<span class="w"> </span>essay.md<span class="w">            </span><span class="c1"># an UNPUBLISHED Substack draft</span>
+</span></pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">draft-substack</span></code> turns a Markdown file into a Substack draft: <code class="docutils literal notranslate"><span class="pre">[^n]</span></code> footnotes, <code class="docutils literal notranslate"><span class="pre">![alt](src</span> <span class="pre">&quot;caption&quot;)</span></code> captions, <code class="docutils literal notranslate"><span class="pre">$...$</span></code> LaTeX and local images (uploaded to Substack) all survive. <strong>It never publishes</strong>: you review the draft in the Substack editor and press Publish there. Add <code class="docutils literal notranslate"><span class="pre">--dry-run</span></code> to check and convert without credentials or network.</p>
+<section id="markdown-to-a-substack-draft">
+<h2>Markdown to a Substack draft<a class="headerlink" href="#markdown-to-a-substack-draft" title="Link to this heading">#</a></h2>
+<p>The essay is a plain <code class="docutils literal notranslate"><span class="pre">.md</span></code> file. The title is a <code class="docutils literal notranslate"><span class="pre">title:</span></code> in front matter, or else the <code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">Heading</span></code> (removed from the body, since Substack shows the title itself) when there is exactly one, or when the first of several opens the file; the slug is derived from the title unless front matter sets <code class="docutils literal notranslate"><span class="pre">slug:</span></code>. Front matter can also set <code class="docutils literal notranslate"><span class="pre">subtitle</span></code>, <code class="docutils literal notranslate"><span class="pre">tags</span></code> and <code class="docutils literal notranslate"><span class="pre">description</span></code>:</p>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span data-line="1">---
+</span><span data-line="2">subtitle: Why everyone agrees and nobody agrees
+</span><span data-line="3"><span class="gu">tags: [agile, ai]</span>
+</span><span data-line="4"><span class="gu">---</span>
+</span><span data-line="5"><span class="gh"># The Agile Religion</span>
+</span><span data-line="6">
+</span><span data-line="7">A claim.[^1]
+</span><span data-line="8">
+</span><span data-line="9">![<span class="nt">The tower of Babel</span>](<span class="na">img/babel.jpg "Bruegel, The Tower of Babel (1563</span>)")
+</span><span data-line="10">
+</span><span data-line="11">[<span class="nl">^1</span>]: <span class="na">The footnote text.</span>
+</span></pre></div>
+</div>
+<p>Image paths resolve against the Markdown file’s directory. Before anything is uploaded, the command refuses (listing every case, with the line) whatever Substack would silently lose:</p>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Construct</p></th>
+<th class="head"><p>Why</p></th>
+<th class="head"><p>What to do</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>A table</p></td>
+<td><p>Substack has no table node</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--tables</span> <span class="pre">code</span></code> keeps it as a monospace code block; or render it to an image (in Python, pass <code class="docutils literal notranslate"><span class="pre">tables=</span></code> a function returning the image Markdown)</p></td>
+</tr>
+<tr class="row-odd"><td><p>An image in a paragraph with text</p></td>
+<td><p>the converter keeps only the alt text</p></td>
+<td><p>give the image its own paragraph; caption goes in the title slot</p></td>
+</tr>
+<tr class="row-even"><td><p>A missing local image</p></td>
+<td><p>nothing to upload</p></td>
+<td><p>fix the path</p></td>
+</tr>
+<tr class="row-odd"><td><p>A raw HTML block</p></td>
+<td><p>the converter drops it</p></td>
+<td><p>rewrite it in Markdown</p></td>
+</tr>
+<tr class="row-even"><td><p>A <code class="docutils literal notranslate"><span class="pre">data:</span></code> image</p></td>
+<td><p>cannot be uploaded</p></td>
+<td><p>save it as a file</p></td>
+</tr>
+<tr class="row-odd"><td><p>A footnote that is never referenced, a <code class="docutils literal notranslate"><span class="pre">[^x]</span></code> with no definition, or a reference inside a footnote</p></td>
+<td><p>dropped, left as text, or misnumbered</p></td>
+<td><p>fix the reference</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">article<span class="w"> </span>draft-substack<span class="w"> </span>essay.md<span class="w"> </span>--dry-run<span class="w">          </span><span class="c1"># what survives, no credentials needed</span>
+</span><span data-line="2">article<span class="w"> </span>draft-substack<span class="w"> </span>essay.md<span class="w">                    </span><span class="c1"># create the draft; prints its edit link</span>
+</span><span data-line="3">article<span class="w"> </span>draft-substack<span class="w"> </span>essay.md<span class="w"> </span>--tables<span class="w"> </span>code<span class="w">      </span><span class="c1"># keep tables as code blocks</span>
+</span></pre></div>
+</div>
+<p>The draft’s future public URL (<code class="docutils literal notranslate"><span class="pre">&lt;publication&gt;/p/&lt;slug&gt;</span></code>) is recorded as the canonical URL, so <code class="docutils literal notranslate"><span class="pre">syndicate-secondary</span></code> can point the other platforms at it.</p>
+<section id="substack-credentials">
+<h3>Substack credentials<a class="headerlink" href="#substack-credentials" title="Link to this heading">#</a></h3>
+<p>Substack has no official write API; this uses the unofficial <a class="reference external" href="https://github.com/ma2za/python-substack">python-substack</a> client, which talks to undocumented endpoints that can change. Put one of these in <code class="docutils literal notranslate"><span class="pre">.env</span></code> (never commit it):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SUBSTACK_COOKIES</span></code>: the cookie header from a logged-in browser session (developer tools, Network tab, any <code class="docutils literal notranslate"><span class="pre">substack.com</span></code> request, the <code class="docutils literal notranslate"><span class="pre">cookie</span></code> request header). The most reliable route, since sign-in by email link or captcha cannot be scripted.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SUBSTACK_COOKIES_PATH</span></code>: a JSON file of cookies (<code class="docutils literal notranslate"><span class="pre">{&quot;substack.sid&quot;:</span> <span class="pre">&quot;...&quot;,</span> <span class="pre">...}</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SUBSTACK_EMAIL</span></code> and <code class="docutils literal notranslate"><span class="pre">SUBSTACK_PASSWORD</span></code>, for accounts with a password.</p></li>
+</ul>
+<p>Set <code class="docutils literal notranslate"><span class="pre">SUBSTACK_PUBLICATION_URL</span></code> (e.g. <code class="docutils literal notranslate"><span class="pre">https://you.substack.com</span></code>) if your account has more than one publication. The live smoke test (<code class="docutils literal notranslate"><span class="pre">tests/test_substack_live.py</span></code>) runs only when these are set; it creates one draft and deletes it.</p>
+</section>
+</section>
+<section id="the-single-source-of-truth">
+<h2>The single source of truth<a class="headerlink" href="#the-single-source-of-truth" title="Link to this heading">#</a></h2>
+<p>The Substack public URL captured in phase 1 is the SSOT. It is stored
+(keyed by article slug) and injected as <code class="docutils literal notranslate"><span class="pre">canonical_url</span></code> into every secondary
+platform in phase 2, so each emits <code class="docutils literal notranslate"><span class="pre">&lt;link</span> <span class="pre">rel=&quot;canonical&quot;</span> <span class="pre">href=&quot;…&quot;&gt;</span></code> pointing
+back at the original.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1">author.json ──► publish-primary ──► Substack ──► live URL ─┐
+</span><span data-line="2">                                                           │ stored as canonical_url
+</span><span data-line="3">                                                           ▼  (pipeline_state.json, by slug)
+</span><span data-line="4">                          syndicate-secondary ──► Medium / Dev.to / Hashnode
+</span><span data-line="5">                                                  each canonical → Substack URL
+</span></pre></div>
+</div>
+<p>The two phases are deliberately separate commands so you can syndicate later
+(e.g. <code class="docutils literal notranslate"><span class="pre">+3</span> <span class="pre">days</span></code>) on your own schedule. Phase 1 creates a Substack <strong>draft</strong>;
+publish it in the Substack editor before syndicating.</p>
+</section>
+<section id="two-command-flow">
+<h2>Two-command flow<a class="headerlink" href="#two-command-flow" title="Link to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># 1. Author once, then publish to the primary (records the canonical URL):</span>
+</span><span data-line="2">python<span class="w"> </span>-m<span class="w"> </span>article<span class="w"> </span>publish-primary<span class="w"> </span>article.json
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># 2. Later — syndicate everywhere, injecting the canonical URL for SEO:</span>
+</span><span data-line="5">python<span class="w"> </span>-m<span class="w"> </span>article<span class="w"> </span>syndicate-secondary<span class="w"> </span>article.json
+</span><span data-line="6">
+</span><span data-line="7"><span class="c1"># Subset / machine-readable output:</span>
+</span><span data-line="8">python<span class="w"> </span>-m<span class="w"> </span>article<span class="w"> </span>syndicate-secondary<span class="w"> </span>article.json<span class="w"> </span>--platforms<span class="w"> </span>medium,dev_to<span class="w"> </span>--json-out
+</span></pre></div>
+</div>
+<p>After <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span></code>, the <code class="docutils literal notranslate"><span class="pre">article</span></code> console script is equivalent
+(<code class="docutils literal notranslate"><span class="pre">article</span> <span class="pre">publish-primary</span> <span class="pre">article.json</span></code>).</p>
+</section>
+<section id="the-article-json">
+<h2>The article JSON<a class="headerlink" href="#the-article-json" title="Link to this heading">#</a></h2>
+<p>Instead of a Markdown file, an article can be one JSON file. One standardized file is the single source of truth for content <strong>and</strong> which
+platforms to publish to — a platform is published only if it appears under
+<code class="docutils literal notranslate"><span class="pre">platforms</span></code> (see <a class="reference internal" href="#examples/article.example.json"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">examples/article.example.json</span></code></span></a>):</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="p">{</span>
+</span><span data-line="2"><span class="w">  </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Designing an SSOT Publishing Pipeline"</span><span class="p">,</span>
+</span><span data-line="3"><span class="w">  </span><span class="nt">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ssot-publishing-pipeline"</span><span class="p">,</span>
+</span><span data-line="4"><span class="w">  </span><span class="nt">"content_markdown"</span><span class="p">:</span><span class="w"> </span><span class="s2">"# Designing an SSOT Publishing Pipeline\n\n…"</span><span class="p">,</span>
+</span><span data-line="5"><span class="w">  </span><span class="nt">"tags"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"python"</span><span class="p">,</span><span class="w"> </span><span class="s2">"automation"</span><span class="p">,</span><span class="w"> </span><span class="s2">"seo"</span><span class="p">],</span>
+</span><span data-line="6"><span class="w">  </span><span class="nt">"platforms"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span data-line="7"><span class="w">    </span><span class="nt">"substack"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"tables"</span><span class="p">:</span><span class="w"> </span><span class="s2">"error"</span><span class="w"> </span><span class="p">},</span>
+</span><span data-line="8"><span class="w">    </span><span class="nt">"medium"</span><span class="p">:</span><span class="w">   </span><span class="p">{</span><span class="w"> </span><span class="nt">"publish_as_draft"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">},</span>
+</span><span data-line="9"><span class="w">    </span><span class="nt">"dev_to"</span><span class="p">:</span><span class="w">   </span><span class="p">{</span><span class="w"> </span><span class="nt">"publish_as_draft"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">},</span>
+</span><span data-line="10"><span class="w">    </span><span class="nt">"hashnode"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"publish_as_draft"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">}</span>
+</span><span data-line="11"><span class="w">  </span><span class="p">}</span>
+</span><span data-line="12"><span class="p">}</span>
+</span></pre></div>
+</div>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading">#</a></h2>
+<p>Secrets and settings load from <code class="docutils literal notranslate"><span class="pre">.env</span></code> (see
+<a class="reference internal" href="#.env.example"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">.env.example</span></code></span></a>) — copy it and fill in what you use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">cp<span class="w"> </span>.env.example<span class="w"> </span>.env
+</span></pre></div>
+</div>
+<p>Every platform is optional; omit a platform’s secrets (or its <code class="docutils literal notranslate"><span class="pre">platforms</span></code>
+entry) to skip it.</p>
+</section>
+<section id="using-it-from-python">
+<h2>Using it from Python<a class="headerlink" href="#using-it-from-python" title="Link to this heading">#</a></h2>
+<p>The CLI is a thin wrapper over the same functions, so everything is callable
+programmatically:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">article</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_article</span><span class="p">,</span> <span class="n">publish_primary</span><span class="p">,</span> <span class="n">syndicate_secondary</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="n">art</span> <span class="o">=</span> <span class="n">load_article</span><span class="p">(</span><span class="s2">"article.json"</span><span class="p">)</span>
+</span><span data-line="5"><span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">publish_primary</span><span class="p">(</span><span class="n">art</span><span class="p">))</span>  <span class="c1"># phase 1 → records canonical_url</span>
+</span><span data-line="6"><span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">syndicate_secondary</span><span class="p">(</span><span class="n">art</span><span class="p">))</span>  <span class="c1"># phase 2 → canonical SEO everywhere</span>
+</span></pre></div>
+</div>
+</section>
+<section id="adding-a-platform">
+<h2>Adding a platform<a class="headerlink" href="#adding-a-platform" title="Link to this heading">#</a></h2>
+<p>Adapters are registered in an open-closed registry. To add a platform, write
+one async function satisfying the <code class="docutils literal notranslate"><span class="pre">PublishAdapter</span></code> protocol and register it —
+no core changes:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">article</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_adapter</span><span class="p">,</span> <span class="n">PublishResult</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">article.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">require_canonical_url</span>
+</span><span data-line="3">
+</span><span data-line="4">
+</span><span data-line="5"><span class="nd">@register_adapter</span><span class="p">(</span><span class="s2">"my_platform"</span><span class="p">)</span>
+</span><span data-line="6"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">publish</span><span class="p">(</span><span class="n">article</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">canonical_url</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">secrets</span><span class="p">):</span>
+</span><span data-line="7">    <span class="n">require_canonical_url</span><span class="p">(</span><span class="s2">"my_platform"</span><span class="p">,</span> <span class="n">canonical_url</span><span class="p">)</span>  <span class="c1"># SSOT is never optional</span>
+</span><span data-line="8">    <span class="c1"># … call the platform's API, injecting canonical_url …</span>
+</span><span data-line="9">    <span class="k">return</span> <span class="n">PublishResult</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="s2">"my_platform"</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s2">"…"</span><span class="p">,</span> <span class="n">canonical_url</span><span class="o">=</span><span class="n">canonical_url</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="architecture">
+<h2>Architecture<a class="headerlink" href="#architecture" title="Link to this heading">#</a></h2>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Layer</p></th>
+<th class="head"><p>Module</p></th>
+<th class="head"><p>Responsibility</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Schema + config</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">article/config.py</span></code></p></td>
+<td><p>Pydantic <code class="docutils literal notranslate"><span class="pre">Article</span></code> model, <code class="docutils literal notranslate"><span class="pre">.env</span></code> <code class="docutils literal notranslate"><span class="pre">Settings</span></code>, <code class="docutils literal notranslate"><span class="pre">load_article</span></code> (friendly errors)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Vocabulary</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">article/base.py</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">PublishResult</span></code>, <code class="docutils literal notranslate"><span class="pre">RunSummary</span></code>, platform names, exceptions</p></td>
+</tr>
+<tr class="row-even"><td><p>State store</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">article/state.py</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">MutableMapping</span></code> facade over JSON, keyed by slug (the SSOT)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Registry</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">article/registry.py</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">PublishAdapter</span></code> protocol + open-closed registry</p></td>
+</tr>
+<tr class="row-even"><td><p>Engine</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">article/engine.py</span></code></p></td>
+<td><p>Orchestrates phase 1 → phase 2; canonical handoff; graceful errors</p></td>
+</tr>
+<tr class="row-odd"><td><p>Adapters</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">article/adapters/*</span></code></p></td>
+<td><p>One module per platform (config + secrets injected)</p></td>
+</tr>
+<tr class="row-even"><td><p>CLI</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">article/__main__.py</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cw</span></code> dispatch of the two commands</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<div><p><strong>Status, per platform:</strong></p>
+<ul class="simple">
+<li><p><strong>Substack</strong>: real. Creates unpublished drafts through python-substack; never publishes.</p></li>
+<li><p><strong>Medium</strong>: honest manual step. Its API is closed to new integrations, so the adapter sends nothing and reports a <code class="docutils literal notranslate"><span class="pre">[todo]</span></code> result: open Medium’s <em>Import a story</em> page (https://medium.com/p/import) and paste the published Substack URL, which sets the canonical link.</p></li>
+<li><p><strong>Dev.to, Hashnode</strong>: still stubs; they build the payload (with the canonical field) but make no network call.</p></li>
+</ul>
+</div></blockquote>
+<p class="epythet-aggregates">This documentation as a single file: <a href="article.md">article.md</a> (Markdown, for agents).</p>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+</section>
+
+<p class="epythet-provenance" style="font-size:.8em;opacity:.65;margin-top:2.5em;text-align:right">built 2026-10-08 06:54 UTC from <a href="https://github.com/thorwhalen/article/commit/4697f04a278901473291adbd6f875ef939b9e7e1">4697f04</a> (main) · article 0.1.3 · <a href="about-this-build.html">about this build</a></p>
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"><div class="navigation-next">
+    <a href="api.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">API reference</div>
+      </div>
+      <i class="i-lucide chevron-right"></i>
+    </a>
+  </div></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright">
+  <p>
+    Made with
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials">
+  <a href="https://github.com/thorwhalen/article" aria-label="GitHub">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </a></div>
+    </div>
+  </div>
+</footer>
+      <script src="_static/documentation_options.js?v=360bc84d"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
-      <script src="_static/toggleprompt.js?v=d7ede5d2"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
-      <script src="_static/copybutton.js?v=f281be69"></script>
-    <script src="_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="article" href="module_docs/article.html" /> 
-</head>
-
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
-
-          
-          
-          <a href="#" class="icon icon-home">
-            article
-          </a>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/article.html">article</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/article/__main__.html">article.__main__</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/article/adapters.html">article.adapters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/article/adapters/dev_to.html">article.adapters.dev_to</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/article/adapters/hashnode.html">article.adapters.hashnode</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/article/adapters/medium.html">article.adapters.medium</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/article/adapters/substack.html">article.adapters.substack</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/article/base.html">article.base</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/article/config.html">article.config</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/article/engine.html">article.engine</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/article/registry.html">article.registry</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/article/state.html">article.state</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/article/util.html">article.util</a></li>
-</ul>
-
-        </div>
-      </div>
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">article</a>
-      </nav>
-
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
-  <ul class="wy-breadcrumbs">
-      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Welcome to article’s documentation!</li>
-      <li class="wy-breadcrumbs-aside">
-            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
-      </li>
-  </ul>
-  <hr/>
-</div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
-  <section id="welcome-to-article-s-documentation">
-<h1>Welcome to article’s documentation!<a class="headerlink" href="#welcome-to-article-s-documentation" title="Link to this heading"></a></h1>
-<div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/article.html">article</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article.html#article.AdapterError"><code class="docutils literal notranslate"><span class="pre">AdapterError</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article.html#article.Article"><code class="docutils literal notranslate"><span class="pre">Article</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article.html#article.ArticleError"><code class="docutils literal notranslate"><span class="pre">ArticleError</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article.html#article.ArticleValidationError"><code class="docutils literal notranslate"><span class="pre">ArticleValidationError</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article.html#article.CanonicalUrlMissing"><code class="docutils literal notranslate"><span class="pre">CanonicalUrlMissing</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article.html#article.ConfigError"><code class="docutils literal notranslate"><span class="pre">ConfigError</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article.html#article.DevToConfig"><code class="docutils literal notranslate"><span class="pre">DevToConfig</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article.html#article.HashnodeConfig"><code class="docutils literal notranslate"><span class="pre">HashnodeConfig</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article.html#article.JsonStateStore"><code class="docutils literal notranslate"><span class="pre">JsonStateStore</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article.html#article.MediumConfig"><code class="docutils literal notranslate"><span class="pre">MediumConfig</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article.html#article.Phase"><code class="docutils literal notranslate"><span class="pre">Phase</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article.html#article.PipelineEngine"><code class="docutils literal notranslate"><span class="pre">PipelineEngine</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article.html#article.PlatformConfigs"><code class="docutils literal notranslate"><span class="pre">PlatformConfigs</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article.html#article.PublishAdapter"><code class="docutils literal notranslate"><span class="pre">PublishAdapter</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article.html#article.PublishResult"><code class="docutils literal notranslate"><span class="pre">PublishResult</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article.html#article.PublishState"><code class="docutils literal notranslate"><span class="pre">PublishState</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article.html#article.RunSummary"><code class="docutils literal notranslate"><span class="pre">RunSummary</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article.html#article.Settings"><code class="docutils literal notranslate"><span class="pre">Settings</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article.html#article.SubstackConfig"><code class="docutils literal notranslate"><span class="pre">SubstackConfig</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article.html#article.UnknownPlatformError"><code class="docutils literal notranslate"><span class="pre">UnknownPlatformError</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article.html#article.available_adapters"><code class="docutils literal notranslate"><span class="pre">available_adapters()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article.html#article.build_engine"><code class="docutils literal notranslate"><span class="pre">build_engine()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article.html#article.default_state_store"><code class="docutils literal notranslate"><span class="pre">default_state_store()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article.html#article.get_adapter"><code class="docutils literal notranslate"><span class="pre">get_adapter()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article.html#article.is_registered"><code class="docutils literal notranslate"><span class="pre">is_registered()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article.html#article.load_article"><code class="docutils literal notranslate"><span class="pre">load_article()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article.html#article.load_settings"><code class="docutils literal notranslate"><span class="pre">load_settings()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article.html#article.publish_primary"><code class="docutils literal notranslate"><span class="pre">publish_primary()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article.html#article.register_adapter"><code class="docutils literal notranslate"><span class="pre">register_adapter()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article.html#article.syndicate_secondary"><code class="docutils literal notranslate"><span class="pre">syndicate_secondary()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/article/__main__.html">article.__main__</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/__main__.html#article.__main__.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/__main__.html#article.__main__.mk_parser"><code class="docutils literal notranslate"><span class="pre">mk_parser()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/__main__.html#article.__main__.publish_primary"><code class="docutils literal notranslate"><span class="pre">publish_primary()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/__main__.html#article.__main__.syndicate_secondary"><code class="docutils literal notranslate"><span class="pre">syndicate_secondary()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/article/adapters.html">article.adapters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/article/adapters/dev_to.html">article.adapters.dev_to</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/adapters/dev_to.html#article.adapters.dev_to.publish"><code class="docutils literal notranslate"><span class="pre">publish()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/article/adapters/hashnode.html">article.adapters.hashnode</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/adapters/hashnode.html#article.adapters.hashnode.publish"><code class="docutils literal notranslate"><span class="pre">publish()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/article/adapters/medium.html">article.adapters.medium</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/adapters/medium.html#article.adapters.medium.publish"><code class="docutils literal notranslate"><span class="pre">publish()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/article/adapters/substack.html">article.adapters.substack</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/adapters/substack.html#article.adapters.substack.publish"><code class="docutils literal notranslate"><span class="pre">publish()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/article/base.html">article.base</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/base.html#article.base.ALL_PLATFORMS"><code class="docutils literal notranslate"><span class="pre">ALL_PLATFORMS</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/base.html#article.base.AdapterError"><code class="docutils literal notranslate"><span class="pre">AdapterError</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/base.html#article.base.ArticleError"><code class="docutils literal notranslate"><span class="pre">ArticleError</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/base.html#article.base.ArticleValidationError"><code class="docutils literal notranslate"><span class="pre">ArticleValidationError</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/base.html#article.base.CanonicalUrlMissing"><code class="docutils literal notranslate"><span class="pre">CanonicalUrlMissing</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/base.html#article.base.ConfigError"><code class="docutils literal notranslate"><span class="pre">ConfigError</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/base.html#article.base.PRIMARY_PLATFORM"><code class="docutils literal notranslate"><span class="pre">PRIMARY_PLATFORM</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/base.html#article.base.Phase"><code class="docutils literal notranslate"><span class="pre">Phase</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/base.html#article.base.PublishResult"><code class="docutils literal notranslate"><span class="pre">PublishResult</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/base.html#article.base.PublishState"><code class="docutils literal notranslate"><span class="pre">PublishState</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/base.html#article.base.RunSummary"><code class="docutils literal notranslate"><span class="pre">RunSummary</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/base.html#article.base.SECONDARY_PLATFORMS"><code class="docutils literal notranslate"><span class="pre">SECONDARY_PLATFORMS</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/base.html#article.base.UnknownPlatformError"><code class="docutils literal notranslate"><span class="pre">UnknownPlatformError</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/article/config.html">article.config</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/config.html#article.config.Article"><code class="docutils literal notranslate"><span class="pre">Article</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/config.html#article.config.DevToConfig"><code class="docutils literal notranslate"><span class="pre">DevToConfig</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/config.html#article.config.HashnodeConfig"><code class="docutils literal notranslate"><span class="pre">HashnodeConfig</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/config.html#article.config.MediumConfig"><code class="docutils literal notranslate"><span class="pre">MediumConfig</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/config.html#article.config.PlatformConfigs"><code class="docutils literal notranslate"><span class="pre">PlatformConfigs</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/config.html#article.config.Settings"><code class="docutils literal notranslate"><span class="pre">Settings</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/config.html#article.config.SubstackConfig"><code class="docutils literal notranslate"><span class="pre">SubstackConfig</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/config.html#article.config.load_article"><code class="docutils literal notranslate"><span class="pre">load_article()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/config.html#article.config.load_settings"><code class="docutils literal notranslate"><span class="pre">load_settings()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/article/engine.html">article.engine</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/engine.html#article.engine.PipelineEngine"><code class="docutils literal notranslate"><span class="pre">PipelineEngine</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/engine.html#article.engine.build_engine"><code class="docutils literal notranslate"><span class="pre">build_engine()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/engine.html#article.engine.publish_primary"><code class="docutils literal notranslate"><span class="pre">publish_primary()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/engine.html#article.engine.syndicate_secondary"><code class="docutils literal notranslate"><span class="pre">syndicate_secondary()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/article/registry.html">article.registry</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/registry.html#article.registry.PublishAdapter"><code class="docutils literal notranslate"><span class="pre">PublishAdapter</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/registry.html#article.registry.available_adapters"><code class="docutils literal notranslate"><span class="pre">available_adapters()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/registry.html#article.registry.get_adapter"><code class="docutils literal notranslate"><span class="pre">get_adapter()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/registry.html#article.registry.is_registered"><code class="docutils literal notranslate"><span class="pre">is_registered()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/registry.html#article.registry.register_adapter"><code class="docutils literal notranslate"><span class="pre">register_adapter()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/article/state.html">article.state</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/state.html#article.state.CANONICAL_URL_KEY"><code class="docutils literal notranslate"><span class="pre">CANONICAL_URL_KEY</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/state.html#article.state.JsonStateStore"><code class="docutils literal notranslate"><span class="pre">JsonStateStore</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/state.html#article.state.default_state_store"><code class="docutils literal notranslate"><span class="pre">default_state_store()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/article/util.html">article.util</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/util.html#article.util.atomic_write_json"><code class="docutils literal notranslate"><span class="pre">atomic_write_json()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/util.html#article.util.coalesce"><code class="docutils literal notranslate"><span class="pre">coalesce()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/util.html#article.util.get_logger"><code class="docutils literal notranslate"><span class="pre">get_logger()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/util.html#article.util.human_delay"><code class="docutils literal notranslate"><span class="pre">human_delay()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/util.html#article.util.read_json"><code class="docutils literal notranslate"><span class="pre">read_json()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/util.html#article.util.require_canonical_url"><code class="docutils literal notranslate"><span class="pre">require_canonical_url()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/util.html#article.util.run_sync"><code class="docutils literal notranslate"><span class="pre">run_sync()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/util.html#article.util.suppress_errors"><code class="docutils literal notranslate"><span class="pre">suppress_errors</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/article/util.html#article.util.utcnow_iso"><code class="docutils literal notranslate"><span class="pre">utcnow_iso()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</div>
-</section>
-<section id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading"></a></h1>
-<ul class="simple">
-<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
-<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
-<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
-</ul>
-<p>Release: 0.1.2</p>
-<p>Last change: Sep 04, 2026</p>
-</section>
-
-
-           </div>
-          </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="module_docs/article.html" class="btn btn-neutral float-right" title="article" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p></p>
-  </div>
-
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
-
-</footer>
-        </div>
-      </div>
-    </section>
-  </div>
-  <script>
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
-
-</body>
+      <script src="_static/copybutton.js?v=fd10adb8"></script>
+      <script src="_static/shibuya.js?v=50760d75"></script></body>
 </html>

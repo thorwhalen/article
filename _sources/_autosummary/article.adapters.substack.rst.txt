@@ -1,0 +1,24 @@
+article.adapters.substack
+=========================
+
+.. automodule:: article.adapters.substack
+
+   
+   .. rubric:: Module Attributes
+
+   .. autosummary::
+   
+      TablePolicy
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      create_substack_draft
+      draft_document
+      dry_run
+      make_substack_api
+      preflight
+      publish
+      summarize_document
+   

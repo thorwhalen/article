@@ -1,0 +1,12 @@
+article.adapters.hashnode
+=========================
+
+.. automodule:: article.adapters.hashnode
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      publish
+   

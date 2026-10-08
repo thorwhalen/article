@@ -1,0 +1,24 @@
+# article
+
+> Tools to semi-automate the publication of articles
+
+
+## Pages in this subsection
+
+- [article](article.html.md): article — semi-automate single-source-of-truth article publishing.
+- [article.adapters](article.adapters.html.md): Built-in platform adapters.
+- [article.adapters.dev_to](article.adapters.dev_to.html.md): Dev.to adapter — Phase 2 syndication via the Forem API V1 (&#96;httpx&#96;).
+- [article.adapters.hashnode](article.adapters.hashnode.html.md): Hashnode adapter — Phase 2 syndication via the Hashnode GraphQL API (&#96;httpx&#96;).
+- [article.adapters.medium](article.adapters.medium.html.md): Medium adapter — Phase 2, as an honest manual step (“Import a story”).
+- [article.adapters.substack](article.adapters.substack.html.md): Substack adapter — Phase 1 primary: an &#42;&#42;unpublished draft&#42;&#42;, via python-substack.
+- [article.base](article.base.html.md): Core vocabulary for the &#96;article&#96; publishing pipeline.
+- [article.config](article.config.html.md): Domain schema + configuration facade.
+- [article.engine](article.engine.html.md): Orchestration engine — the two-phase, canonical-URL SSOT pipeline.
+- [article.md_source](article.md_source.html.md): Read an article from a plain Markdown file (no JSON envelope needed).
+- [article.registry](article.registry.html.md): Adapter &#96;Protocol&#96; + an open-closed registry keyed by platform name.
+- [article.state](article.state.html.md): Pipeline state store — a &#96;MutableMapping&#96; facade over a JSON backend.
+- [article.util](article.util.html.md): Thin, dependency-light utilities shared across the package.
+
+## Optional
+
+- [Top-level llms.txt](../llms.txt): Complete documentation index.

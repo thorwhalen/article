@@ -1,0 +1,25 @@
+article.config
+==============
+
+.. automodule:: article.config
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      load_article
+      load_settings
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      Article
+      DevToConfig
+      HashnodeConfig
+      MediumConfig
+      PlatformConfigs
+      Settings
+      SubstackConfig
+   

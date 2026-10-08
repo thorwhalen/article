@@ -1,0 +1,21 @@
+article.registry
+================
+
+.. automodule:: article.registry
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      available_adapters
+      get_adapter
+      is_registered
+      register_adapter
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      PublishAdapter
+   

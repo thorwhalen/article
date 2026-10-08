@@ -1,0 +1,24 @@
+article.state
+=============
+
+.. automodule:: article.state
+
+   
+   .. rubric:: Module Attributes
+
+   .. autosummary::
+   
+      CANONICAL_URL_KEY
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      default_state_store
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      JsonStateStore
+   

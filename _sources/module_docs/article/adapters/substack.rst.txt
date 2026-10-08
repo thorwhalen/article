@@ -1,4 +1,0 @@
-article.adapters.substack
-=========================
-.. automodule:: article.adapters.substack
-   :members:

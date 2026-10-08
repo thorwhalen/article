@@ -1,4 +1,0 @@
-article.__main__
-================
-.. automodule:: article.__main__
-   :members:

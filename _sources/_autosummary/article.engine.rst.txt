@@ -1,0 +1,20 @@
+article.engine
+==============
+
+.. automodule:: article.engine
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      build_engine
+      publish_primary
+      syndicate_secondary
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      PipelineEngine
+   

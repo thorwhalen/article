@@ -1,4 +1,0 @@
-article.util
-============
-.. automodule:: article.util
-   :members:

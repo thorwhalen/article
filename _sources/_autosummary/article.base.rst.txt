@@ -1,0 +1,34 @@
+article.base
+============
+
+.. automodule:: article.base
+
+   
+   .. rubric:: Module Attributes
+
+   .. autosummary::
+   
+      PRIMARY_PLATFORM
+      SECONDARY_PLATFORMS
+      ALL_PLATFORMS
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      Phase
+      PublishResult
+      PublishState
+      RunSummary
+   
+   .. rubric:: Exceptions
+
+   .. autosummary::
+   
+      AdapterError
+      ArticleError
+      ArticleValidationError
+      CanonicalUrlMissing
+      ConfigError
+      UnknownPlatformError
+   

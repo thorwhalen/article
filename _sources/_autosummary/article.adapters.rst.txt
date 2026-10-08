@@ -1,0 +1,16 @@
+article.adapters
+================
+
+.. automodule:: article.adapters
+
+   
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   dev_to
+   hashnode
+   medium
+   substack

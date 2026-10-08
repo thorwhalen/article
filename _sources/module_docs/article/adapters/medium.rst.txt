@@ -1,4 +1,0 @@
-article.adapters.medium
-=======================
-.. automodule:: article.adapters.medium
-   :members:

@@ -1,239 +1,1035 @@
-
-
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" data-content_root="../../../">
+<html lang="en" data-accent-color="red" data-content_root="../../../">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>article.adapters.substack &mdash; article 0.1.2 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
-
-  
-      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
-      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=92734c54"></script>
-      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
-      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
-      <script src="../../../_static/toggleprompt.js?v=d7ede5d2"></script>
-      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
-      <script src="../../../_static/copybutton.js?v=f281be69"></script>
-    <script src="../../../_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="../../../genindex.html" />
-    <link rel="search" title="Search" href="../../../search.html" /> 
-</head>
-
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
-
-          
-          
-          <a href="../../../index.html" class="icon icon-home">
-            article
-          </a>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>article.adapters.substack - article</title><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d88b86f9" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/shibuya.css?v=2ceb65ce" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link media="print" rel="stylesheet" type="text/css" href="../../../_static/print.css?v=20ff2c19" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    
+  <meta property="og:type" content="website"/><meta property="og:title" content="article.adapters.substack"/>
+    <meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../../../index.html">
+      
+      
+      <strong>article</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials">
+  <a href="https://github.com/thorwhalen/article" aria-label="GitHub">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </a></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2"></span>
+          <span class="hamburger_3"></span>
+        </div>
+      </button>
+    </div>
+  </div>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/article.html">article</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/article/__main__.html">article.__main__</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/article/adapters.html">article.adapters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/article/adapters/dev_to.html">article.adapters.dev_to</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/article/adapters/hashnode.html">article.adapters.hashnode</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/article/adapters/medium.html">article.adapters.medium</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/article/adapters/substack.html">article.adapters.substack</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/article/base.html">article.base</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/article/config.html">article.config</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/article/engine.html">article.engine</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/article/registry.html">article.registry</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/article/state.html">article.state</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/article/util.html">article.util</a></li>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../_autosummary/article.html">article</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/article.adapters.html">article.adapters</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/article.adapters.dev_to.html">article.adapters.dev_to</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/article.adapters.hashnode.html">article.adapters.hashnode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/article.adapters.medium.html">article.adapters.medium</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/article.adapters.substack.html">article.adapters.substack</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/article.base.html">article.base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/article.config.html">article.config</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/article.engine.html">article.engine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/article.md_source.html">article.md_source</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/article.registry.html">article.registry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/article.state.html">article.state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/article.util.html">article.util</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 
         </div>
       </div>
-    </nav>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../../../index.html"><span itemprop="name">article</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../../index.html"><span itemprop="name">Module code</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="2" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">article.adapters.substack</strong>
+        <meta itemprop="position" content="3" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="relative min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+  <article class="yue dark-code" role="main">
+          <h1>Source code for article.adapters.substack</h1><div class="highlight"><pre>
+<span></span><span data-line="1"><span class="sd">"""Substack adapter — Phase 1 primary: an **unpublished draft**, via python-substack.</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="sd">Substack has no official write API. This adapter uses the unofficial</span>
+</span><span data-line="4"><span class="sd">`python-substack &lt;https://github.com/ma2za/python-substack&gt;`_ library (MIT;</span>
+</span><span data-line="5"><span class="sd">install with ``pip install 'article[substack]'``), which converts Markdown to</span>
+</span><span data-line="6"><span class="sd">Substack's editor document, including ``[^n]`` footnotes,</span>
+</span><span data-line="7"><span class="sd">``![alt](src "caption")`` captions and ``$...$`` LaTeX, and uploads local</span>
+</span><span data-line="8"><span class="sd">images to Substack's CDN.</span>
+</span><span data-line="9">
+</span><span data-line="10"><span class="sd">**Drafts only.** The adapter creates a draft and stops; it has no code path</span>
+</span><span data-line="11"><span class="sd">that publishes. Review the draft in the Substack editor and publish it there.</span>
+</span><span data-line="12"><span class="sd">``publish_as_draft=False`` is refused with an explanation.</span>
+</span><span data-line="13">
+</span><span data-line="14"><span class="sd">Before anything is uploaded, :func:`preflight` checks the Markdown for what</span>
+</span><span data-line="15"><span class="sd">the converter would lose silently, and refuses it with every problem listed:</span>
+</span><span data-line="16">
+</span><span data-line="17"><span class="sd">- **tables** (Substack has no table node): refused by default, or kept as a</span>
+</span><span data-line="18"><span class="sd">  monospace code block with ``tables="code"``, or replaced by whatever a</span>
+</span><span data-line="19"><span class="sd">  callable returns (e.g. a rendered image), never dropped;</span>
+</span><span data-line="20"><span class="sd">- an **image sharing a paragraph with text** (the converter keeps only its</span>
+</span><span data-line="21"><span class="sd">  alt text): put the image in its own paragraph, caption in the title slot;</span>
+</span><span data-line="22"><span class="sd">- a **local image that does not exist** (paths resolve against the article's</span>
+</span><span data-line="23"><span class="sd">  ``assets_dir``, the source file's directory);</span>
+</span><span data-line="24"><span class="sd">- a **raw HTML block** (the converter drops it).</span>
+</span><span data-line="25">
+</span><span data-line="26"><span class="sd">The result's ``url`` is the post's public address once published</span>
+</span><span data-line="27"><span class="sd">(``&lt;publication&gt;/p/&lt;slug&gt;``), which the engine records as the canonical URL;</span>
+</span><span data-line="28"><span class="sd">``detail["edit_url"]`` opens the draft in the editor.</span>
+</span><span data-line="29">
+</span><span data-line="30"><span class="sd">The client is a seam: pass ``api=`` (anything with python-substack's ``Api``</span>
+</span><span data-line="31"><span class="sd">methods) to :func:`create_substack_draft`; tests pass a fake.</span>
+</span><span data-line="32"><span class="sd">"""</span>
+</span><span data-line="33">
+</span><span data-line="34"><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+</span><span data-line="35">
+</span><span data-line="36"><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+</span><span data-line="37"><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+</span><span data-line="38"><span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+</span><span data-line="39"><span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
+</span><span data-line="40"><span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+</span><span data-line="41"><span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">contextmanager</span>
+</span><span data-line="42"><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+</span><span data-line="43"><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+</span><span data-line="44"><span class="kn">from</span><span class="w"> </span><span class="nn">urllib.parse</span><span class="w"> </span><span class="kn">import</span> <span class="n">unquote</span><span class="p">,</span> <span class="n">urlsplit</span>
+</span><span data-line="45">
+</span><span data-line="46"><span class="kn">from</span><span class="w"> </span><span class="nn">..base</span><span class="w"> </span><span class="kn">import</span> <span class="n">SUBSTACK</span><span class="p">,</span> <span class="n">AdapterError</span><span class="p">,</span> <span class="n">PublishResult</span>
+</span><span data-line="47"><span class="kn">from</span><span class="w"> </span><span class="nn">..config</span><span class="w"> </span><span class="kn">import</span> <span class="n">Article</span><span class="p">,</span> <span class="n">SubstackConfig</span>
+</span><span data-line="48"><span class="kn">from</span><span class="w"> </span><span class="nn">..registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_adapter</span>
+</span><span data-line="49"><span class="kn">from</span><span class="w"> </span><span class="nn">..util</span><span class="w"> </span><span class="kn">import</span> <span class="n">coalesce</span><span class="p">,</span> <span class="n">get_logger</span>
+</span><span data-line="50">
+</span><span data-line="51"><span class="n">_log</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">()</span>
+</span><span data-line="52">
+</span><span data-line="53"><span class="c1">#: How a Markdown table is handled: refuse it, keep it as a code block, or</span>
+</span><span data-line="54"><span class="c1">#: replace it with the Markdown a callable returns (e.g. an image reference).</span>
+</span><span data-line="55"><span class="n">TablePolicy</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="s2">"error"</span><span class="p">,</span> <span class="s2">"code"</span><span class="p">],</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">str</span><span class="p">]]</span>
+</span><span data-line="56">
+</span><span data-line="57"><span class="n">_INSTALL_HINT</span> <span class="o">=</span> <span class="s2">"install the Substack extra: pip install 'article[substack]'"</span>
+</span><span data-line="58"><span class="n">_AUTH_HINT</span> <span class="o">=</span> <span class="p">(</span>
+</span><span data-line="59">    <span class="s2">"set SUBSTACK_COOKIES (the cookie header copied from a logged-in browser), "</span>
+</span><span data-line="60">    <span class="s2">"SUBSTACK_COOKIES_PATH (a cookies JSON file), or SUBSTACK_EMAIL and "</span>
+</span><span data-line="61">    <span class="s2">"SUBSTACK_PASSWORD; see the README section 'Substack credentials'"</span>
+</span><span data-line="62"><span class="p">)</span>
+</span><span data-line="63">
+</span><span data-line="64">
+</span><span data-line="65"><span class="c1"># --------------------------------------------------------------------------- #</span>
+</span><span data-line="66"><span class="c1"># Preflight: refuse what the converter would drop silently                    #</span>
+</span><span data-line="67"><span class="c1"># --------------------------------------------------------------------------- #</span>
+</span><span data-line="68">
+</span><span data-line="69">
+</span><span data-line="70"><span class="k">def</span><span class="w"> </span><span class="nf">_markdown_parser</span><span class="p">():</span>
+</span><span data-line="71"><span class="w">    </span><span class="sd">"""A parser that sees what python-substack's does, plus tables (which it skips)."""</span>
+</span><span data-line="72">    <span class="k">try</span><span class="p">:</span>
+</span><span data-line="73">        <span class="kn">from</span><span class="w"> </span><span class="nn">markdown_it</span><span class="w"> </span><span class="kn">import</span> <span class="n">MarkdownIt</span>
+</span><span data-line="74">        <span class="kn">from</span><span class="w"> </span><span class="nn">mdit_py_plugins.dollarmath</span><span class="w"> </span><span class="kn">import</span> <span class="n">dollarmath_plugin</span>
+</span><span data-line="75">        <span class="kn">from</span><span class="w"> </span><span class="nn">mdit_py_plugins.footnote</span><span class="w"> </span><span class="kn">import</span> <span class="n">footnote_plugin</span>
+</span><span data-line="76">    <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>  <span class="c1"># pragma: no cover - exercised only without the extra</span>
+</span><span data-line="77">        <span class="k">raise</span> <span class="n">AdapterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"substack: </span><span class="si">{</span><span class="n">_INSTALL_HINT</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+</span><span data-line="78">    <span class="k">return</span> <span class="p">(</span>
+</span><span data-line="79">        <span class="n">MarkdownIt</span><span class="p">(</span><span class="s2">"commonmark"</span><span class="p">)</span>
+</span><span data-line="80">        <span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="n">footnote_plugin</span><span class="p">)</span>
+</span><span data-line="81">        <span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="n">dollarmath_plugin</span><span class="p">,</span> <span class="n">allow_space</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">allow_digits</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span><span data-line="82">        <span class="o">.</span><span class="n">enable</span><span class="p">(</span><span class="s2">"table"</span><span class="p">)</span>
+</span><span data-line="83">    <span class="p">)</span>
+</span><span data-line="84">
+</span><span data-line="85">
+</span><span data-line="86"><span class="k">def</span><span class="w"> </span><span class="nf">_is_local</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span data-line="87"><span class="w">    </span><span class="sd">"""What python-substack uploads from disk: anything not http(s) or ``//``."""</span>
+</span><span data-line="88">    <span class="k">return</span> <span class="n">urlsplit</span><span class="p">(</span><span class="n">src</span><span class="p">)</span><span class="o">.</span><span class="n">scheme</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"http"</span><span class="p">,</span> <span class="s2">"https"</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span>
+</span><span data-line="89">        <span class="n">src</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"//"</span><span class="p">)</span>
+</span><span data-line="90">    <span class="p">)</span>
+</span><span data-line="91">
+</span><span data-line="92">
+</span><span data-line="93"><span class="k">def</span><span class="w"> </span><span class="nf">_code_table</span><span class="p">(</span><span class="n">table_markdown</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span data-line="94">    <span class="k">return</span> <span class="sa">f</span><span class="s2">"```</span><span class="se">\n</span><span class="si">{</span><span class="n">table_markdown</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span><span class="si">}</span><span class="se">\n</span><span class="s2">```</span><span class="se">\n</span><span class="s2">"</span>
+</span><span data-line="95">
+</span><span data-line="96">
+</span><span data-line="97"><span class="k">def</span><span class="w"> </span><span class="nf">_replace_tables</span><span class="p">(</span>
+</span><span data-line="98">    <span class="n">markdown</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">tokens</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">policy</span><span class="p">:</span> <span class="n">TablePolicy</span><span class="p">,</span> <span class="n">problems</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+</span><span data-line="99"><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span data-line="100">    <span class="n">lines</span> <span class="o">=</span> <span class="n">markdown</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="n">keepends</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span data-line="101">    <span class="n">tables</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tokens</span> <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"table_open"</span><span class="p">]</span>
+</span><span data-line="102">    <span class="k">if</span> <span class="n">policy</span> <span class="o">==</span> <span class="s2">"error"</span><span class="p">:</span>
+</span><span data-line="103">        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">:</span>
+</span><span data-line="104">            <span class="n">problems</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+</span><span data-line="105">                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">_where</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="w"> </span><span class="n">lines</span><span class="p">)</span><span class="si">}</span><span class="s2">: a table (Substack has no table; pass "</span>
+</span><span data-line="106">                <span class="sa">f</span><span class="s2">"tables='code' to keep it as a code block, or render it to an image)"</span>
+</span><span data-line="107">            <span class="p">)</span>
+</span><span data-line="108">        <span class="k">return</span> <span class="n">markdown</span>
+</span><span data-line="109">    <span class="n">render</span> <span class="o">=</span> <span class="n">_code_table</span> <span class="k">if</span> <span class="n">policy</span> <span class="o">==</span> <span class="s2">"code"</span> <span class="k">else</span> <span class="n">policy</span>
+</span><span data-line="110">    <span class="k">if</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">render</span><span class="p">):</span>
+</span><span data-line="111">        <span class="k">raise</span> <span class="n">AdapterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"substack: unknown tables policy </span><span class="si">{</span><span class="n">policy</span><span class="si">!r}</span><span class="s2">"</span><span class="p">)</span>
+</span><span data-line="112">    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">tables</span><span class="p">):</span>  <span class="c1"># bottom-up, so earlier line numbers stay valid</span>
+</span><span data-line="113">        <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">map</span>
+</span><span data-line="114">        <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">level</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+</span><span data-line="115">            <span class="n">problems</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+</span><span data-line="116">                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">_where</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="w"> </span><span class="n">lines</span><span class="p">)</span><span class="si">}</span><span class="s2">: a table nested in a list or quote; move it to "</span>
+</span><span data-line="117">                <span class="sa">f</span><span class="s2">"the top level so it can be replaced"</span>
+</span><span data-line="118">            <span class="p">)</span>
+</span><span data-line="119">            <span class="k">continue</span>
+</span><span data-line="120">        <span class="n">lines</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">render</span><span class="p">(</span><span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]))]</span>
+</span><span data-line="121">    <span class="k">return</span> <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+</span><span data-line="122">
+</span><span data-line="123">
+</span><span data-line="124"><span class="k">def</span><span class="w"> </span><span class="nf">_image_problems</span><span class="p">(</span>
+</span><span data-line="125">    <span class="n">tokens</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">lines</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">assets_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+</span><span data-line="126"><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+</span><span data-line="127">    <span class="n">base</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">assets_dir</span><span class="p">)</span> <span class="k">if</span> <span class="n">assets_dir</span> <span class="k">else</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span>
+</span><span data-line="128">    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">tok</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tokens</span><span class="p">):</span>
+</span><span data-line="129">        <span class="k">if</span> <span class="n">tok</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="s2">"inline"</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">tok</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+</span><span data-line="130">            <span class="k">continue</span>
+</span><span data-line="131">        <span class="n">images</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">tok</span><span class="o">.</span><span class="n">children</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"image"</span><span class="p">]</span>
+</span><span data-line="132">        <span class="k">if</span> <span class="ow">not</span> <span class="n">images</span><span class="p">:</span>
+</span><span data-line="133">            <span class="k">continue</span>
+</span><span data-line="134">        <span class="n">line</span> <span class="o">=</span> <span class="n">_where</span><span class="p">(</span><span class="n">tok</span><span class="p">,</span> <span class="n">lines</span><span class="p">)</span>
+</span><span data-line="135">        <span class="n">in_paragraph</span> <span class="o">=</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">tokens</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"paragraph_open"</span>
+</span><span data-line="136">        <span class="k">if</span> <span class="ow">not</span> <span class="n">in_paragraph</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">_is_image_only</span><span class="p">(</span><span class="n">tok</span><span class="o">.</span><span class="n">children</span><span class="p">):</span>
+</span><span data-line="137">            <span class="k">yield</span> <span class="p">(</span>
+</span><span data-line="138">                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">line</span><span class="si">}</span><span class="s2">: an image shares its paragraph or heading with "</span>
+</span><span data-line="139">                <span class="sa">f</span><span class="s2">"text, and Substack would keep only its alt text; give the image "</span>
+</span><span data-line="140">                <span class="sa">f</span><span class="s1">'its own paragraph and put the caption in the title: ![alt](src "caption")'</span>
+</span><span data-line="141">            <span class="p">)</span>
+</span><span data-line="142">        <span class="k">for</span> <span class="n">img</span> <span class="ow">in</span> <span class="n">images</span><span class="p">:</span>
+</span><span data-line="143">            <span class="n">src</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"src"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+</span><span data-line="144">            <span class="k">if</span> <span class="n">src</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"data:"</span><span class="p">):</span>
+</span><span data-line="145">                <span class="k">yield</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">line</span><span class="si">}</span><span class="s2">: an inline data: image cannot be uploaded; save it as a file"</span>
+</span><span data-line="146">            <span class="k">elif</span> <span class="p">(</span>
+</span><span data-line="147">                <span class="n">_is_local</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
+</span><span data-line="148">                <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span><span class="n">base</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="n">unquote</span><span class="p">(</span><span class="n">src</span><span class="p">))</span><span class="o">.</span><span class="n">expanduser</span><span class="p">())</span><span class="o">.</span><span class="n">is_file</span><span class="p">()</span>
+</span><span data-line="149">            <span class="p">):</span>
+</span><span data-line="150">                <span class="k">yield</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">line</span><span class="si">}</span><span class="s2">: image file not found: </span><span class="si">{</span><span class="n">src</span><span class="si">}</span><span class="s2"> (looked in </span><span class="si">{</span><span class="n">base</span><span class="si">}</span><span class="s2">)"</span>
+</span><span data-line="151">
+</span><span data-line="152">
+</span><span data-line="153"><span class="k">def</span><span class="w"> </span><span class="nf">_is_image_only</span><span class="p">(</span><span class="n">children</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span data-line="154">    <span class="n">kids</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">children</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="s2">"softbreak"</span><span class="p">]</span>
+</span><span data-line="155">    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">kids</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">kids</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"image"</span><span class="p">:</span>
+</span><span data-line="156">        <span class="k">return</span> <span class="kc">True</span>
+</span><span data-line="157">    <span class="k">return</span> <span class="p">(</span>
+</span><span data-line="158">        <span class="nb">len</span><span class="p">(</span><span class="n">kids</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span>
+</span><span data-line="159">        <span class="ow">and</span> <span class="n">kids</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"link_open"</span>
+</span><span data-line="160">        <span class="ow">and</span> <span class="n">kids</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"image"</span>
+</span><span data-line="161">        <span class="ow">and</span> <span class="n">kids</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"link_close"</span>
+</span><span data-line="162">    <span class="p">)</span>
+</span><span data-line="163">
+</span><span data-line="164">
+</span><span data-line="165"><span class="k">def</span><span class="w"> </span><span class="nf">_where</span><span class="p">(</span><span class="n">tok</span><span class="p">,</span> <span class="n">lines</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span data-line="166"><span class="w">    </span><span class="sd">"""``body line N ("text")``: line numbers count from the body, so quote the line."""</span>
+</span><span data-line="167">    <span class="k">if</span> <span class="ow">not</span> <span class="n">tok</span><span class="o">.</span><span class="n">map</span><span class="p">:</span>
+</span><span data-line="168">        <span class="k">return</span> <span class="s2">"in a footnote"</span>
+</span><span data-line="169">    <span class="n">text</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="n">tok</span><span class="o">.</span><span class="n">map</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">if</span> <span class="n">tok</span><span class="o">.</span><span class="n">map</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span> <span class="k">else</span> <span class="s2">""</span>
+</span><span data-line="170">    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">50</span> <span class="k">else</span> <span class="n">text</span><span class="p">[:</span><span class="mi">47</span><span class="p">]</span> <span class="o">+</span> <span class="s2">"..."</span>
+</span><span data-line="171">    <span class="k">return</span> <span class="sa">f</span><span class="s1">'body line </span><span class="si">{</span><span class="n">tok</span><span class="o">.</span><span class="n">map</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s1"> ("</span><span class="si">{</span><span class="n">text</span><span class="si">}</span><span class="s1">")'</span>
+</span><span data-line="172">
+</span><span data-line="173">
+</span><span data-line="174"><span class="k">def</span><span class="w"> </span><span class="nf">_html_problems</span><span class="p">(</span><span class="n">tokens</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">lines</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+</span><span data-line="175">    <span class="k">for</span> <span class="n">tok</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">:</span>
+</span><span data-line="176">        <span class="k">if</span> <span class="n">tok</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"html_block"</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">tok</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">lstrip</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"&lt;!--"</span><span class="p">):</span>
+</span><span data-line="177">            <span class="n">snippet</span> <span class="o">=</span> <span class="n">tok</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()[</span><span class="mi">0</span><span class="p">][:</span><span class="mi">60</span><span class="p">]</span>
+</span><span data-line="178">            <span class="k">yield</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">_where</span><span class="p">(</span><span class="n">tok</span><span class="p">,</span><span class="w"> </span><span class="n">lines</span><span class="p">)</span><span class="si">}</span><span class="s2">: a raw HTML block (</span><span class="si">{</span><span class="n">snippet</span><span class="si">}</span><span class="s2">) would be dropped"</span>
+</span><span data-line="179">
+</span><span data-line="180">
+</span><span data-line="181"><span class="k">def</span><span class="w"> </span><span class="nf">_html_inline_warnings</span><span class="p">(</span><span class="n">tokens</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">lines</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+</span><span data-line="182">    <span class="k">for</span> <span class="n">tok</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">:</span>
+</span><span data-line="183">        <span class="k">if</span> <span class="n">tok</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"inline"</span> <span class="ow">and</span> <span class="n">tok</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+</span><span data-line="184">            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">tok</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+</span><span data-line="185">                <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"html_inline"</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">c</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"&lt;!--"</span><span class="p">):</span>
+</span><span data-line="186">                    <span class="k">yield</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">_where</span><span class="p">(</span><span class="n">tok</span><span class="p">,</span><span class="w"> </span><span class="n">lines</span><span class="p">)</span><span class="si">}</span><span class="s2">: inline HTML </span><span class="si">{</span><span class="n">c</span><span class="o">.</span><span class="n">content</span><span class="si">}</span><span class="s2"> is dropped"</span>
+</span><span data-line="187">
+</span><span data-line="188">
+</span><span data-line="189"><span class="n">_UNDEFINED_REF</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">"\[\^[^\]\s]+\]"</span><span class="p">)</span>
+</span><span data-line="190">
+</span><span data-line="191">
+</span><span data-line="192"><span class="k">def</span><span class="w"> </span><span class="nf">_footnote_problems</span><span class="p">(</span><span class="n">tokens</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">lines</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">env</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+</span><span data-line="193"><span class="w">    </span><span class="sd">"""What the converter mis-numbers or drops: nested, undefined and unused notes."""</span>
+</span><span data-line="194">    <span class="n">depth</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span data-line="195">    <span class="k">for</span> <span class="n">tok</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">:</span>
+</span><span data-line="196">        <span class="k">if</span> <span class="n">tok</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"footnote_open"</span><span class="p">:</span>
+</span><span data-line="197">            <span class="n">depth</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span data-line="198">        <span class="k">elif</span> <span class="n">tok</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"footnote_close"</span><span class="p">:</span>
+</span><span data-line="199">            <span class="n">depth</span> <span class="o">-=</span> <span class="mi">1</span>
+</span><span data-line="200">        <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">tok</span><span class="o">.</span><span class="n">children</span> <span class="ow">or</span> <span class="p">():</span>
+</span><span data-line="201">            <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"footnote_ref"</span><span class="p">:</span>
+</span><span data-line="202">                <span class="k">if</span> <span class="n">depth</span><span class="p">:</span>
+</span><span data-line="203">                    <span class="k">yield</span> <span class="p">(</span>
+</span><span data-line="204">                        <span class="sa">f</span><span class="s2">"footnote [^</span><span class="si">{</span><span class="n">child</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'label'</span><span class="p">)</span><span class="si">}</span><span class="s2">] is referenced inside "</span>
+</span><span data-line="205">                        <span class="sa">f</span><span class="s2">"another footnote, which Substack numbers wrongly"</span>
+</span><span data-line="206">                    <span class="p">)</span>
+</span><span data-line="207">            <span class="k">elif</span> <span class="n">child</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"text"</span><span class="p">:</span>
+</span><span data-line="208">                <span class="n">undefined</span> <span class="o">=</span> <span class="n">_UNDEFINED_REF</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</span><span data-line="209">                <span class="k">if</span> <span class="n">undefined</span><span class="p">:</span>
+</span><span data-line="210">                    <span class="k">yield</span> <span class="p">(</span>
+</span><span data-line="211">                        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">_where</span><span class="p">(</span><span class="n">tok</span><span class="p">,</span><span class="w"> </span><span class="n">lines</span><span class="p">)</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">undefined</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="si">}</span><span class="s2"> has no "</span>
+</span><span data-line="212">                        <span class="sa">f</span><span class="s2">"definition, so it would stay as plain text"</span>
+</span><span data-line="213">                    <span class="p">)</span>
+</span><span data-line="214">    <span class="c1"># The footnote plugin emits no tokens for an unreferenced definition; its</span>
+</span><span data-line="215">    <span class="c1"># parse env marks one with id -1 under the key ":&lt;label&gt;".</span>
+</span><span data-line="216">    <span class="n">refs</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"footnotes"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"refs"</span><span class="p">,</span> <span class="p">{})</span>
+</span><span data-line="217">    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">refs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+</span><span data-line="218">        <span class="k">yield</span> <span class="sa">f</span><span class="s2">"footnote [^</span><span class="si">{</span><span class="n">key</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="si">}</span><span class="s2">] is defined but never referenced, so it would be dropped"</span>
+</span><span data-line="219">
+</span><span data-line="220">
+<div class="viewcode-block" id="preflight">
+<a class="viewcode-back" href="../../../_autosummary/article.adapters.substack.html#article.adapters.substack.preflight">[docs]</a>
+</span><span data-line="221"><span class="k">def</span><span class="w"> </span><span class="nf">preflight</span><span class="p">(</span>
+</span><span data-line="222">    <span class="n">markdown</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span data-line="223">    <span class="o">*</span><span class="p">,</span>
+</span><span data-line="224">    <span class="n">assets_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span data-line="225">    <span class="n">tables</span><span class="p">:</span> <span class="n">TablePolicy</span> <span class="o">=</span> <span class="s2">"error"</span><span class="p">,</span>
+</span><span data-line="226"><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+</span><span data-line="227"><span class="w">    </span><span class="sd">"""Check ``markdown`` for content Substack would lose; return it ready to convert.</span>
+</span><span data-line="228">
+</span><span data-line="229"><span class="sd">    Returns ``(markdown, warnings)``, where tables have been replaced per</span>
+</span><span data-line="230"><span class="sd">    ``tables``. Raises :class:`~article.base.AdapterError` listing every</span>
+</span><span data-line="231"><span class="sd">    problem at once.</span>
+</span><span data-line="232">
+</span><span data-line="233"><span class="sd">    &gt;&gt;&gt; md, warnings = preflight("| a | b |\\n|---|---|\\n| 1 | 2 |\\n", tables="code")</span>
+</span><span data-line="234"><span class="sd">    &gt;&gt;&gt; md.splitlines()[0]</span>
+</span><span data-line="235"><span class="sd">    '```'</span>
+</span><span data-line="236"><span class="sd">    &gt;&gt;&gt; preflight("| a | b |\\n|---|---|\\n| 1 | 2 |\\n")  # doctest: +ELLIPSIS</span>
+</span><span data-line="237"><span class="sd">    Traceback (most recent call last):</span>
+</span><span data-line="238"><span class="sd">    ...</span>
+</span><span data-line="239"><span class="sd">    article.base.AdapterError: substack: 1 problem(s) ... body line 1 ("| a | b |"): a table ...</span>
+</span><span data-line="240"><span class="sd">    """</span>
+</span><span data-line="241">    <span class="n">parser</span> <span class="o">=</span> <span class="n">_markdown_parser</span><span class="p">()</span>
+</span><span data-line="242">    <span class="n">problems</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span data-line="243">    <span class="n">markdown</span> <span class="o">=</span> <span class="n">_replace_tables</span><span class="p">(</span><span class="n">markdown</span><span class="p">,</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">markdown</span><span class="p">),</span> <span class="n">tables</span><span class="p">,</span> <span class="n">problems</span><span class="p">)</span>
+</span><span data-line="244">    <span class="n">env</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span data-line="245">    <span class="n">tokens</span><span class="p">,</span> <span class="n">lines</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">markdown</span><span class="p">,</span> <span class="n">env</span><span class="p">),</span> <span class="n">markdown</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+</span><span data-line="246">    <span class="n">problems</span> <span class="o">+=</span> <span class="n">_image_problems</span><span class="p">(</span><span class="n">tokens</span><span class="p">,</span> <span class="n">lines</span><span class="p">,</span> <span class="n">assets_dir</span><span class="p">)</span>
+</span><span data-line="247">    <span class="n">problems</span> <span class="o">+=</span> <span class="n">_html_problems</span><span class="p">(</span><span class="n">tokens</span><span class="p">,</span> <span class="n">lines</span><span class="p">)</span>
+</span><span data-line="248">    <span class="n">problems</span> <span class="o">+=</span> <span class="n">_footnote_problems</span><span class="p">(</span><span class="n">tokens</span><span class="p">,</span> <span class="n">lines</span><span class="p">,</span> <span class="n">env</span><span class="p">)</span>
+</span><span data-line="249">    <span class="k">if</span> <span class="n">problems</span><span class="p">:</span>
+</span><span data-line="250">        <span class="k">raise</span> <span class="n">AdapterError</span><span class="p">(</span>
+</span><span data-line="251">            <span class="sa">f</span><span class="s2">"substack: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">problems</span><span class="p">)</span><span class="si">}</span><span class="s2"> problem(s) would lose content in the draft:</span><span class="se">\n</span><span class="s2">"</span>
+</span><span data-line="252">            <span class="o">+</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  - </span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">problems</span><span class="p">)</span>
+</span><span data-line="253">        <span class="p">)</span>
+</span><span data-line="254">    <span class="k">return</span> <span class="n">markdown</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">_html_inline_warnings</span><span class="p">(</span><span class="n">tokens</span><span class="p">,</span> <span class="n">lines</span><span class="p">))</span></div>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">article</a>
-      </nav>
+</span><span data-line="255">
+</span><span data-line="256">
+</span><span data-line="257"><span class="c1"># --------------------------------------------------------------------------- #</span>
+</span><span data-line="258"><span class="c1"># Conversion and the client                                                   #</span>
+</span><span data-line="259"><span class="c1"># --------------------------------------------------------------------------- #</span>
+</span><span data-line="260">
+</span><span data-line="261">
+</span><span data-line="262"><span class="n">_CWD_LOCK</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
+</span><span data-line="263">
+</span><span data-line="264">
+</span><span data-line="265"><span class="nd">@contextmanager</span>
+</span><span data-line="266"><span class="k">def</span><span class="w"> </span><span class="nf">_working_directory</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="kc">None</span><span class="p">]:</span>
+</span><span data-line="267"><span class="w">    </span><span class="sd">"""python-substack resolves local image paths against the cwd.</span>
+</span><span data-line="268">
+</span><span data-line="269"><span class="sd">    The cwd is process-wide, so conversions are serialized by a lock; a server</span>
+</span><span data-line="270"><span class="sd">    that converts concurrently should first make image paths absolute instead.</span>
+</span><span data-line="271"><span class="sd">    """</span>
+</span><span data-line="272">    <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="p">:</span>
+</span><span data-line="273">        <span class="k">yield</span>
+</span><span data-line="274">        <span class="k">return</span>
+</span><span data-line="275">    <span class="k">with</span> <span class="n">_CWD_LOCK</span><span class="p">:</span>
+</span><span data-line="276">        <span class="n">previous</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+</span><span data-line="277">        <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+</span><span data-line="278">        <span class="k">try</span><span class="p">:</span>
+</span><span data-line="279">            <span class="k">yield</span>
+</span><span data-line="280">        <span class="k">finally</span><span class="p">:</span>
+</span><span data-line="281">            <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">previous</span><span class="p">)</span>
+</span><span data-line="282">
+</span><span data-line="283">
+<div class="viewcode-block" id="draft_document">
+<a class="viewcode-back" href="../../../_autosummary/article.adapters.substack.html#article.adapters.substack.draft_document">[docs]</a>
+</span><span data-line="284"><span class="k">def</span><span class="w"> </span><span class="nf">draft_document</span><span class="p">(</span>
+</span><span data-line="285">    <span class="n">article</span><span class="p">:</span> <span class="n">Article</span><span class="p">,</span>
+</span><span data-line="286">    <span class="n">markdown</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span data-line="287">    <span class="o">*</span><span class="p">,</span>
+</span><span data-line="288">    <span class="n">config</span><span class="p">:</span> <span class="n">SubstackConfig</span><span class="p">,</span>
+</span><span data-line="289">    <span class="n">api</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span data-line="290">    <span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+</span><span data-line="291"><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+</span><span data-line="292"><span class="w">    </span><span class="sd">"""The draft payload python-substack posts (``draft_body`` is a JSON string).</span>
+</span><span data-line="293">
+</span><span data-line="294"><span class="sd">    With ``api=None`` nothing is uploaded and local image paths stay as they are.</span>
+</span><span data-line="295"><span class="sd">    """</span>
+</span><span data-line="296">    <span class="k">try</span><span class="p">:</span>
+</span><span data-line="297">        <span class="kn">from</span><span class="w"> </span><span class="nn">substack.post</span><span class="w"> </span><span class="kn">import</span> <span class="n">Post</span>
+</span><span data-line="298">    <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span data-line="299">        <span class="k">raise</span> <span class="n">AdapterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"substack: </span><span class="si">{</span><span class="n">_INSTALL_HINT</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+</span><span data-line="300">    <span class="n">post</span> <span class="o">=</span> <span class="n">Post</span><span class="p">(</span>
+</span><span data-line="301">        <span class="n">title</span><span class="o">=</span><span class="n">coalesce</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">article</span><span class="o">.</span><span class="n">title</span><span class="p">),</span>
+</span><span data-line="302">        <span class="n">subtitle</span><span class="o">=</span><span class="n">article</span><span class="o">.</span><span class="n">subtitle</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">,</span>
+</span><span data-line="303">        <span class="n">user_id</span><span class="o">=</span><span class="n">user_id</span><span class="p">,</span>
+</span><span data-line="304">        <span class="n">audience</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">audience</span><span class="p">,</span>
+</span><span data-line="305">    <span class="p">)</span>
+</span><span data-line="306">    <span class="k">with</span> <span class="n">_working_directory</span><span class="p">(</span><span class="n">article</span><span class="o">.</span><span class="n">assets_dir</span><span class="p">):</span>
+</span><span data-line="307">        <span class="n">post</span><span class="o">.</span><span class="n">from_markdown</span><span class="p">(</span><span class="n">markdown</span><span class="p">,</span> <span class="n">api</span><span class="o">=</span><span class="n">api</span><span class="p">)</span>
+</span><span data-line="308">    <span class="k">return</span> <span class="n">post</span><span class="o">.</span><span class="n">get_draft</span><span class="p">()</span></div>
 
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
-  <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">article.adapters.substack</li>
-      <li class="wy-breadcrumbs-aside">
-      </li>
-  </ul>
-  <hr/>
-</div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
-  <h1>Source code for article.adapters.substack</h1><div class="highlight"><pre>
-<span></span><span class="sd">"""Substack adapter — Phase 1 primary, via Playwright (async) browser automation.</span>
+</span><span data-line="309">
+</span><span data-line="310">
+<div class="viewcode-block" id="make_substack_api">
+<a class="viewcode-back" href="../../../_autosummary/article.adapters.substack.html#article.adapters.substack.make_substack_api">[docs]</a>
+</span><span data-line="311"><span class="k">def</span><span class="w"> </span><span class="nf">make_substack_api</span><span class="p">(</span>
+</span><span data-line="312">    <span class="n">secrets</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="o">*</span><span class="p">,</span> <span class="n">publication_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span data-line="313"><span class="p">):</span>
+</span><span data-line="314"><span class="w">    </span><span class="sd">"""A logged-in python-substack ``Api`` from ``secrets`` (cookies preferred)."""</span>
+</span><span data-line="315">    <span class="k">try</span><span class="p">:</span>
+</span><span data-line="316">        <span class="kn">from</span><span class="w"> </span><span class="nn">substack</span><span class="w"> </span><span class="kn">import</span> <span class="n">Api</span>
+</span><span data-line="317">    <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span data-line="318">        <span class="k">raise</span> <span class="n">AdapterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"substack: </span><span class="si">{</span><span class="n">_INSTALL_HINT</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+</span><span data-line="319">    <span class="n">common</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"publication_url"</span><span class="p">:</span> <span class="n">publication_url</span><span class="p">}</span>
+</span><span data-line="320">    <span class="k">if</span> <span class="n">secrets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"cookies"</span><span class="p">):</span>
+</span><span data-line="321">        <span class="k">return</span> <span class="n">Api</span><span class="p">(</span><span class="n">cookies_string</span><span class="o">=</span><span class="n">secrets</span><span class="p">[</span><span class="s2">"cookies"</span><span class="p">],</span> <span class="o">**</span><span class="n">common</span><span class="p">)</span>
+</span><span data-line="322">    <span class="k">if</span> <span class="n">secrets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"cookies_path"</span><span class="p">):</span>
+</span><span data-line="323">        <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">secrets</span><span class="p">[</span><span class="s2">"cookies_path"</span><span class="p">])</span><span class="o">.</span><span class="n">expanduser</span><span class="p">()</span>
+</span><span data-line="324">        <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
+</span><span data-line="325">            <span class="k">raise</span> <span class="n">AdapterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"substack: cookies file not found: </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span data-line="326">        <span class="k">return</span> <span class="n">Api</span><span class="p">(</span><span class="n">cookies_path</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">),</span> <span class="o">**</span><span class="n">common</span><span class="p">)</span>
+</span><span data-line="327">    <span class="k">if</span> <span class="n">secrets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"email"</span><span class="p">)</span> <span class="ow">and</span> <span class="n">secrets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"password"</span><span class="p">):</span>
+</span><span data-line="328">        <span class="k">return</span> <span class="n">Api</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="n">secrets</span><span class="p">[</span><span class="s2">"email"</span><span class="p">],</span> <span class="n">password</span><span class="o">=</span><span class="n">secrets</span><span class="p">[</span><span class="s2">"password"</span><span class="p">],</span> <span class="o">**</span><span class="n">common</span><span class="p">)</span>
+</span><span data-line="329">    <span class="k">raise</span> <span class="n">AdapterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"substack: no credentials; </span><span class="si">{</span><span class="n">_AUTH_HINT</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span></div>
 
-<span class="sd">Substack has no official public write API, so we drive the publication's own</span>
-<span class="sd">web surface. Two paths exist (the internal REST routes under</span>
-<span class="sd">``/api/v1/drafts``, and full browser automation); this adapter is structured</span>
-<span class="sd">around **Playwright** because it survives editor changes better and reuses a</span>
-<span class="sd">real logged-in session.</span>
+</span><span data-line="330">
+</span><span data-line="331">
+</span><span data-line="332"><span class="k">def</span><span class="w"> </span><span class="nf">_publication_base</span><span class="p">(</span><span class="n">api</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">configured</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span data-line="333"><span class="w">    </span><span class="sd">"""``https://&lt;pub&gt;`` from the configured URL, else from the client's API URL."""</span>
+</span><span data-line="334">    <span class="k">if</span> <span class="n">configured</span><span class="p">:</span>
+</span><span data-line="335">        <span class="n">configured</span> <span class="o">=</span> <span class="n">configured</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)</span>
+</span><span data-line="336">        <span class="k">return</span> <span class="n">configured</span> <span class="k">if</span> <span class="s2">"://"</span> <span class="ow">in</span> <span class="n">configured</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">"https://</span><span class="si">{</span><span class="n">configured</span><span class="si">}</span><span class="s2">"</span>
+</span><span data-line="337">    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">api</span><span class="o">.</span><span class="n">publication_url</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)</span><span class="o">.</span><span class="n">removesuffix</span><span class="p">(</span><span class="s2">"/api/v1"</span><span class="p">)</span>
+</span><span data-line="338">
+</span><span data-line="339">
+<div class="viewcode-block" id="summarize_document">
+<a class="viewcode-back" href="../../../_autosummary/article.adapters.substack.html#article.adapters.substack.summarize_document">[docs]</a>
+</span><span data-line="340"><span class="k">def</span><span class="w"> </span><span class="nf">summarize_document</span><span class="p">(</span><span class="n">draft</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+</span><span data-line="341"><span class="w">    </span><span class="sd">"""Count what survived conversion: footnotes, images, captions, LaTeX, ...</span>
+</span><span data-line="342">
+</span><span data-line="343"><span class="sd">    &gt;&gt;&gt; summarize_document({"draft_body": '{"type": "doc", "content": '</span>
+</span><span data-line="344"><span class="sd">    ...     '[{"type": "footnote", "content": []}]}'})</span>
+</span><span data-line="345"><span class="sd">    {'footnotes': 1}</span>
+</span><span data-line="346"><span class="sd">    """</span>
+</span><span data-line="347">    <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+</span><span data-line="348">
+</span><span data-line="349">    <span class="n">body</span> <span class="o">=</span> <span class="n">draft</span><span class="p">[</span><span class="s2">"draft_body"</span><span class="p">]</span>
+</span><span data-line="350">    <span class="n">body</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">body</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">body</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">body</span>
+</span><span data-line="351">    <span class="n">counts</span><span class="p">:</span> <span class="n">Counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
+</span><span data-line="352">
+</span><span data-line="353">    <span class="k">def</span><span class="w"> </span><span class="nf">walk</span><span class="p">(</span><span class="n">node</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="354">        <span class="n">counts</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"type"</span><span class="p">)]</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span data-line="355">        <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"content"</span><span class="p">)</span> <span class="ow">or</span> <span class="p">():</span>
+</span><span data-line="356">            <span class="n">walk</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+</span><span data-line="357">
+</span><span data-line="358">    <span class="n">walk</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
+</span><span data-line="359">    <span class="n">names</span> <span class="o">=</span> <span class="p">{</span>
+</span><span data-line="360">        <span class="s2">"footnoteAnchor"</span><span class="p">:</span> <span class="s2">"footnote_refs"</span><span class="p">,</span>
+</span><span data-line="361">        <span class="s2">"footnote"</span><span class="p">:</span> <span class="s2">"footnotes"</span><span class="p">,</span>
+</span><span data-line="362">        <span class="s2">"captionedImage"</span><span class="p">:</span> <span class="s2">"images"</span><span class="p">,</span>
+</span><span data-line="363">        <span class="s2">"caption"</span><span class="p">:</span> <span class="s2">"captions"</span><span class="p">,</span>
+</span><span data-line="364">        <span class="s2">"latex"</span><span class="p">:</span> <span class="s2">"latex_inline"</span><span class="p">,</span>
+</span><span data-line="365">        <span class="s2">"latex_block"</span><span class="p">:</span> <span class="s2">"latex_blocks"</span><span class="p">,</span>
+</span><span data-line="366">        <span class="s2">"codeBlock"</span><span class="p">:</span> <span class="s2">"code_blocks"</span><span class="p">,</span>
+</span><span data-line="367">        <span class="s2">"heading"</span><span class="p">:</span> <span class="s2">"headings"</span><span class="p">,</span>
+</span><span data-line="368">        <span class="s2">"paragraph"</span><span class="p">:</span> <span class="s2">"paragraphs"</span><span class="p">,</span>
+</span><span data-line="369">    <span class="p">}</span>
+</span><span data-line="370">    <span class="k">return</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">counts</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">counts</span><span class="p">[</span><span class="n">t</span><span class="p">]}</span></div>
 
-<span class="sd">Flow:</span>
+</span><span data-line="371">
+</span><span data-line="372">
+<div class="viewcode-block" id="dry_run">
+<a class="viewcode-back" href="../../../_autosummary/article.adapters.substack.html#article.adapters.substack.dry_run">[docs]</a>
+</span><span data-line="373"><span class="k">def</span><span class="w"> </span><span class="nf">dry_run</span><span class="p">(</span>
+</span><span data-line="374">    <span class="n">article</span><span class="p">:</span> <span class="n">Article</span><span class="p">,</span>
+</span><span data-line="375">    <span class="o">*</span><span class="p">,</span>
+</span><span data-line="376">    <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SubstackConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span data-line="377">    <span class="n">tables</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TablePolicy</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span data-line="378"><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+</span><span data-line="379"><span class="w">    </span><span class="sd">"""Preflight and convert ``article`` without credentials or network; report counts."""</span>
+</span><span data-line="380">    <span class="n">config</span> <span class="o">=</span> <span class="n">config</span> <span class="ow">or</span> <span class="n">article</span><span class="o">.</span><span class="n">platforms</span><span class="o">.</span><span class="n">substack</span> <span class="ow">or</span> <span class="n">SubstackConfig</span><span class="p">()</span>
+</span><span data-line="381">    <span class="n">markdown</span><span class="p">,</span> <span class="n">warnings</span> <span class="o">=</span> <span class="n">preflight</span><span class="p">(</span>
+</span><span data-line="382">        <span class="n">article</span><span class="o">.</span><span class="n">content_markdown</span><span class="p">,</span>
+</span><span data-line="383">        <span class="n">assets_dir</span><span class="o">=</span><span class="n">article</span><span class="o">.</span><span class="n">assets_dir</span><span class="p">,</span>
+</span><span data-line="384">        <span class="n">tables</span><span class="o">=</span><span class="n">coalesce</span><span class="p">(</span><span class="n">tables</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">tables</span><span class="p">),</span>
+</span><span data-line="385">    <span class="p">)</span>
+</span><span data-line="386">    <span class="n">draft</span> <span class="o">=</span> <span class="n">draft_document</span><span class="p">(</span><span class="n">article</span><span class="p">,</span> <span class="n">markdown</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+</span><span data-line="387">    <span class="k">return</span> <span class="p">{</span>
+</span><span data-line="388">        <span class="s2">"title"</span><span class="p">:</span> <span class="n">draft</span><span class="p">[</span><span class="s2">"draft_title"</span><span class="p">],</span>
+</span><span data-line="389">        <span class="s2">"subtitle"</span><span class="p">:</span> <span class="n">draft</span><span class="p">[</span><span class="s2">"draft_subtitle"</span><span class="p">],</span>
+</span><span data-line="390">        <span class="s2">"slug"</span><span class="p">:</span> <span class="n">article</span><span class="o">.</span><span class="n">slug</span><span class="p">,</span>
+</span><span data-line="391">        <span class="s2">"counts"</span><span class="p">:</span> <span class="n">summarize_document</span><span class="p">(</span><span class="n">draft</span><span class="p">),</span>
+</span><span data-line="392">        <span class="s2">"warnings"</span><span class="p">:</span> <span class="n">warnings</span><span class="p">,</span>
+</span><span data-line="393">    <span class="p">}</span></div>
 
-<span class="sd">1. Restore a saved Playwright ``storage_state`` (cookies/session) if present —</span>
-<span class="sd">   so credentials aren't re-entered each run — else log in with the configured</span>
-<span class="sd">   email/password and persist a fresh ``storage_state``.</span>
-<span class="sd">2. Create a draft, fill title / subtitle / body, and publish.</span>
-<span class="sd">3. Read back the **live public URL Substack assigns**</span>
-<span class="sd">   (``https://&lt;sub&gt;.substack.com/p/&lt;slug&gt;``). That URL is the canonical SSOT</span>
-<span class="sd">   the secondary platforms point at.</span>
+</span><span data-line="394">
+</span><span data-line="395">
+<div class="viewcode-block" id="create_substack_draft">
+<a class="viewcode-back" href="../../../_autosummary/article.adapters.substack.html#article.adapters.substack.create_substack_draft">[docs]</a>
+</span><span data-line="396"><span class="k">def</span><span class="w"> </span><span class="nf">create_substack_draft</span><span class="p">(</span>
+</span><span data-line="397">    <span class="n">article</span><span class="p">:</span> <span class="n">Article</span><span class="p">,</span>
+</span><span data-line="398">    <span class="o">*</span><span class="p">,</span>
+</span><span data-line="399">    <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SubstackConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span data-line="400">    <span class="n">secrets</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span data-line="401">    <span class="n">api</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span data-line="402">    <span class="n">tables</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TablePolicy</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span data-line="403"><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PublishResult</span><span class="p">:</span>
+</span><span data-line="404"><span class="w">    </span><span class="sd">"""Create an **unpublished** Substack draft of ``article``; never publishes.</span>
+</span><span data-line="405">
+</span><span data-line="406"><span class="sd">    ``api`` defaults to a python-substack ``Api`` built from ``secrets``;</span>
+</span><span data-line="407"><span class="sd">    ``tables`` defaults to ``config.tables``.</span>
+</span><span data-line="408"><span class="sd">    """</span>
+</span><span data-line="409">    <span class="n">config</span> <span class="o">=</span> <span class="n">config</span> <span class="ow">or</span> <span class="n">article</span><span class="o">.</span><span class="n">platforms</span><span class="o">.</span><span class="n">substack</span> <span class="ow">or</span> <span class="n">SubstackConfig</span><span class="p">()</span>
+</span><span data-line="410">    <span class="n">secrets</span> <span class="o">=</span> <span class="n">secrets</span> <span class="ow">or</span> <span class="p">{}</span>
+</span><span data-line="411">    <span class="k">if</span> <span class="ow">not</span> <span class="n">config</span><span class="o">.</span><span class="n">publish_as_draft</span><span class="p">:</span>
+</span><span data-line="412">        <span class="k">raise</span> <span class="n">AdapterError</span><span class="p">(</span>
+</span><span data-line="413">            <span class="s2">"substack: this tool only creates drafts; publish from the Substack "</span>
+</span><span data-line="414">            <span class="s2">"editor (remove publish_as_draft=false from the article)"</span>
+</span><span data-line="415">        <span class="p">)</span>
+</span><span data-line="416">    <span class="n">markdown</span><span class="p">,</span> <span class="n">warnings</span> <span class="o">=</span> <span class="n">preflight</span><span class="p">(</span>
+</span><span data-line="417">        <span class="n">article</span><span class="o">.</span><span class="n">content_markdown</span><span class="p">,</span>
+</span><span data-line="418">        <span class="n">assets_dir</span><span class="o">=</span><span class="n">article</span><span class="o">.</span><span class="n">assets_dir</span><span class="p">,</span>
+</span><span data-line="419">        <span class="n">tables</span><span class="o">=</span><span class="n">coalesce</span><span class="p">(</span><span class="n">tables</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">tables</span><span class="p">),</span>
+</span><span data-line="420">    <span class="p">)</span>
+</span><span data-line="421">    <span class="n">configured_url</span> <span class="o">=</span> <span class="n">coalesce</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">publication_url</span><span class="p">,</span> <span class="n">secrets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"publication_url"</span><span class="p">))</span>
+</span><span data-line="422">    <span class="k">if</span> <span class="n">api</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="423">        <span class="n">api</span> <span class="o">=</span> <span class="n">make_substack_api</span><span class="p">(</span><span class="n">secrets</span><span class="p">,</span> <span class="n">publication_url</span><span class="o">=</span><span class="n">configured_url</span><span class="p">)</span>
+</span><span data-line="424">    <span class="n">publication</span> <span class="o">=</span> <span class="n">_publication_base</span><span class="p">(</span><span class="n">api</span><span class="p">,</span> <span class="n">configured_url</span><span class="p">)</span>
+</span><span data-line="425">
+</span><span data-line="426">    <span class="n">draft</span> <span class="o">=</span> <span class="n">draft_document</span><span class="p">(</span>
+</span><span data-line="427">        <span class="n">article</span><span class="p">,</span> <span class="n">markdown</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">api</span><span class="o">=</span><span class="n">api</span><span class="p">,</span> <span class="n">user_id</span><span class="o">=</span><span class="n">api</span><span class="o">.</span><span class="n">get_user_id</span><span class="p">()</span>
+</span><span data-line="428">    <span class="p">)</span>
+</span><span data-line="429">    <span class="n">created</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">post_draft</span><span class="p">(</span><span class="n">draft</span><span class="p">)</span>
+</span><span data-line="430">    <span class="n">draft_id</span> <span class="o">=</span> <span class="n">created</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"id"</span><span class="p">)</span>
+</span><span data-line="431">    <span class="n">settings</span> <span class="o">=</span> <span class="p">{</span>
+</span><span data-line="432">        <span class="s2">"slug"</span><span class="p">:</span> <span class="n">article</span><span class="o">.</span><span class="n">slug</span><span class="p">,</span>
+</span><span data-line="433">        <span class="s2">"search_engine_description"</span><span class="p">:</span> <span class="n">article</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+</span><span data-line="434">        <span class="s2">"draft_section_id"</span><span class="p">:</span> <span class="n">config</span><span class="o">.</span><span class="n">section_id</span><span class="p">,</span>
+</span><span data-line="435">    <span class="p">}</span>
+</span><span data-line="436">    <span class="n">edit_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">publication</span><span class="si">}</span><span class="s2">/publish/post/</span><span class="si">{</span><span class="n">draft_id</span><span class="si">}</span><span class="s2">"</span>
+</span><span data-line="437">    <span class="k">try</span><span class="p">:</span>
+</span><span data-line="438">        <span class="n">updated</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">put_draft</span><span class="p">(</span>
+</span><span data-line="439">            <span class="n">draft_id</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">settings</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">}</span>
+</span><span data-line="440">        <span class="p">)</span>
+</span><span data-line="441">        <span class="n">tags</span> <span class="o">=</span> <span class="n">coalesce</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">tags</span><span class="p">,</span> <span class="n">article</span><span class="o">.</span><span class="n">tags</span><span class="p">)</span>
+</span><span data-line="442">        <span class="k">if</span> <span class="n">tags</span><span class="p">:</span>
+</span><span data-line="443">            <span class="n">api</span><span class="o">.</span><span class="n">add_tags_to_post</span><span class="p">(</span><span class="n">draft_id</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">tags</span><span class="p">))</span>
+</span><span data-line="444">    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span data-line="445">        <span class="k">raise</span> <span class="n">AdapterError</span><span class="p">(</span>
+</span><span data-line="446">            <span class="sa">f</span><span class="s2">"substack: draft </span><span class="si">{</span><span class="n">draft_id</span><span class="si">}</span><span class="s2"> was created (</span><span class="si">{</span><span class="n">edit_url</span><span class="si">}</span><span class="s2">) but setting its "</span>
+</span><span data-line="447">            <span class="sa">f</span><span class="s2">"slug/tags failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span>
+</span><span data-line="448">        <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+</span><span data-line="449">    <span class="c1"># Substack may adjust a slug (e.g. one already taken); trust what it answers.</span>
+</span><span data-line="450">    <span class="n">slug</span> <span class="o">=</span> <span class="p">(</span><span class="n">updated</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"slug"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">article</span><span class="o">.</span><span class="n">slug</span>
+</span><span data-line="451">    <span class="k">if</span> <span class="n">slug</span> <span class="o">!=</span> <span class="n">article</span><span class="o">.</span><span class="n">slug</span><span class="p">:</span>
+</span><span data-line="452">        <span class="n">warnings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Substack changed the slug from </span><span class="si">{</span><span class="n">article</span><span class="o">.</span><span class="n">slug</span><span class="si">!r}</span><span class="s2"> to </span><span class="si">{</span><span class="n">slug</span><span class="si">!r}</span><span class="s2">"</span><span class="p">)</span>
+</span><span data-line="453">
+</span><span data-line="454">    <span class="n">public_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">publication</span><span class="si">}</span><span class="s2">/p/</span><span class="si">{</span><span class="n">slug</span><span class="si">}</span><span class="s2">"</span>
+</span><span data-line="455">    <span class="n">_log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+</span><span data-line="456">        <span class="s2">"[substack] draft </span><span class="si">%s</span><span class="s2"> created; public URL once published: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
+</span><span data-line="457">        <span class="n">draft_id</span><span class="p">,</span>
+</span><span data-line="458">        <span class="n">public_url</span><span class="p">,</span>
+</span><span data-line="459">    <span class="p">)</span>
+</span><span data-line="460">    <span class="k">return</span> <span class="n">PublishResult</span><span class="o">.</span><span class="n">success</span><span class="p">(</span>
+</span><span data-line="461">        <span class="n">SUBSTACK</span><span class="p">,</span>
+</span><span data-line="462">        <span class="n">url</span><span class="o">=</span><span class="n">public_url</span><span class="p">,</span>
+</span><span data-line="463">        <span class="n">status</span><span class="o">=</span><span class="s2">"draft"</span><span class="p">,</span>
+</span><span data-line="464">        <span class="n">canonical_url</span><span class="o">=</span><span class="n">public_url</span><span class="p">,</span>
+</span><span data-line="465">        <span class="n">detail</span><span class="o">=</span><span class="p">{</span>
+</span><span data-line="466">            <span class="s2">"draft_id"</span><span class="p">:</span> <span class="n">draft_id</span><span class="p">,</span>
+</span><span data-line="467">            <span class="s2">"edit_url"</span><span class="p">:</span> <span class="n">edit_url</span><span class="p">,</span>
+</span><span data-line="468">            <span class="s2">"counts"</span><span class="p">:</span> <span class="n">summarize_document</span><span class="p">(</span><span class="n">draft</span><span class="p">),</span>
+</span><span data-line="469">            <span class="s2">"warnings"</span><span class="p">:</span> <span class="n">warnings</span><span class="p">,</span>
+</span><span data-line="470">        <span class="p">},</span>
+</span><span data-line="471">    <span class="p">)</span></div>
 
-<span class="sd">Human-like pacing (:func:`article.util.human_delay`) is used between scripted</span>
-<span class="sd">actions so automating one's *own* account runs reliably.</span>
-
-<span class="sd">.. note::</span>
-<span class="sd">   The browser body is a clearly-marked TODO stub: it synthesizes the public</span>
-<span class="sd">   URL deterministically so the end-to-end SSOT handoff is exercisable now.</span>
-<span class="sd">   ``canonical_url`` is ignored here on purpose — the primary *defines* it.</span>
-<span class="sd">"""</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">..base</span><span class="w"> </span><span class="kn">import</span> <span class="n">SUBSTACK</span><span class="p">,</span> <span class="n">AdapterError</span><span class="p">,</span> <span class="n">PublishResult</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..config</span><span class="w"> </span><span class="kn">import</span> <span class="n">Article</span><span class="p">,</span> <span class="n">SubstackConfig</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_adapter</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..util</span><span class="w"> </span><span class="kn">import</span> <span class="n">coalesce</span><span class="p">,</span> <span class="n">get_logger</span>
-
-<span class="n">_log</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">()</span>
-
-
-<span class="k">def</span><span class="w"> </span><span class="nf">_public_url</span><span class="p">(</span><span class="n">publication_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">slug</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""The canonical public post URL Substack assigns: ``&lt;pub&gt;/p/&lt;slug&gt;``."""</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">publication_url</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">'/'</span><span class="p">)</span><span class="si">}</span><span class="s2">/p/</span><span class="si">{</span><span class="n">slug</span><span class="si">}</span><span class="s2">"</span>
-
-
+</span><span data-line="472">
+</span><span data-line="473">
 <div class="viewcode-block" id="publish">
-<a class="viewcode-back" href="../../../module_docs/article/adapters/substack.html#article.adapters.substack.publish">[docs]</a>
-<span class="nd">@register_adapter</span><span class="p">(</span><span class="n">SUBSTACK</span><span class="p">)</span>
-<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">publish</span><span class="p">(</span>
-    <span class="n">article</span><span class="p">:</span> <span class="n">Article</span><span class="p">,</span>
-    <span class="o">*</span><span class="p">,</span>
-    <span class="n">canonical_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># ignored: the primary defines canonical</span>
-    <span class="n">config</span><span class="p">:</span> <span class="n">SubstackConfig</span><span class="p">,</span>
-    <span class="n">secrets</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PublishResult</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Publish ``article`` to Substack and return its live public URL.</span>
+<a class="viewcode-back" href="../../../_autosummary/article.adapters.substack.html#article.adapters.substack.publish">[docs]</a>
+</span><span data-line="474"><span class="nd">@register_adapter</span><span class="p">(</span><span class="n">SUBSTACK</span><span class="p">)</span>
+</span><span data-line="475"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">publish</span><span class="p">(</span>
+</span><span data-line="476">    <span class="n">article</span><span class="p">:</span> <span class="n">Article</span><span class="p">,</span>
+</span><span data-line="477">    <span class="o">*</span><span class="p">,</span>
+</span><span data-line="478">    <span class="n">canonical_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># ignored: the primary defines canonical</span>
+</span><span data-line="479">    <span class="n">config</span><span class="p">:</span> <span class="n">SubstackConfig</span><span class="p">,</span>
+</span><span data-line="480">    <span class="n">secrets</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+</span><span data-line="481">    <span class="n">api</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span data-line="482">    <span class="n">tables</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TablePolicy</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span data-line="483"><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PublishResult</span><span class="p">:</span>
+</span><span data-line="484"><span class="w">    </span><span class="sd">"""Registry entry point: :func:`create_substack_draft` off the event loop.</span>
+</span><span data-line="485">
+</span><span data-line="486"><span class="sd">    The name is the registry's contract; what it does is create a **draft**.</span>
+</span><span data-line="487"><span class="sd">    """</span>
+</span><span data-line="488">    <span class="k">return</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">to_thread</span><span class="p">(</span>
+</span><span data-line="489">        <span class="n">create_substack_draft</span><span class="p">,</span>
+</span><span data-line="490">        <span class="n">article</span><span class="p">,</span>
+</span><span data-line="491">        <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+</span><span data-line="492">        <span class="n">secrets</span><span class="o">=</span><span class="n">secrets</span><span class="p">,</span>
+</span><span data-line="493">        <span class="n">api</span><span class="o">=</span><span class="n">api</span><span class="p">,</span>
+</span><span data-line="494">        <span class="n">tables</span><span class="o">=</span><span class="n">tables</span><span class="p">,</span>
+</span><span data-line="495">    <span class="p">)</span></div>
 
-<span class="sd">    &gt;&gt;&gt; import asyncio</span>
-<span class="sd">    &gt;&gt;&gt; from article.config import Article, SubstackConfig</span>
-<span class="sd">    &gt;&gt;&gt; art = Article(title="Hi", slug="hi-there", content_markdown="x")</span>
-<span class="sd">    &gt;&gt;&gt; res = asyncio.run(publish(</span>
-<span class="sd">    ...     art,</span>
-<span class="sd">    ...     config=SubstackConfig(publish_as_draft=False),</span>
-<span class="sd">    ...     secrets={"publication_url": "https://me.substack.com"},</span>
-<span class="sd">    ... ))</span>
-<span class="sd">    &gt;&gt;&gt; res.ok, res.url</span>
-<span class="sd">    (True, 'https://me.substack.com/p/hi-there')</span>
-<span class="sd">    """</span>
-    <span class="n">publication_url</span> <span class="o">=</span> <span class="n">coalesce</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">publication_url</span><span class="p">,</span> <span class="n">secrets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"publication_url"</span><span class="p">))</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">publication_url</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">AdapterError</span><span class="p">(</span>
-            <span class="s2">"substack: a publication_url is required (set platforms.substack.publication_url "</span>
-            <span class="s2">"or SUBSTACK_PUBLICATION_URL) so the canonical public URL can be resolved"</span>
-        <span class="p">)</span>
-
-    <span class="n">session_path</span> <span class="o">=</span> <span class="n">secrets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"session_path"</span><span class="p">)</span>
-    <span class="n">min_delay</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">secrets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"min_action_delay"</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">))</span>
-    <span class="n">max_delay</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">secrets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"max_action_delay"</span><span class="p">,</span> <span class="mf">2.4</span><span class="p">))</span>
-
-    <span class="c1"># ----------------------------------------------------------------- #</span>
-    <span class="c1"># TODO(playwright): replace this stub with the real browser flow.    #</span>
-    <span class="c1">#                                                                    #</span>
-    <span class="c1"># from playwright.async_api import async_playwright                  #</span>
-    <span class="c1"># async with async_playwright() as p:                               #</span>
-    <span class="c1">#     ctx_kwargs = {}                                                #</span>
-    <span class="c1">#     if session_path and os.path.exists(session_path):             #</span>
-    <span class="c1">#         ctx_kwargs["storage_state"] = session_path  # reuse login  #</span>
-    <span class="c1">#     browser = await p.chromium.launch(headless=True)              #</span>
-    <span class="c1">#     context = await browser.new_context(**ctx_kwargs)             #</span>
-    <span class="c1">#     page = await context.new_page()                               #</span>
-    <span class="c1">#     if "storage_state" not in ctx_kwargs:                         #</span>
-    <span class="c1">#         await _login(page, secrets["email"], secrets["password"]) #</span>
-    <span class="c1">#         await context.storage_state(path=session_path)  # persist  #</span>
-    <span class="c1">#     await page.goto(f"{publication_url}/publish/post")            #</span>
-    <span class="c1">#     await human_delay(min_delay, max_delay)                       #</span>
-    <span class="c1">#     await page.fill("[data-testid=post-title]", article.title)    #</span>
-    <span class="c1">#     ...  # fill body (markdown -&gt; editor), set audience/section    #</span>
-    <span class="c1">#     await _click_publish(page, send=config.send_email)            #</span>
-    <span class="c1">#     live_url = page.url  # the assigned public URL                 #</span>
-    <span class="c1">#     await browser.close()                                         #</span>
-    <span class="c1"># ----------------------------------------------------------------- #</span>
-
-    <span class="n">live_url</span> <span class="o">=</span> <span class="n">_public_url</span><span class="p">(</span><span class="n">publication_url</span><span class="p">,</span> <span class="n">article</span><span class="o">.</span><span class="n">slug</span><span class="p">)</span>
-    <span class="n">status</span> <span class="o">=</span> <span class="s2">"draft"</span> <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">publish_as_draft</span> <span class="k">else</span> <span class="s2">"published"</span>
-    <span class="n">session_restored</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">session_path</span><span class="p">)</span>
-    <span class="n">_log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"[substack] STUB: would </span><span class="si">%s</span><span class="s2"> </span><span class="si">%r</span><span class="s2"> -&gt; </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">article</span><span class="o">.</span><span class="n">slug</span><span class="p">,</span> <span class="n">live_url</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">PublishResult</span><span class="o">.</span><span class="n">success</span><span class="p">(</span>
-        <span class="n">SUBSTACK</span><span class="p">,</span>
-        <span class="n">url</span><span class="o">=</span><span class="n">live_url</span><span class="p">,</span>
-        <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="p">,</span>
-        <span class="n">canonical_url</span><span class="o">=</span><span class="n">live_url</span><span class="p">,</span>  <span class="c1"># the primary's URL *is* the canonical SSOT</span>
-        <span class="n">detail</span><span class="o">=</span><span class="p">{</span>
-            <span class="s2">"stub"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-            <span class="s2">"transport"</span><span class="p">:</span> <span class="s2">"playwright(async)"</span><span class="p">,</span>
-            <span class="s2">"session_restored"</span><span class="p">:</span> <span class="n">session_restored</span><span class="p">,</span>
-            <span class="s2">"audience"</span><span class="p">:</span> <span class="n">config</span><span class="o">.</span><span class="n">audience</span><span class="p">,</span>
-            <span class="s2">"send_email"</span><span class="p">:</span> <span class="n">config</span><span class="o">.</span><span class="n">send_email</span><span class="p">,</span>
-            <span class="s2">"pacing_seconds"</span><span class="p">:</span> <span class="p">[</span><span class="n">min_delay</span><span class="p">,</span> <span class="n">max_delay</span><span class="p">],</span>
-        <span class="p">},</span>
-    <span class="p">)</span></div>
-
-</pre></div>
-
-           </div>
-          </div>
-          <footer>
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p></p>
+</span></pre></div>
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright">
+  <p>
+    Made with
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials">
+  <a href="https://github.com/thorwhalen/article" aria-label="GitHub">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </a></div>
+    </div>
   </div>
-
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
-
 </footer>
-        </div>
-      </div>
-    </section>
-  </div>
-  <script>
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
+      <script src="../../../_static/documentation_options.js?v=360bc84d"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=fd10adb8"></script>
+      <script src="../../../_static/shibuya.js?v=50760d75"></script>
+      <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
 
-</body>
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = "pre.mermaid {\n    /* Same as .mermaid-container > pre */\n    display: block;\n    width: 100%;\n}\n\npre.mermaid > svg {\n    /* Same as .mermaid-container > pre > svg */\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}";
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = ".mermaid-container {\n    position: relative;\n    display: flex;\n    flex-direction: row;\n    width: 100%;\n}\n\n.mermaid-container > pre {\n    display: block;\n    width: 100%;\n}\n\n.mermaid-container > pre > svg {\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}\n\n.mermaid-fullscreen-btn {\n    position: absolute;\n    width: 28px;\n    height: 28px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.3);\n    border-radius: 4px;\n    cursor: pointer;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    transition: all 0.2s;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);\n    font-size: 14px;\n    line-height: 1;\n    padding: 0;\n    color: #333;\n}\n\n.mermaid-fullscreen-btn:hover {\n    opacity: 100% !important;\n    background: rgba(255, 255, 255, 1);\n    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-btn.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.3);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-btn.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal {\n    display: none;\n    position: fixed !important;\n    top: 0 !important;\n    left: 0 !important;\n    width: 95vw;\n    height: 100vh;\n    background: rgba(255, 255, 255, 0.98);\n    z-index: 9999;\n    padding: 20px;\n    overflow: auto;\n}\n\n.mermaid-fullscreen-modal.dark-theme {\n    background: rgba(0, 0, 0, 0.98);\n}\n\n.mermaid-fullscreen-modal.active {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen {\n    position: relative;\n    width: 95vw;\n    height: 90vh;\n    max-width: 95vw;\n    max-height: 90vh;\n    background: white;\n    border-radius: 8px;\n    padding: 20px;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);\n    overflow: auto;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen.dark-theme {\n    background: #1a1a1a;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);\n}\n\n.mermaid-container-fullscreen pre.mermaid {\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen .mermaid svg {\n    height: 100% !important;\n    width: 100% !important;\n    cursor: grab;\n}\n\n.mermaid-fullscreen-close {\n    position: fixed !important;\n    top: 20px !important;\n    right: 20px !important;\n    width: 40px;\n    height: 40px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.2);\n    border-radius: 50%;\n    cursor: pointer;\n    z-index: 10000;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);\n    transition: all 0.2s;\n    font-size: 24px;\n    line-height: 1;\n    color: #333;\n}\n\n.mermaid-fullscreen-close:hover {\n    background: white;\n    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-close.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-close.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal .mermaid-fullscreen-btn {\n    display: none !important;\n}";
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+let closeModal = () => {};
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.classList.contains('active')) {
+        closeModal();
+    }
+});
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if (false) {
+                                        addZoomToSvgs(d3.selectAll("").select(function() {
+                                            return this.querySelector("svg");
+                                        }));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if (false) {
+        const mermaids_to_add_zoom = 0 === -1 ? mermaids_active.length : 0;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("").select(function() {
+                return this.querySelector("svg");
+            });
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if (!true) return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = "\u26f6";
+        fullscreenBtn.style.opacity = "50%";
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scrollX, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.display = 'block';
+
+                if (false) {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+
+
+const load = async () => {
+    initStyles();
+
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...{"startOnLoad": false},
+                ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...{"startOnLoad": false},
+    ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script></body>
 </html>

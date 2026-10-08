@@ -1,0 +1,12 @@
+article.adapters.dev\_to
+========================
+
+.. automodule:: article.adapters.dev_to
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      publish
+   

@@ -1,0 +1,13 @@
+article.md\_source
+==================
+
+.. automodule:: article.md_source
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      markdown_to_fields
+      slugify
+   
