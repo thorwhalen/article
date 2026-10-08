@@ -56,6 +56,9 @@ class PublishState(str, Enum):
     SUCCESS = "success"
     FAILED = "failed"
     SKIPPED = "skipped"
+    #: Nothing was sent: the platform has no usable API, so the result carries
+    #: the steps for a person to do by hand (``detail["next_step"]``).
+    MANUAL = "manual"
 
 
 # --------------------------------------------------------------------------- #
@@ -77,6 +80,8 @@ class PublishResult:
     (False, 'failed', 'HTTP 401')
     >>> PublishResult.skipped("dev_to", reason="not configured").state.value
     'skipped'
+    >>> PublishResult.manual("medium", next_step="import it").ok
+    False
     """
 
     platform: str
@@ -144,6 +149,23 @@ class PublishResult:
             detail=dict(detail or {}),
         )
 
+    @classmethod
+    def manual(
+        cls,
+        platform: str,
+        *,
+        next_step: str,
+        canonical_url: Optional[str] = None,
+        detail: Optional[Mapping[str, Any]] = None,
+    ) -> "PublishResult":
+        """Nothing was sent to ``platform``; ``next_step`` says what a person must do."""
+        return cls(
+            platform=platform,
+            state=PublishState.MANUAL,
+            canonical_url=canonical_url,
+            detail={**dict(detail or {}), "next_step": next_step},
+        )
+
     def as_record(self) -> dict[str, Any]:
         """A JSON-serializable summary, suitable for the state store."""
         return {
@@ -194,6 +216,11 @@ class RunSummary:
         return tuple(r for r in self.results if r.state is PublishState.SUCCESS)
 
     @property
+    def manual_steps(self) -> tuple[PublishResult, ...]:
+        """The subset of results that need a person to finish them by hand."""
+        return tuple(r for r in self.results if r.state is PublishState.MANUAL)
+
+    @property
     def by_platform(self) -> dict[str, PublishResult]:
         """Results keyed by platform name."""
         return {r.platform: r for r in self.results}
@@ -204,17 +231,22 @@ class RunSummary:
             PublishState.SUCCESS: "[ok]  ",
             PublishState.FAILED: "[fail]",
             PublishState.SKIPPED: "[skip]",
+            PublishState.MANUAL: "[todo]",
         }
         lines = [f"Phase: {self.phase}"]
         if self.canonical_url:
             lines.append(f"canonical_url: {self.canonical_url}")
         for r in self.results:
-            tail = r.url or r.error or ""
+            tail = r.url or r.error or r.detail.get("next_step") or ""
             status = f" ({r.status})" if r.status else ""
             lines.append(f"  {glyph[r.state]} {r.platform}{status}: {tail}".rstrip())
+        n_manual = len(self.manual_steps)
+        n_skipped = len(self.results) - len(self.successes) - len(self.failures)
+        n_skipped -= n_manual
+        manual = f", {n_manual} to do by hand" if n_manual else ""
         lines.append(
             f"=> {len(self.successes)} ok, {len(self.failures)} failed, "
-            f"{len(self.results) - len(self.successes) - len(self.failures)} skipped"
+            f"{n_skipped} skipped{manual}"
         )
         return "\n".join(lines)
 

@@ -1,12 +1,15 @@
 # PYTHON_ARGCOMPLETE_OK
 """Command-line entry point for the ``article`` publishing pipeline.
 
-Two commands, mirroring the two phases — both thin wrappers over the very same
-:mod:`article.engine` functions the Python API exposes (dispatch-to-interface:
-one implementation, many front-ends)::
+Two commands mirror the two phases, and a third is the everyday shortcut for
+phase 1 — all thin wrappers over the very same :mod:`article.engine` and
+adapter functions the Python API exposes (dispatch-to-interface: one
+implementation, many front-ends)::
 
     python -m article publish-primary      article.json
     python -m article syndicate-secondary  article.json
+    python -m article draft-substack       essay.md      # unpublished draft
+    python -m article draft-substack       essay.md --dry-run   # no credentials
 
 Common options: ``--env-file`` (where to read secrets), ``--state-path``
 (the SSOT state file), ``--json-out`` (machine-readable summary). Phase 2 also
@@ -21,8 +24,9 @@ from typing import Optional
 
 import cw
 
-from .base import ArticleError, RunSummary
-from .config import load_article, load_settings
+from .adapters import substack as _substack
+from .base import SUBSTACK, ArticleError, RunSummary
+from .config import SubstackConfig, load_article, load_settings
 from .engine import publish_primary as _publish_primary
 from .engine import syndicate_secondary as _syndicate_secondary
 from .state import JsonStateStore
@@ -84,8 +88,51 @@ def syndicate_secondary(
     return _render(summary, json_out=json_out)
 
 
+def _render_dry_run(report: dict) -> str:
+    counts = ", ".join(f"{n} {k}" for k, n in report["counts"].items()) or "empty"
+    lines = [
+        f"Dry run (nothing sent): {report['title']!r} -> slug {report['slug']}",
+        f"  converts to: {counts}",
+        *(f"  warning: {w}" for w in report["warnings"]),
+    ]
+    return "\n".join(lines)
+
+
+def draft_substack(
+    article_path: str,
+    *,
+    env_file: Optional[str] = None,
+    state_path: Optional[str] = None,
+    tables: Optional[str] = None,
+    dry_run: bool = False,
+    json_out: bool = False,
+):
+    """Create an UNPUBLISHED Substack draft from a Markdown file; never publishes."""
+    settings, article, store = _prepare(
+        article_path, env_file=env_file, state_path=state_path
+    )
+    config = article.platforms.substack or SubstackConfig()
+    if tables is not None:
+        config = config.model_copy(update={"tables": tables})
+    try:
+        if dry_run:
+            report = _substack.dry_run(article, config=config)
+            return json.dumps(report, indent=2) if json_out else _render_dry_run(report)
+        platforms = article.platforms.model_copy(update={SUBSTACK: config})
+        article = article.model_copy(update={"platforms": platforms})
+        summary = run_sync(_publish_primary(article, settings=settings, store=store))
+    except ArticleError as e:
+        raise cw.CommandError(str(e)) from e
+    if not summary.ok:
+        raise cw.CommandError(summary.failures[0].error)
+    if json_out:
+        return _render(summary, json_out=True)
+    detail = summary.by_platform[SUBSTACK].detail
+    return f"{summary.render()}\nEdit the draft: {detail.get('edit_url')}"
+
+
 #: SSOT list of dispatchable commands (``cw`` maps ``_`` in names to ``-``).
-_dispatch_funcs = [publish_primary, syndicate_secondary]
+_dispatch_funcs = [publish_primary, syndicate_secondary, draft_substack]
 
 #: Per-parameter ``add_argument`` particulars the signature cannot carry -- here, the
 #: one ``help`` string that used to ride on an ``@argh.arg`` decorator. ``cw`` reads
@@ -93,6 +140,14 @@ _dispatch_funcs = [publish_primary, syndicate_secondary]
 _dispatch_config = {
     command: {"article_path": {"help": "Path to the article JSON file"}}
     for command in ("publish-primary", "syndicate-secondary")
+}
+_dispatch_config["draft-substack"] = {
+    "article_path": {"help": "Path to the essay Markdown file (or article JSON)"},
+    "tables": {
+        "choices": ["error", "code"],
+        "help": "Markdown tables: refuse (error, the default) or keep as code blocks",
+    },
+    "dry_run": {"help": "Check and convert only; no credentials, nothing sent"},
 }
 
 

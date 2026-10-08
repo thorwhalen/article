@@ -8,8 +8,56 @@ Hashnode) — each pointing its canonical URL back to the primary, so you get
 cross-platform reach without an SEO duplicate-content penalty.
 
 ```bash
-pip install article
+pip install 'article[substack]'
+article draft-substack essay.md            # an UNPUBLISHED Substack draft
 ```
+
+`draft-substack` turns a Markdown file into a Substack draft: `[^n]` footnotes, `![alt](src "caption")` captions, `$...$` LaTeX and local images (uploaded to Substack) all survive. **It never publishes**: you review the draft in the Substack editor and press Publish there. Add `--dry-run` to check and convert without credentials or network.
+
+## Markdown to a Substack draft
+
+The essay is a plain `.md` file. The title is the first `# Heading` (removed from the body, since Substack shows the title itself), or a `title:` in front matter; the slug is derived from the title unless front matter sets `slug:`. Front matter can also set `subtitle`, `tags` and `description`:
+
+```markdown
+---
+subtitle: Why everyone agrees and nobody agrees
+tags: [agile, ai]
+---
+# The Agile Religion
+
+A claim.[^1]
+
+![The tower of Babel](img/babel.jpg "Bruegel, The Tower of Babel (1563)")
+
+[^1]: The footnote text.
+```
+
+Image paths resolve against the Markdown file's directory. Before anything is uploaded, the command refuses (listing every case, with the line) whatever Substack would silently lose:
+
+| Construct | Why | What to do |
+|---|---|---|
+| A table | Substack has no table node | `--tables code` keeps it as a monospace code block; or render it to an image (in Python, pass `tables=` a function returning the image Markdown) |
+| An image in a paragraph with text | the converter keeps only the alt text | give the image its own paragraph; caption goes in the title slot |
+| A missing local image | nothing to upload | fix the path |
+| A raw HTML block | the converter drops it | rewrite it in Markdown |
+
+```bash
+article draft-substack essay.md --dry-run          # what survives, no credentials needed
+article draft-substack essay.md                    # create the draft; prints its edit link
+article draft-substack essay.md --tables code      # keep tables as code blocks
+```
+
+The draft's future public URL (`<publication>/p/<slug>`) is recorded as the canonical URL, so `syndicate-secondary` can point the other platforms at it.
+
+### Substack credentials
+
+Substack has no official write API; this uses the unofficial [python-substack](https://github.com/ma2za/python-substack) client, which talks to undocumented endpoints that can change. Put one of these in `.env` (never commit it):
+
+- `SUBSTACK_COOKIES`: the cookie header from a logged-in browser session (developer tools, Network tab, any `substack.com` request, the `cookie` request header). The most reliable route, since sign-in by email link or captcha cannot be scripted.
+- `SUBSTACK_COOKIES_PATH`: a JSON file of cookies (`{"substack.sid": "...", ...}`).
+- `SUBSTACK_EMAIL` and `SUBSTACK_PASSWORD`, for accounts with a password.
+
+Set `SUBSTACK_PUBLICATION_URL` (e.g. `https://you.substack.com`) if your account has more than one publication. The live smoke test (`tests/test_substack_live.py`) runs only when these are set; it creates one draft and deletes it.
 
 ## The single source of truth
 
@@ -27,7 +75,8 @@ author.json ──► publish-primary ──► Substack ──► live URL ─�
 ```
 
 The two phases are deliberately separate commands so you can syndicate later
-(e.g. `+3 days`) on your own schedule.
+(e.g. `+3 days`) on your own schedule. Phase 1 creates a Substack **draft**;
+publish it in the Substack editor before syndicating.
 
 ## Two-command flow
 
@@ -47,7 +96,7 @@ After `pip install`, the `article` console script is equivalent
 
 ## The article JSON
 
-One standardized file is the single source of truth for content **and** which
+Instead of a Markdown file, an article can be one JSON file. One standardized file is the single source of truth for content **and** which
 platforms to publish to — a platform is published only if it appears under
 `platforms` (see [`examples/article.example.json`](examples/article.example.json)):
 
@@ -58,7 +107,7 @@ platforms to publish to — a platform is published only if it appears under
   "content_markdown": "# Designing an SSOT Publishing Pipeline\n\n…",
   "tags": ["python", "automation", "seo"],
   "platforms": {
-    "substack": { "publish_as_draft": false },
+    "substack": { "tables": "error" },
     "medium":   { "publish_as_draft": true },
     "dev_to":   { "publish_as_draft": true },
     "hashnode": { "publish_as_draft": true }
@@ -122,7 +171,8 @@ async def publish(article, *, canonical_url, config, secrets):
 | Adapters | `article/adapters/*` | One module per platform (config + secrets injected) |
 | CLI | `article/__main__.py` | `cw` dispatch of the two commands |
 
-> **Status:** the layers above are complete and tested; each adapter's actual
-> network / Playwright call is a clearly-marked `TODO` stub that returns a typed
-> placeholder result. Payload field names are verified against each platform's
-> live API (`canonicalUrl` / `canonical_url` / `originalArticleURL`).
+> **Status, per platform:**
+>
+> - **Substack**: real. Creates unpublished drafts through python-substack; never publishes.
+> - **Medium**: honest manual step. Its API is closed to new integrations, so the adapter sends nothing and reports a `[todo]` result: open Medium's *Import a story* page (https://medium.com/p/import) and paste the published Substack URL, which sets the canonical link.
+> - **Dev.to, Hashnode**: still stubs; they build the payload (with the canonical field) but make no network call.

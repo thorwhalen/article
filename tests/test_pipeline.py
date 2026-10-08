@@ -3,7 +3,9 @@
 These exercise every layer above the network: schema validation, the state
 store, the registry, and the engine's phase-1 -> phase-2 handoff, including the
 canonical-URL injection, the missing-canonical guard, and graceful per-platform
-failure. Adapter network bodies are stubs, so no credentials or I/O are needed.
+failure. The Substack adapter is the real one with its client faked
+(``conftest.FakeSubstackApi``); the secondaries send nothing over the network,
+so no credentials or I/O are needed.
 
 Async adapters are driven with ``asyncio.run`` directly, so the suite needs no
 ``pytest-asyncio`` plugin.
@@ -12,9 +14,12 @@ Async adapters are driven with ``asyncio.run`` directly, so the suite needs no
 from __future__ import annotations
 
 import asyncio
+import functools
 import os
 
 import pytest
+
+pytest.importorskip("substack", reason="the primary adapter needs the substack extra")
 
 from article import (
     Article,
@@ -27,9 +32,9 @@ from article import (
     get_adapter,
     load_article,
 )
-from article.base import DEV_TO, HASHNODE, MEDIUM, SUBSTACK
+from article.base import DEV_TO, HASHNODE, MEDIUM, SUBSTACK, PublishState
 
-PUBLICATION_URL = "https://tester.substack.com"
+from conftest import PUBLICATION_URL, FakeSubstackApi
 
 
 def _settings(tmp_path) -> Settings:
@@ -50,7 +55,7 @@ def _article() -> Article:
             "content_markdown": "# Hello\n\nBody.",
             "tags": ["python", "automation"],
             "platforms": {
-                "substack": {"publish_as_draft": False},
+                "substack": {},
                 "medium": {},
                 "dev_to": {},
                 "hashnode": {},
@@ -59,10 +64,26 @@ def _article() -> Article:
     )
 
 
-def _engine(tmp_path, **kw) -> PipelineEngine:
+def _with_fake_substack(resolve=get_adapter):
+    """The real Substack adapter, with python-substack's client faked."""
+
+    def resolver(name):
+        adapter = resolve(name)
+        if name == SUBSTACK:
+            return functools.partial(adapter, api=FakeSubstackApi())
+        return adapter
+
+    return resolver
+
+
+def _engine(tmp_path, *, resolve_adapter=get_adapter) -> PipelineEngine:
     settings = _settings(tmp_path)
     store = JsonStateStore(settings.state_path)
-    return PipelineEngine(settings=settings, store=store, **kw)
+    return PipelineEngine(
+        settings=settings,
+        store=store,
+        resolve_adapter=_with_fake_substack(resolve_adapter),
+    )
 
 
 # --------------------------------------------------------------------------- #
@@ -73,7 +94,12 @@ def _engine(tmp_path, **kw) -> PipelineEngine:
 def test_load_article_valid():
     art = _article()
     assert art.slug == "hello-ssot"
-    assert sorted(art.platforms.configured()) == ["dev_to", "hashnode", "medium", "substack"]
+    assert sorted(art.platforms.configured()) == [
+        "dev_to",
+        "hashnode",
+        "medium",
+        "substack",
+    ]
 
 
 def test_load_article_friendly_error_names_fields():
@@ -86,7 +112,12 @@ def test_load_article_friendly_error_names_fields():
 def test_unknown_platform_key_rejected():
     with pytest.raises(ArticleValidationError):
         load_article(
-            {"title": "x", "slug": "x", "content_markdown": "y", "platforms": {"twitter": {}}}
+            {
+                "title": "x",
+                "slug": "x",
+                "content_markdown": "y",
+                "platforms": {"twitter": {}},
+            }
         )
 
 
@@ -138,14 +169,18 @@ def test_phase2_injects_canonical_into_every_secondary(tmp_path):
 
     canonical = f"{PUBLICATION_URL}/p/{art.slug}"
     assert summary.ok
+    assert summary.by_platform[MEDIUM].state is PublishState.MANUAL
     assert {r.platform for r in summary.results} == {MEDIUM, DEV_TO, HASHNODE}
     # Every secondary result carries the canonical, and so does its payload.
     for r in summary.results:
         assert r.canonical_url == canonical
     payloads = summary.by_platform
-    assert payloads[MEDIUM].detail["payload"]["canonicalUrl"] == canonical
+    assert payloads[MEDIUM].detail["import_url"] == canonical  # Import a story
     assert payloads[DEV_TO].detail["payload"]["article"]["canonical_url"] == canonical
-    assert payloads[HASHNODE].detail["variables"]["input"]["originalArticleURL"] == canonical
+    assert (
+        payloads[HASHNODE].detail["variables"]["input"]["originalArticleURL"]
+        == canonical
+    )
 
 
 def test_phase2_before_phase1_raises(tmp_path):
@@ -160,7 +195,10 @@ def test_devto_tags_are_comma_joined_string(tmp_path):
     art = _article()
     asyncio.run(engine.publish_primary(art))
     summary = asyncio.run(engine.syndicate_secondary(art, platforms=[DEV_TO]))
-    assert summary.by_platform[DEV_TO].detail["payload"]["article"]["tags"] == "python,automation"
+    assert (
+        summary.by_platform[DEV_TO].detail["payload"]["article"]["tags"]
+        == "python,automation"
+    )
 
 
 # --------------------------------------------------------------------------- #

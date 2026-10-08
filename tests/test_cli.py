@@ -23,6 +23,7 @@ import pytest
 
 from article.__main__ import _dispatch_funcs, main, mk_parser
 
+#: The two phase commands, whose grammar was recorded from the argh version.
 COMMANDS = ("publish-primary", "syndicate-secondary")
 
 
@@ -65,14 +66,23 @@ def _run(*argv, cwd=None):
 # --------------------------------------------------------------------------- grammar
 
 
-def test_the_two_phases_are_the_two_commands(parser, subparsers):
+def test_the_two_phases_plus_the_draft_shortcut_are_the_commands(parser, subparsers):
     assert [f.__name__ for f in _dispatch_funcs] == [
         "publish_primary",
         "syndicate_secondary",
+        "draft_substack",
     ]
-    assert tuple(subparsers) == COMMANDS
+    assert tuple(subparsers) == (*COMMANDS, "draft-substack")
     assert parser.format_usage() == (
-        "usage: article [-h] {publish-primary,syndicate-secondary} ...\n"
+        "usage: article [-h] {publish-primary,syndicate-secondary,draft-substack} ...\n"
+    )
+
+
+def test_draft_substack_usage_line(subparsers):
+    usage = " ".join(subparsers["draft-substack"].format_usage().split())
+    assert usage == (
+        "usage: article draft-substack [-h] [-e ENV_FILE] [-s STATE_PATH]"
+        " [-t {error,code}] [-d] [-j] article-path"
     )
 
 
@@ -101,18 +111,14 @@ def test_each_command_keeps_its_recorded_usage_line(subparsers, command, usage):
 
 
 @pytest.mark.parametrize("command", COMMANDS)
-def test_the_positional_keeps_the_help_that_used_to_be_an_argh_arg(
-    subparsers, command
-):
+def test_the_positional_keeps_the_help_that_used_to_be_an_argh_arg(subparsers, command):
     """The migrated ``@argh.arg(help=...)`` declaration.
 
     ``cw`` does **not** read argh's decorator metadata, so dropping
     ``_dispatch_config`` would leave this help string at the ``-`` placeholder with no
     error anywhere. This test is the only thing that would notice.
     """
-    positional = next(
-        a for a in subparsers[command]._actions if not a.option_strings
-    )
+    positional = next(a for a in subparsers[command]._actions if not a.option_strings)
     assert positional.dest == "article-path"  # argh hyphenates positionals
     assert positional.help == "Path to the article JSON file"
 

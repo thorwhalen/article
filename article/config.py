@@ -21,7 +21,7 @@ from __future__ import annotations
 import json
 import os
 from pathlib import Path
-from typing import Any, Mapping, Optional, Union
+from typing import Any, Literal, Mapping, Optional, Union
 
 from pydantic import BaseModel, ConfigDict, Field, ValidationError, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -34,6 +34,7 @@ from .base import (
     ArticleValidationError,
     PlatformName,
 )
+from .md_source import MARKDOWN_SUFFIXES, markdown_to_fields
 
 # --------------------------------------------------------------------------- #
 # Per-platform configuration (overrides + publishing options)                 #
@@ -54,21 +55,34 @@ class _PlatformConfig(BaseModel):
 
 
 class SubstackConfig(_PlatformConfig):
-    """Primary platform. Defaults to *publishing* (it defines the canonical URL)."""
+    """Primary platform: creates an **unpublished draft** (it defines the canonical URL).
 
-    publish_as_draft: bool = False
+    This tool never publishes to Substack: ``publish_as_draft=False`` is refused
+    by the adapter. Review the draft and press *Publish* in the Substack editor.
+    """
+
+    publish_as_draft: bool = True
     #: ``https://<sub>.substack.com`` (or custom domain); else taken from settings.
     publication_url: Optional[str] = None
     #: Optional Substack section id to file the post under.
     section_id: Optional[int] = None
-    #: Whether publishing emails subscribers (the Substack ``send`` flag).
+    #: Kept for article-file compatibility; unused, since this tool never publishes.
     send_email: bool = False
     #: Audience visibility: everyone / only_paid / founding / only_free.
     audience: str = "everyone"
+    #: What to do with a Markdown table, which Substack cannot represent:
+    #: ``"error"`` (refuse, naming every table) or ``"code"`` (keep it as a
+    #: monospace code block). Never dropped silently.
+    tables: Literal["error", "code"] = "error"
 
 
 class MediumConfig(_PlatformConfig):
-    """Medium syndication options (REST API; ``canonicalUrl`` carries SEO)."""
+    """Medium syndication options.
+
+    Medium's API is closed to new integrations, so the adapter does not post:
+    it returns the *Import a story* steps (which set the canonical link). The
+    fields below are kept so existing article files still validate.
+    """
 
     #: Publish under a Medium publication instead of the user profile.
     publication_id: Optional[str] = None
@@ -158,6 +172,9 @@ class Article(BaseModel):
     keywords: list[str] = Field(default_factory=list)
     cover_image_url: Optional[str] = None
     description: Optional[str] = None
+    #: Directory that relative image paths in ``content_markdown`` resolve
+    #: against. :func:`load_article` sets it to the source file's directory.
+    assets_dir: Optional[str] = None
 
     # Per-platform configuration (presence = publish there)
     platforms: PlatformConfigs = Field(default_factory=PlatformConfigs)
@@ -187,7 +204,12 @@ def _format_validation_error(exc: ValidationError, *, source: str) -> str:
 
 
 def load_article(source: ArticleSource) -> Article:
-    """Load and validate an :class:`Article` from a JSON file path, JSON string, or mapping.
+    """Load and validate an :class:`Article` from a file, a JSON string, or a mapping.
+
+    A file is either an article JSON file or a plain Markdown file (``.md`` /
+    ``.markdown``; see :mod:`article.md_source` for how its title, slug and
+    front matter are read). Relative image paths in either resolve against the
+    file's directory (``assets_dir``) unless the article sets its own.
 
     Validation failures are re-raised as :class:`~article.base.ArticleValidationError`
     with a single message naming each offending field — not a raw traceback.
@@ -215,10 +237,22 @@ def load_article(source: ArticleSource) -> Article:
     else:
         text = str(source)
         # Heuristic: a path that exists is a file; otherwise treat as inline JSON.
-        if Path(text).expanduser().exists():
+        path = Path(text).expanduser()
+        if path.exists():
             origin = text
-            with Path(text).expanduser().open("r", encoding="utf-8") as f:
-                data = json.load(f)
+            raw = path.read_text(encoding="utf-8")
+            if path.suffix.lower() in MARKDOWN_SUFFIXES:
+                data = markdown_to_fields(raw, origin=origin)
+            else:
+                try:
+                    data = json.loads(raw)
+                except json.JSONDecodeError as e:
+                    raise ArticleValidationError(
+                        f"Could not read article from {text!r}: not valid JSON ({e}). "
+                        f"Markdown files must end in {' or '.join(MARKDOWN_SUFFIXES)}."
+                    ) from e
+            if isinstance(data, dict):
+                data.setdefault("assets_dir", str(path.resolve().parent))
         else:
             origin = "<json-string>"
             try:
@@ -254,12 +288,13 @@ class Settings(BaseSettings):
         case_sensitive=False,
     )
 
-    # Substack (primary; Playwright/session based)
+    # Substack (primary; python-substack, drafts only). Auth, in order of
+    # preference: a cookies string, a cookies JSON file, then email + password.
+    substack_cookies: Optional[str] = Field(default=None, repr=False)
+    substack_cookies_path: Optional[str] = None
     substack_email: Optional[str] = None
     substack_password: Optional[str] = Field(default=None, repr=False)
     substack_publication_url: Optional[str] = None
-    #: Where the persisted Playwright storage_state (cookies/session) is saved.
-    substack_session_path: str = ".article/substack_session.json"
 
     # Medium (REST)
     medium_token: Optional[str] = Field(default=None, repr=False)
@@ -276,10 +311,6 @@ class Settings(BaseSettings):
     #: JSON state store path (the canonical_url SSOT lives here, keyed by slug).
     state_path: str = "pipeline_state.json"
 
-    # Human-like pacing window (seconds) for browser automation.
-    min_action_delay: float = 0.6
-    max_action_delay: float = 2.4
-
     def secrets_for(self, platform: PlatformName) -> dict[str, Any]:
         """The minimal secrets/identity an adapter needs — injected, not global.
 
@@ -292,12 +323,11 @@ class Settings(BaseSettings):
         """
         by_platform: dict[str, dict[str, Any]] = {
             SUBSTACK: {
+                "cookies": self.substack_cookies,
+                "cookies_path": self.substack_cookies_path,
                 "email": self.substack_email,
                 "password": self.substack_password,
                 "publication_url": self.substack_publication_url,
-                "session_path": self.substack_session_path,
-                "min_action_delay": self.min_action_delay,
-                "max_action_delay": self.max_action_delay,
             },
             MEDIUM: {"token": self.medium_token, "user_id": self.medium_user_id},
             DEV_TO: {"api_key": self.devto_api_key},
