@@ -5,9 +5,10 @@ A Markdown file becomes the fields of an :class:`~article.config.Article`:
 - **Front matter** (a leading ``---`` YAML block) supplies any article field
   directly: ``title``, ``subtitle``, ``slug``, ``tags``, ``description``,
   ``platforms``, ...
-- **Title**: front matter ``title``, else the first level-1 ATX heading
-  (``# Title``). The heading used as the title is removed from the body,
-  since every platform renders the title itself.
+- **Title**: front matter ``title``, else the level-1 ATX heading
+  (``# Title``) when there is exactly one, or when the first of several opens
+  the file; anything else is ambiguous and refused. The heading used as the
+  title is removed from the body, since every platform renders the title itself.
 - **Slug**: front matter ``slug``, else derived from the title.
 
 >>> fields = markdown_to_fields('''---
@@ -39,8 +40,9 @@ from .base import ArticleValidationError
 MARKDOWN_SUFFIXES = (".md", ".markdown")
 
 _FRONT_MATTER = re.compile(r"\A---[ \t]*\n(.*?)\n---[ \t]*(?:\n|\Z)", re.DOTALL)
-_H1 = re.compile(r"^#[ \t]+(.+?)[ \t]*#*[ \t]*$")
-_FENCE = re.compile(r"^[ \t]{0,3}(```|~~~)")
+# CommonMark: an optional closing run of ``#`` only counts after a space ("C#" stays).
+_H1 = re.compile(r"^ {0,3}#[ \t]+(.+?)(?:[ \t]+#+)?[ \t]*$")
+_FENCE = re.compile(r"^ {0,3}(`{3,}|~{3,})")
 
 
 def slugify(text: str) -> str:
@@ -70,35 +72,64 @@ def _split_front_matter(text: str, *, origin: str) -> tuple[dict[str, Any], str]
     return meta, text[match.end() :]
 
 
-def _pop_first_h1(body: str) -> tuple[str | None, str]:
-    """Return the first ``# Heading`` outside code fences, and the body without it."""
-    lines = body.splitlines(keepends=True)
-    in_fence = False
+def _h1_lines(lines: list[str]) -> list[tuple[int, str]]:
+    """``(index, text)`` of every ``# Heading`` line outside code fences."""
+    found, fence = [], None
     for i, line in enumerate(lines):
-        if _FENCE.match(line):
-            in_fence = not in_fence
-            continue
-        if in_fence:
-            continue
-        match = _H1.match(line.rstrip("\n"))
+        match = _FENCE.match(line)
         if match:
-            return match.group(1), "".join(lines[:i] + lines[i + 1 :])
-    return None, body
+            marker = match.group(1)
+            if fence is None:
+                fence = marker
+            elif marker[0] == fence[0] and len(marker) >= len(fence):
+                fence = None  # only a matching run closes the fence
+            continue
+        if fence is None:
+            heading = _H1.match(line.rstrip("\n"))
+            if heading:
+                found.append((i, heading.group(1)))
+    return found
+
+
+def _pop_title_h1(body: str, *, origin: str) -> tuple[str | None, str]:
+    """The title heading (see the module doc) and the body without it."""
+    lines = body.splitlines(keepends=True)
+    h1s = _h1_lines(lines)
+    if not h1s:
+        return None, body
+    i, text = h1s[0]
+    opens_the_file = all(not line.strip() for line in lines[:i])
+    if len(h1s) > 1 and not opens_the_file:
+        raise ArticleValidationError(
+            f"Ambiguous title in {origin}: {len(h1s)} '# ' headings and none opens "
+            f"the file; add a 'title:' front-matter field"
+        )
+    return text, "".join(lines[:i] + lines[i + 1 :])
 
 
 def markdown_to_fields(text: str, *, origin: str = "<markdown>") -> dict[str, Any]:
     """Article fields from Markdown text: front matter, then the H1 title, then the slug."""
-    fields, body = _split_front_matter(text, origin=origin)
-    h1, body_without_h1 = _pop_first_h1(body)
-    if "title" not in fields:
-        if h1 is None:
+    fields, body = _split_front_matter(text.lstrip("\ufeff"), origin=origin)
+    if "title" in fields:
+        # Drop a heading that only repeats the title; it would render twice.
+        lines = body.splitlines(keepends=True)
+        h1s = _h1_lines(lines)
+        if h1s and h1s[0][1].strip() == str(fields["title"]).strip():
+            body = "".join(lines[: h1s[0][0]] + lines[h1s[0][0] + 1 :])
+    else:
+        title, body = _pop_title_h1(body, origin=origin)
+        if title is None:
             raise ArticleValidationError(
                 f"No title in {origin}: add a '# Title' heading or a 'title:' "
                 f"front-matter field"
             )
-        fields["title"], body = h1, body_without_h1
-    elif h1 is not None and h1.strip() == str(fields["title"]).strip():
-        body = body_without_h1  # the same title twice would render twice
-    fields.setdefault("slug", slugify(str(fields["title"])))
+        fields["title"] = title
+    if "slug" not in fields:
+        fields["slug"] = slugify(str(fields["title"]))
+        if not fields["slug"]:
+            raise ArticleValidationError(
+                f"No ASCII letters or digits in the title of {origin} to make a slug "
+                f"from; add a 'slug:' front-matter field"
+            )
     fields["content_markdown"] = body.strip("\n") + "\n"
     return fields

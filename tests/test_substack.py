@@ -12,6 +12,7 @@ from __future__ import annotations
 import asyncio
 import json
 import os
+import re
 import subprocess
 import sys
 
@@ -293,3 +294,71 @@ def test_medium_is_an_honest_manual_import_step():
     assert result.state is PublishState.MANUAL and not result.ok
     assert result.url is None  # nothing was posted anywhere
     assert "https://medium.com/p/import" in result.detail["next_step"]
+
+
+# ------------------------------------------------------------- review regressions
+
+
+@pytest.mark.parametrize(
+    "md, expected",
+    [
+        (
+            "One[^1]\n\n[^1]: see[^2]\n\n[^2]: two\n",
+            "referenced inside another footnote",
+        ),
+        ("Body[^9]\n", "[^9] has no definition"),
+        ("x\n\n[^u]: unused\n", "[^u] is defined but never referenced"),
+        ("![a](data:image/png;base64,AAAA)\n", "data: image cannot be uploaded"),
+    ],
+)
+def test_footnote_and_data_uri_losses_are_refused(md, expected):
+    with pytest.raises(AdapterError, match=re.escape(expected)):
+        preflight(md)
+
+
+def test_a_slug_substack_changes_is_the_one_recorded(fake_api):
+    fake_api.put_draft = lambda draft_id, **f: {"id": draft_id, "slug": "t-2"}
+    art = load_article({"title": "T", "slug": "t", "content_markdown": "x"})
+    result = create_substack_draft(art, api=fake_api)
+    assert result.url == f"{PUBLICATION_URL}/p/t-2"
+    assert "changed the slug" in result.detail["warnings"][0]
+
+
+def test_a_publication_url_without_scheme_gets_https(fake_api):
+    art = load_article({"title": "T", "slug": "t", "content_markdown": "x"})
+    result = create_substack_draft(
+        art, api=fake_api, secrets={"publication_url": "me.substack.com/"}
+    )
+    assert result.url == "https://me.substack.com/p/t"
+
+
+def test_front_matter_survives_a_byte_order_mark(tmp_path):
+    (tmp_path / "x.md").write_text(
+        "\ufeff---\nsubtitle: S\n---\n# T\n\nx\n", encoding="utf-8"
+    )
+    assert load_article(str(tmp_path / "x.md")).subtitle == "S"
+
+
+@pytest.mark.parametrize(
+    "md, title",
+    [
+        ("# C# and F#\n\nx\n", "C# and F#"),
+        ("~~~\n```\n# not a title\n~~~\n# Real\n\nx\n", "Real"),
+        ("> A preface.\n\n# The One Title\n\n## Section\n\nx\n", "The One Title"),
+    ],
+)
+def test_title_heading_edge_cases(tmp_path, md, title):
+    (tmp_path / "x.md").write_text(md)
+    assert load_article(str(tmp_path / "x.md")).title == title
+
+
+def test_several_h1s_after_other_content_are_ambiguous(tmp_path):
+    (tmp_path / "x.md").write_text("Intro.\n\n# One\n\n# Two\n")
+    with pytest.raises(Exception, match="Ambiguous title"):
+        load_article(str(tmp_path / "x.md"))
+
+
+def test_a_title_without_ascii_asks_for_a_slug(tmp_path):
+    (tmp_path / "x.md").write_text("# 日本語\n\nx\n", encoding="utf-8")
+    with pytest.raises(Exception, match="add a 'slug:'"):
+        load_article(str(tmp_path / "x.md"))

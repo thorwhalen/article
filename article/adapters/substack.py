@@ -35,6 +35,8 @@ from __future__ import annotations
 
 import asyncio
 import os
+import re
+import threading
 from collections import Counter
 from contextlib import contextmanager
 from pathlib import Path
@@ -82,7 +84,8 @@ def _markdown_parser():
 
 
 def _is_local(src: str) -> bool:
-    return urlsplit(src).scheme.lower() not in ("http", "https", "data") and not (
+    """What python-substack uploads from disk: anything not http(s) or ``//``."""
+    return urlsplit(src).scheme.lower() not in ("http", "https") and not (
         src.startswith("//")
     )
 
@@ -138,7 +141,9 @@ def _image_problems(
             )
         for img in images:
             src = img.attrs.get("src", "")
-            if (
+            if src.lower().startswith("data:"):
+                yield f"{line}: an inline data: image cannot be uploaded; save it as a file"
+            elif (
                 _is_local(src)
                 and not (base / Path(unquote(src)).expanduser()).is_file()
             ):
@@ -181,6 +186,38 @@ def _html_inline_warnings(tokens: list, lines: list[str]) -> Iterator[str]:
                     yield f"{_where(tok, lines)}: inline HTML {c.content} is dropped"
 
 
+_UNDEFINED_REF = re.compile(r"\[\^[^\]\s]+\]")
+
+
+def _footnote_problems(tokens: list, lines: list[str], env: dict) -> Iterator[str]:
+    """What the converter mis-numbers or drops: nested, undefined and unused notes."""
+    depth = 0
+    for tok in tokens:
+        if tok.type == "footnote_open":
+            depth += 1
+        elif tok.type == "footnote_close":
+            depth -= 1
+        for child in tok.children or ():
+            if child.type == "footnote_ref":
+                if depth:
+                    yield (
+                        f"footnote [^{child.meta.get('label')}] is referenced inside "
+                        f"another footnote, which Substack numbers wrongly"
+                    )
+            elif child.type == "text":
+                undefined = _UNDEFINED_REF.search(child.content)
+                if undefined:
+                    yield (
+                        f"{_where(tok, lines)}: {undefined.group(0)} has no "
+                        f"definition, so it would stay as plain text"
+                    )
+    # The footnote plugin emits no tokens for an unreferenced definition; its
+    # parse env marks one with id -1 under the key ":<label>".
+    refs = env.get("footnotes", {}).get("refs", {})
+    for key in sorted(k for k, v in refs.items() if v == -1):
+        yield f"footnote [^{key[1:]}] is defined but never referenced, so it would be dropped"
+
+
 def preflight(
     markdown: str,
     *,
@@ -204,9 +241,11 @@ def preflight(
     parser = _markdown_parser()
     problems: list[str] = []
     markdown = _replace_tables(markdown, parser.parse(markdown), tables, problems)
-    tokens, lines = parser.parse(markdown), markdown.splitlines()
+    env: dict = {}
+    tokens, lines = parser.parse(markdown, env), markdown.splitlines()
     problems += _image_problems(tokens, lines, assets_dir)
     problems += _html_problems(tokens, lines)
+    problems += _footnote_problems(tokens, lines, env)
     if problems:
         raise AdapterError(
             f"substack: {len(problems)} problem(s) would lose content in the draft:\n"
@@ -220,18 +259,26 @@ def preflight(
 # --------------------------------------------------------------------------- #
 
 
+_CWD_LOCK = threading.Lock()
+
+
 @contextmanager
 def _working_directory(path: Optional[str]) -> Iterator[None]:
-    """python-substack resolves local image paths against the cwd."""
+    """python-substack resolves local image paths against the cwd.
+
+    The cwd is process-wide, so conversions are serialized by a lock; a server
+    that converts concurrently should first make image paths absolute instead.
+    """
     if not path:
         yield
         return
-    previous = os.getcwd()
-    os.chdir(path)
-    try:
-        yield
-    finally:
-        os.chdir(previous)
+    with _CWD_LOCK:
+        previous = os.getcwd()
+        os.chdir(path)
+        try:
+            yield
+        finally:
+            os.chdir(previous)
 
 
 def draft_document(
@@ -285,7 +332,8 @@ def make_substack_api(
 def _publication_base(api: Any, configured: Optional[str]) -> str:
     """``https://<pub>`` from the configured URL, else from the client's API URL."""
     if configured:
-        return configured.rstrip("/")
+        configured = configured.rstrip("/")
+        return configured if "://" in configured else f"https://{configured}"
     return str(api.publication_url).rstrip("/").removesuffix("/api/v1")
 
 
@@ -385,12 +433,25 @@ def create_substack_draft(
         "search_engine_description": article.description,
         "draft_section_id": config.section_id,
     }
-    api.put_draft(draft_id, **{k: v for k, v in settings.items() if v is not None})
-    tags = coalesce(config.tags, article.tags)
-    if tags:
-        api.add_tags_to_post(draft_id, list(tags))
+    edit_url = f"{publication}/publish/post/{draft_id}"
+    try:
+        updated = api.put_draft(
+            draft_id, **{k: v for k, v in settings.items() if v is not None}
+        )
+        tags = coalesce(config.tags, article.tags)
+        if tags:
+            api.add_tags_to_post(draft_id, list(tags))
+    except Exception as e:
+        raise AdapterError(
+            f"substack: draft {draft_id} was created ({edit_url}) but setting its "
+            f"slug/tags failed: {e}"
+        ) from e
+    # Substack may adjust a slug (e.g. one already taken); trust what it answers.
+    slug = (updated or {}).get("slug") or article.slug
+    if slug != article.slug:
+        warnings.append(f"Substack changed the slug from {article.slug!r} to {slug!r}")
 
-    public_url = f"{publication}/p/{article.slug}"
+    public_url = f"{publication}/p/{slug}"
     _log.info(
         "[substack] draft %s created; public URL once published: %s",
         draft_id,
@@ -403,7 +464,7 @@ def create_substack_draft(
         canonical_url=public_url,
         detail={
             "draft_id": draft_id,
-            "edit_url": f"{publication}/publish/post/{draft_id}",
+            "edit_url": edit_url,
             "counts": summarize_document(draft),
             "warnings": warnings,
         },
@@ -418,11 +479,17 @@ async def publish(
     config: SubstackConfig,
     secrets: Mapping[str, Any],
     api: Any = None,
+    tables: Optional[TablePolicy] = None,
 ) -> PublishResult:
     """Registry entry point: :func:`create_substack_draft` off the event loop.
 
     The name is the registry's contract; what it does is create a **draft**.
     """
     return await asyncio.to_thread(
-        create_substack_draft, article, config=config, secrets=secrets, api=api
+        create_substack_draft,
+        article,
+        config=config,
+        secrets=secrets,
+        api=api,
+        tables=tables,
     )

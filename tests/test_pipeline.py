@@ -19,7 +19,17 @@ import os
 
 import pytest
 
-pytest.importorskip("substack", reason="the primary adapter needs the substack extra")
+try:
+    import substack  # noqa: F401
+
+    _HAS_SUBSTACK = True
+except ImportError:
+    _HAS_SUBSTACK = False
+
+#: Phase-1 tests run the real Substack adapter, which needs the substack extra.
+needs_substack = pytest.mark.skipif(
+    not _HAS_SUBSTACK, reason="the primary adapter needs the substack extra"
+)
 
 from article import (
     Article,
@@ -150,6 +160,7 @@ def test_registry_has_all_builtin_adapters():
 # --------------------------------------------------------------------------- #
 
 
+@needs_substack
 def test_phase1_records_canonical_url(tmp_path):
     engine = _engine(tmp_path)
     art = _article()
@@ -161,6 +172,7 @@ def test_phase1_records_canonical_url(tmp_path):
     assert engine.store.get_canonical_url(art.slug) == expected
 
 
+@needs_substack
 def test_phase2_injects_canonical_into_every_secondary(tmp_path):
     engine = _engine(tmp_path)
     art = _article()
@@ -189,6 +201,7 @@ def test_phase2_before_phase1_raises(tmp_path):
         asyncio.run(engine.syndicate_secondary(_article()))
 
 
+@needs_substack
 def test_devto_tags_are_comma_joined_string(tmp_path):
     """Encodes the verified Forem V1 drift: tags is a string, not a list."""
     engine = _engine(tmp_path)
@@ -206,6 +219,7 @@ def test_devto_tags_are_comma_joined_string(tmp_path):
 # --------------------------------------------------------------------------- #
 
 
+@needs_substack
 def test_one_platform_failure_does_not_abort(tmp_path):
     async def _boom(article, *, canonical_url, config, secrets):
         raise RuntimeError("kaboom")
@@ -228,6 +242,7 @@ def test_one_platform_failure_does_not_abort(tmp_path):
     assert record["syndication"][MEDIUM]["state"] == "failed"
 
 
+@needs_substack
 def test_unconfigured_secondary_is_not_attempted(tmp_path):
     engine = _engine(tmp_path)
     art = load_article(

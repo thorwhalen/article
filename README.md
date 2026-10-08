@@ -16,7 +16,7 @@ article draft-substack essay.md            # an UNPUBLISHED Substack draft
 
 ## Markdown to a Substack draft
 
-The essay is a plain `.md` file. The title is the first `# Heading` (removed from the body, since Substack shows the title itself), or a `title:` in front matter; the slug is derived from the title unless front matter sets `slug:`. Front matter can also set `subtitle`, `tags` and `description`:
+The essay is a plain `.md` file. The title is a `title:` in front matter, or else the `# Heading` (removed from the body, since Substack shows the title itself) when there is exactly one, or when the first of several opens the file; the slug is derived from the title unless front matter sets `slug:`. Front matter can also set `subtitle`, `tags` and `description`:
 
 ```markdown
 ---
@@ -40,6 +40,8 @@ Image paths resolve against the Markdown file's directory. Before anything is up
 | An image in a paragraph with text | the converter keeps only the alt text | give the image its own paragraph; caption goes in the title slot |
 | A missing local image | nothing to upload | fix the path |
 | A raw HTML block | the converter drops it | rewrite it in Markdown |
+| A `data:` image | cannot be uploaded | save it as a file |
+| A footnote that is never referenced, a `[^x]` with no definition, or a reference inside a footnote | dropped, left as text, or misnumbered | fix the reference |
 
 ```bash
 article draft-substack essay.md --dry-run          # what survives, no credentials needed

@@ -120,6 +120,7 @@ def draft_substack(
             return json.dumps(report, indent=2) if json_out else _render_dry_run(report)
         platforms = article.platforms.model_copy(update={SUBSTACK: config})
         article = article.model_copy(update={"platforms": platforms})
+        earlier = store.get(article.slug, {}).get("primary", {}).get("detail", {})
         summary = run_sync(_publish_primary(article, settings=settings, store=store))
     except ArticleError as e:
         raise cw.CommandError(str(e)) from e
@@ -128,7 +129,14 @@ def draft_substack(
     if json_out:
         return _render(summary, json_out=True)
     detail = summary.by_platform[SUBSTACK].detail
-    return f"{summary.render()}\nEdit the draft: {detail.get('edit_url')}"
+    lines = [summary.render(), f"Edit the draft: {detail.get('edit_url')}"]
+    lines += [f"  warning: {w}" for w in detail.get("warnings", ())]
+    if earlier.get("edit_url"):
+        lines.append(
+            f"Note: an earlier draft of this article is still on Substack "
+            f"({earlier['edit_url']}); delete it if this one replaces it."
+        )
+    return "\n".join(lines)
 
 
 #: SSOT list of dispatchable commands (``cw`` maps ``_`` in names to ``-``).
