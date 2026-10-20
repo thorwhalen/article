@@ -15,6 +15,8 @@ import os
 import re
 import subprocess
 import sys
+from pathlib import Path
+from urllib.parse import unquote
 
 import pytest
 
@@ -362,3 +364,71 @@ def test_a_title_without_ascii_asks_for_a_slug(tmp_path):
     (tmp_path / "x.md").write_text("# 日本語\n\nx\n", encoding="utf-8")
     with pytest.raises(Exception, match="add a 'slug:'"):
         load_article(str(tmp_path / "x.md"))
+
+
+# --------------------------------------------------------------------------- #1-#5 follow-ups
+
+
+def test_conversion_does_not_touch_the_working_directory(essay_dir, fake_api, monkeypatch):
+    """Local image paths become absolute during preflight, so no process-wide chdir."""
+    seen = []
+    real_chdir = os.chdir
+    monkeypatch.setattr(os, "chdir", lambda p: (seen.append(p), real_chdir(p)))
+    monkeypatch.chdir(essay_dir.parent)
+    seen.clear()
+    art = load_article(str(essay_dir / "essay.md"))
+    create_substack_draft(art, api=fake_api)
+    assert seen == []
+    assert fake_api.uploaded == [str((essay_dir / "images" / "fig 1.png").resolve())]
+
+
+def test_preflight_makes_local_image_paths_absolute(tmp_path, png_bytes):
+    (tmp_path / "a b.png").write_bytes(png_bytes)
+    md, _ = preflight('![alt](<a b.png> "cap")\n', assets_dir=str(tmp_path))
+    assert str(tmp_path.resolve()) in unquote(md) and 'a%20b.png' in md and '"cap"' in md
+
+
+def test_a_local_image_inside_a_list_is_refused(tmp_path, png_bytes):
+    (tmp_path / "a.png").write_bytes(png_bytes)
+    with pytest.raises(AdapterError, match="inside a list, quote or footnote"):
+        preflight("- ![alt](a.png)\n", assets_dir=str(tmp_path))
+    # a remote one is fine
+    preflight("- ![alt](https://example.com/a.png)\n", assets_dir=str(tmp_path))
+
+
+def test_tables_image_policy_renders_a_png(tmp_path):
+    pytest.importorskip("PIL")
+    md, _ = preflight(
+        "| a | b |\n|---|---|\n| 1 | 2 |\n", tables="image", assets_dir=str(tmp_path)
+    )
+    assert md.startswith("![table](")
+    path = Path(unquote(md[len("![table](") : md.index(")")]).strip("<>"))
+    assert path.is_file() and path.read_bytes()[:4] == b"\x89PNG"
+
+
+def test_a_draft_is_updated_in_place_with_its_revision_guard(essay_dir, fake_api):
+    calls = []
+    fake_api.update_draft_from_markdown = lambda draft_id, md, **kw: (
+        calls.append((draft_id, md, kw)) or {"draft": {"slug": "the-agile-religion"}}
+    )
+    art = load_article(str(essay_dir / "essay.md"))
+    config = SubstackConfig(draft_id=1234, expected_revision={"revision": "abc"})
+    result = create_substack_draft(art, config=config, api=fake_api)
+    ((draft_id, md, kwargs),) = calls
+    assert draft_id == 1234 and kwargs["expected_revision"] == {"revision": "abc"}
+    assert kwargs["allow_conflict"] is False and kwargs["slug"] == "the-agile-religion"
+    assert fake_api.posted == []  # no new draft
+    assert result.detail["updated_in_place"] and result.status == "draft"
+
+
+def test_an_edited_draft_is_refused_with_a_hint(essay_dir, fake_api):
+    class DraftConflictError(ValueError):
+        pass
+
+    def conflict(*args, **kwargs):
+        raise DraftConflictError("remote draft has changed")
+
+    fake_api.update_draft_from_markdown = conflict
+    art = load_article(str(essay_dir / "essay.md"))
+    with pytest.raises(AdapterError, match="overwrite_edits"):
+        create_substack_draft(art, config=SubstackConfig(draft_id=1), api=fake_api)

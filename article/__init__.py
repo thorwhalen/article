@@ -45,6 +45,7 @@ from .base import (
     ArticleError,
     ArticleValidationError,
     CanonicalUrlMissing,
+    CanonicalUrlNotLive,
     ConfigError,
     Phase,
     PlatformName,
@@ -122,6 +123,7 @@ __all__ = [
     "AdapterError",
     "UnknownPlatformError",
     "CanonicalUrlMissing",
+    "CanonicalUrlNotLive",
     # state
     "JsonStateStore",
     "default_state_store",

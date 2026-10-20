@@ -286,3 +286,11 @@ class UnknownPlatformError(ArticleError, KeyError):
 
 class CanonicalUrlMissing(ArticleError):
     """Phase 2 was requested before phase 1 recorded a canonical_url."""
+
+
+class CanonicalUrlNotLive(ArticleError):
+    """Phase 2 was requested while the primary post is still an unpublished draft.
+
+    The recorded canonical URL is the post's *future* address, so syndicating now
+    would point other platforms at a 404.
+    """
