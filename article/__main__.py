@@ -187,7 +187,9 @@ _dispatch_config["draft-substack"] = {
         "help": "Markdown tables: refuse (error, the default), keep as code blocks, "
         "or render to an image (needs article[images])",
     },
-    "update": {"help": "Rewrite the draft an earlier run created instead of making a new one"},
+    "update": {
+        "help": "Rewrite the draft an earlier run created instead of making a new one"
+    },
     "overwrite_edits": {
         "help": "With --update: replace edits made in the Substack editor since the last run"
     },

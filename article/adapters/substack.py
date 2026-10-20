@@ -149,7 +149,9 @@ def render_table_image(
             draw.rectangle(box, outline="#999999")
             draw.text((x + pad, r * row_h + pad), cell, fill="black", font=font)
             x += col_w[c]
-    folder = Path(out_dir) if out_dir else Path(tempfile.gettempdir()) / "article-tables"
+    folder = (
+        Path(out_dir) if out_dir else Path(tempfile.gettempdir()) / "article-tables"
+    )
     folder.mkdir(parents=True, exist_ok=True)
     digest = hashlib.sha256(table_markdown.encode("utf-8")).hexdigest()[:16]
     path = folder / f"table-{digest}.png"
@@ -203,8 +205,10 @@ def _image_problems(
                 f"text, and Substack would keep only its alt text; give the image "
                 f'its own paragraph and put the caption in the title: ![alt](src "caption")'
             )
-        nested = in_paragraph and _is_image_only(tok.children) and (
-            tokens[i - 1].level > 0 or not tok.map
+        nested = (
+            in_paragraph
+            and _is_image_only(tok.children)
+            and (tokens[i - 1].level > 0 or not tok.map)
         )
         for img in images:
             src = img.attrs.get("src", "")
@@ -223,9 +227,7 @@ def _image_problems(
                 yield f"{line}: image file not found: {src} (looked in {base})"
 
 
-def _absolute_images(
-    markdown: str, tokens: list, assets_dir: Optional[str]
-) -> str:
+def _absolute_images(markdown: str, tokens: list, assets_dir: Optional[str]) -> str:
     """Rewrite each top-level image-only paragraph's local source to an absolute path.
 
     python-substack resolves local image paths against the process's working
@@ -568,7 +570,9 @@ def _revision_of(api: Any, draft_id: Any) -> Optional[dict]:
         from substack.revision import compute_draft_revision
 
         return compute_draft_revision(api.get_draft(draft_id))
-    except Exception:  # an unreadable revision only makes the next update ask to overwrite
+    except (
+        Exception
+    ):  # an unreadable revision only makes the next update ask to overwrite
         return None
 
 
@@ -612,7 +616,9 @@ def _update_draft(
     slug = ((result or {}).get("draft") or {}).get("slug") or article.slug
     if slug != article.slug:
         warnings.append(f"Substack changed the slug from {article.slug!r} to {slug!r}")
-    warnings.append("the title is not updated in place; change it in the Substack editor")
+    warnings.append(
+        "the title is not updated in place; change it in the Substack editor"
+    )
     public_url = f"{publication}/p/{slug}"
     return PublishResult.success(
         SUBSTACK,
