@@ -35,6 +35,7 @@ from .base import (
     SECONDARY_PLATFORMS,
     AdapterError,
     CanonicalUrlMissing,
+    CanonicalUrlNotLive,
     Phase,
     PlatformName,
     PublishResult,
@@ -46,6 +47,21 @@ from .state import JsonStateStore
 from .util import get_logger
 
 AdapterResolver = Callable[[str], PublishAdapter]
+
+#: Seconds the draft-liveness GET may take before the URL counts as not live.
+DFLT_LIVE_TIMEOUT = 10.0
+
+
+def url_is_live(url: str, *, timeout: float = DFLT_LIVE_TIMEOUT) -> bool:
+    """Whether one GET of ``url`` answers 2xx (redirects followed); any failure is False."""
+    import urllib.request
+
+    request = urllib.request.Request(url, headers={"User-Agent": "article-pipeline"})
+    try:
+        with urllib.request.urlopen(request, timeout=timeout) as response:
+            return 200 <= response.status < 300
+    except Exception:
+        return False
 
 
 @dataclass
@@ -60,6 +76,9 @@ class PipelineEngine:
     settings: Settings
     store: MutableMapping
     resolve_adapter: AdapterResolver = field(default=get_adapter)
+    #: ``url -> bool``: is the canonical URL live? Asked in phase 2 only while the
+    #: primary post is still a draft. Defaults to one HTTP GET (:func:`url_is_live`).
+    is_live: Callable[[str], bool] = field(default=url_is_live)
 
     def __post_init__(self) -> None:
         self._log = get_logger()
@@ -118,11 +137,14 @@ class PipelineEngine:
         article: Article,
         *,
         platforms: Optional[Iterable[PlatformName]] = None,
+        allow_unpublished: bool = False,
     ) -> RunSummary:
         """Syndicate to each configured secondary, injecting the canonical URL.
 
         Raises :class:`~article.base.CanonicalUrlMissing` if phase 1 hasn't
-        recorded a canonical URL for this slug yet.
+        recorded a canonical URL for this slug yet, and
+        :class:`~article.base.CanonicalUrlNotLive` if the primary post is still a
+        draft whose URL does not resolve (``allow_unpublished=True`` skips the check).
         """
         canonical_url = self.store.get_canonical_url(article.slug)
         if not canonical_url:
@@ -130,6 +152,16 @@ class PipelineEngine:
                 f"No canonical_url recorded for slug {article.slug!r}. "
                 f"Run `publish-primary` first so the SSOT URL exists."
             )
+
+        primary = self.store.get(article.slug, {}).get("primary", {})
+        if primary.get("status") == "draft" and not allow_unpublished:
+            if not self.is_live(canonical_url):
+                raise CanonicalUrlNotLive(
+                    f"The primary post for {article.slug!r} is still a draft: "
+                    f"{canonical_url} does not resolve yet, so syndicating now would "
+                    f"point other platforms at a 404. Publish it from the Substack "
+                    f"editor first (or pass allow_unpublished to override)."
+                )
 
         targets = self._secondary_targets(article, platforms)
         if not targets:
@@ -258,7 +290,10 @@ async def syndicate_secondary(
     settings: Optional[Settings] = None,
     store: Optional[MutableMapping] = None,
     platforms: Optional[Iterable[PlatformName]] = None,
+    allow_unpublished: bool = False,
 ) -> RunSummary:
     """Phase 2 facade: syndicate to secondaries with the canonical_url injected."""
     engine = build_engine(settings=settings, store=store)
-    return await engine.syndicate_secondary(article, platforms=platforms)
+    return await engine.syndicate_secondary(
+        article, platforms=platforms, allow_unpublished=allow_unpublished
+    )

@@ -93,6 +93,7 @@ def _engine(tmp_path, *, resolve_adapter=get_adapter) -> PipelineEngine:
         settings=settings,
         store=store,
         resolve_adapter=_with_fake_substack(resolve_adapter),
+        is_live=lambda url: True,  # no network: the draft counts as published
     )
 
 
@@ -256,3 +257,24 @@ def test_unconfigured_secondary_is_not_attempted(tmp_path):
     asyncio.run(engine.publish_primary(art))
     summary = asyncio.run(engine.syndicate_secondary(art))
     assert {r.platform for r in summary.results} == {MEDIUM}
+
+
+def test_phase2_refuses_while_the_substack_post_is_still_a_draft(tmp_path):
+    from article.base import CanonicalUrlNotLive
+
+    engine = _engine(tmp_path)
+    engine.is_live = lambda url: False
+    art = _article()
+    asyncio.run(engine.publish_primary(art))
+    with pytest.raises(CanonicalUrlNotLive, match="still a draft"):
+        asyncio.run(engine.syndicate_secondary(art))
+    summary = asyncio.run(engine.syndicate_secondary(art, allow_unpublished=True))
+    assert summary.canonical_url
+    engine.is_live = lambda url: True
+    assert asyncio.run(engine.syndicate_secondary(art)).canonical_url
+
+
+def test_url_is_live_is_false_for_an_unreachable_address():
+    from article.engine import url_is_live
+
+    assert url_is_live("http://127.0.0.1:9/never", timeout=0.2) is False
