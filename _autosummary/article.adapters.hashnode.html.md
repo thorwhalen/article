@@ -37,9 +37,6 @@ removed — don’t use them.
 
 Syndicate `article` to Hashnode with `originalArticleURL` set to the SSOT.
 
-* **Return type:**
-  [`PublishResult`](article.base.html.md#article.base.PublishResult)
-
 ```pycon
 >>> import asyncio
 >>> from article.config import Article, HashnodeConfig
@@ -56,3 +53,6 @@ True
 >>> res.detail["variables"]["input"]["tags"]
 [{'name': 'Python', 'slug': 'python'}]
 ```
+
+* **Return type:**
+  [`PublishResult`](article.base.html.md#article.base.PublishResult)

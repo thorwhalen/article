@@ -7,6 +7,7 @@
     setColorMode(localStorage._theme||"auto");
   </script><link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d88b86f9" />
     <link rel="stylesheet" type="text/css" href="../_static/shibuya.css?v=2ceb65ce" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx_autodoc_typehints.css?v=057ac668" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link media="print" rel="stylesheet" type="text/css" href="../_static/print.css?v=20ff2c19" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -102,6 +103,7 @@ data-aria-dark="Switch to auto color mode">
 <li><a class="reference internal" href="#article.adapters.substack.make_substack_api"><code class="docutils literal notranslate"><span class="pre">make_substack_api()</span></code></a></li>
 <li><a class="reference internal" href="#article.adapters.substack.preflight"><code class="docutils literal notranslate"><span class="pre">preflight()</span></code></a></li>
 <li><a class="reference internal" href="#article.adapters.substack.publish"><code class="docutils literal notranslate"><span class="pre">publish()</span></code></a></li>
+<li><a class="reference internal" href="#article.adapters.substack.render_table_image"><code class="docutils literal notranslate"><span class="pre">render_table_image()</span></code></a></li>
 <li><a class="reference internal" href="#article.adapters.substack.summarize_document"><code class="docutils literal notranslate"><span class="pre">summarize_document()</span></code></a></li>
 </ul>
 </div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
@@ -160,18 +162,28 @@ that publishes. Review the draft in the Substack editor and publish it there.
 <p>Before anything is uploaded, <a class="reference internal" href="#article.adapters.substack.preflight" title="article.adapters.substack.preflight"><code class="xref py py-func docutils literal notranslate"><span class="pre">preflight()</span></code></a> checks the Markdown for what
 the converter would lose silently, and refuses it with every problem listed:</p>
 <ul class="simple">
-<li><p><strong>tables</strong> (Substack has no table node): refused by default, or kept as a
-monospace code block with <code class="docutils literal notranslate"><span class="pre">tables=&quot;code&quot;</span></code>, or replaced by whatever a
-callable returns (e.g. a rendered image), never dropped;</p></li>
+<li><p><strong>tables</strong> (Substack has no table node): refused by default, kept as a
+monospace code block with <code class="docutils literal notranslate"><span class="pre">tables=&quot;code&quot;</span></code>, rendered to a PNG with
+<code class="docutils literal notranslate"><span class="pre">tables=&quot;image&quot;</span></code> (needs Pillow: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">'article[images]'</span></code>), or replaced
+by whatever a callable returns, never dropped;</p></li>
 <li><p>an <strong>image sharing a paragraph with text</strong> (the converter keeps only its
 alt text): put the image in its own paragraph, caption in the title slot;</p></li>
 <li><p>a <strong>local image that does not exist</strong> (paths resolve against the article’s
-<code class="docutils literal notranslate"><span class="pre">assets_dir</span></code>, the source file’s directory);</p></li>
+<code class="docutils literal notranslate"><span class="pre">assets_dir</span></code>, the source file’s directory) or that sits **inside a list, quote
+or footnote** (Substack’s editor is not known to accept those; move it to the top
+level). Local image paths are rewritten to absolute ones, so conversion never
+depends on, or changes, the process’s working directory;</p></li>
 <li><p>a <strong>raw HTML block</strong> (the converter drops it).</p></li>
 </ul>
 <p>The result’s <code class="docutils literal notranslate"><span class="pre">url</span></code> is the post’s public address once published
 (<code class="docutils literal notranslate"><span class="pre">&lt;publication&gt;/p/&lt;slug&gt;</span></code>), which the engine records as the canonical URL;
 <code class="docutils literal notranslate"><span class="pre">detail[&quot;edit_url&quot;]</span></code> opens the draft in the editor.</p>
+<p><strong>Updating in place.</strong> With <code class="docutils literal notranslate"><span class="pre">config.draft_id</span></code> set (the CLI’s <code class="docutils literal notranslate"><span class="pre">--update</span></code> fills it
+from the state store), the existing draft is rewritten with python-substack’s
+<code class="docutils literal notranslate"><span class="pre">update_draft_from_markdown</span></code> instead of creating a new one. The draft’s revision
+(recorded when it was created or last updated) guards against clobbering edits made
+in Substack’s editor: a changed draft is refused unless <code class="docutils literal notranslate"><span class="pre">config.overwrite_edits</span></code>.
+The title is not updated in place.</p>
 <p>The client is a seam: pass <code class="docutils literal notranslate"><span class="pre">api=</span></code> (anything with python-substack’s <code class="docutils literal notranslate"><span class="pre">Api</span></code>
 methods) to <a class="reference internal" href="#article.adapters.substack.create_substack_draft" title="article.adapters.substack.create_substack_draft"><code class="xref py py-func docutils literal notranslate"><span class="pre">create_substack_draft()</span></code></a>; tests pass a fake.</p>
 <p class="rubric">Module Attributes</p>
@@ -206,7 +218,10 @@ methods) to <a class="reference internal" href="#article.adapters.substack.creat
 <tr class="row-even"><td><p><a class="reference internal" href="#article.adapters.substack.publish" title="article.adapters.substack.publish"><code class="xref py py-obj docutils literal notranslate"><span class="pre">publish</span></code></a>(article, *[, canonical_url, api, tables])</p></td>
 <td><p>Registry entry point: <a class="reference internal" href="#article.adapters.substack.create_substack_draft" title="article.adapters.substack.create_substack_draft"><code class="xref py py-func docutils literal notranslate"><span class="pre">create_substack_draft()</span></code></a> off the event loop.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#article.adapters.substack.summarize_document" title="article.adapters.substack.summarize_document"><code class="xref py py-obj docutils literal notranslate"><span class="pre">summarize_document</span></code></a>(draft)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#article.adapters.substack.render_table_image" title="article.adapters.substack.render_table_image"><code class="xref py py-obj docutils literal notranslate"><span class="pre">render_table_image</span></code></a>(table_markdown, *[, ...])</p></td>
+<td><p>Render a Markdown table to a PNG and return the Markdown image that shows it.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#article.adapters.substack.summarize_document" title="article.adapters.substack.summarize_document"><code class="xref py py-obj docutils literal notranslate"><span class="pre">summarize_document</span></code></a>(draft)</p></td>
 <td><p>Count what survived conversion: footnotes, images, captions, LaTeX, ...</p></td>
 </tr>
 </tbody>
@@ -222,7 +237,7 @@ replace it with the Markdown a callable returns (e.g. an image reference).</p>
 <dd class="field-odd"><p>How a Markdown table is handled</p>
 </dd>
 </dl>
-<p>alias of <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Literal</span></code></a>[‘error’, ‘code’] | <code class="xref py py-class docutils literal notranslate"><span class="pre">Callable</span></code>[[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>], <a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</p>
+<p>alias of <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Literal</span></code></a>[‘error’, ‘code’, ‘image’] | <code class="xref py py-class docutils literal notranslate"><span class="pre">Callable</span></code>[[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>], <a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</p>
 </dd></dl>
 
 <dl class="py function">
@@ -242,10 +257,11 @@ replace it with the Markdown a callable returns (e.g. an image reference).</p>
 <dt class="sig sig-object py" id="article.adapters.substack.draft_document">
 <span class="sig-prename descclassname"><span class="pre">article.adapters.substack.</span></span><span class="sig-name descname"><span class="pre">draft_document</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">article</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">markdown</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/article/adapters/substack.html#draft_document"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.adapters.substack.draft_document" title="Link to this definition">#</a></dt>
 <dd><p>The draft payload python-substack posts (<code class="docutils literal notranslate"><span class="pre">draft_body</span></code> is a JSON string).</p>
-<p>With <code class="docutils literal notranslate"><span class="pre">api=None</span></code> nothing is uploaded and local image paths stay as they are.</p>
+<p><code class="docutils literal notranslate"><span class="pre">markdown</span></code> is what <a class="reference internal" href="#article.adapters.substack.preflight" title="article.adapters.substack.preflight"><code class="xref py py-func docutils literal notranslate"><span class="pre">preflight()</span></code></a> returned (its local image paths are
+absolute). With <code class="docutils literal notranslate"><span class="pre">api=None</span></code> nothing is uploaded.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></span></p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -256,7 +272,7 @@ replace it with the Markdown a callable returns (e.g. an image reference).</p>
 <dd><p>Preflight and convert <code class="docutils literal notranslate"><span class="pre">article</span></code> without credentials or network; report counts.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.15)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -276,11 +292,6 @@ replace it with the Markdown a callable returns (e.g. an image reference).</p>
 <p>Returns <code class="docutils literal notranslate"><span class="pre">(markdown,</span> <span class="pre">warnings)</span></code>, where tables have been replaced per
 <code class="docutils literal notranslate"><span class="pre">tables</span></code>. Raises <a class="reference internal" href="article.base.html#article.base.AdapterError" title="article.base.AdapterError"><code class="xref py py-class docutils literal notranslate"><span class="pre">AdapterError</span></code></a> listing every
 problem at once.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]]</span></p>
-</dd>
-</dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="gp">&gt;&gt;&gt; </span><span class="n">md</span><span class="p">,</span> <span class="n">warnings</span> <span class="o">=</span> <span class="n">preflight</span><span class="p">(</span><span class="s2">"| a | b |</span><span class="se">\n</span><span class="s2">|---|---|</span><span class="se">\n</span><span class="s2">| 1 | 2 |</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">tables</span><span class="o">=</span><span class="s2">"code"</span><span class="p">)</span>
 </span><span data-line="2"><span class="gp">&gt;&gt;&gt; </span><span class="n">md</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
 </span><span data-line="3"><span class="go">'```'</span>
@@ -290,6 +301,11 @@ problem at once.</p>
 </span><span data-line="7"><span class="gr">article.base.AdapterError</span>: <span class="n">substack: 1 problem(s) ... body line 1 ("| a | b |"): a table ...</span>
 </span></pre></div>
 </div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]]</span></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
@@ -305,19 +321,32 @@ problem at once.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="article.adapters.substack.render_table_image">
+<span class="sig-prename descclassname"><span class="pre">article.adapters.substack.</span></span><span class="sig-name descname"><span class="pre">render_table_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_markdown</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/article/adapters/substack.html#render_table_image"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.adapters.substack.render_table_image" title="Link to this definition">#</a></dt>
+<dd><p>Render a Markdown table to a PNG and return the Markdown image that shows it.</p>
+<p>The file name is the content hash, so re-running reuses the file. Needs Pillow.
+<code class="docutils literal notranslate"><span class="pre">out_dir</span></code> defaults to a folder under the system temp directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="article.adapters.substack.summarize_document">
 <span class="sig-prename descclassname"><span class="pre">article.adapters.substack.</span></span><span class="sig-name descname"><span class="pre">summarize_document</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">draft</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/article/adapters/substack.html#summarize_document"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.adapters.substack.summarize_document" title="Link to this definition">#</a></dt>
 <dd><p>Count what survived conversion: footnotes, images, captions, LaTeX, …</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span></p>
-</dd>
-</dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="gp">&gt;&gt;&gt; </span><span class="n">summarize_document</span><span class="p">({</span><span class="s2">"draft_body"</span><span class="p">:</span> <span class="s1">'{"type": "doc", "content": '</span>
 </span><span data-line="2"><span class="gp">... </span>    <span class="s1">'[{"type": "footnote", "content": []}]}'</span><span class="p">})</span>
 </span><span data-line="3"><span class="go">{'footnotes': 1}</span>
 </span></pre></div>
 </div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span></p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -362,7 +391,7 @@ problem at once.</p>
     </div>
   </div>
 </footer>
-      <script src="../_static/documentation_options.js?v=360bc84d"></script>
+      <script src="../_static/documentation_options.js?v=fd825880"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>

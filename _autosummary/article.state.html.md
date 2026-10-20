@@ -87,9 +87,6 @@ Merge `fields` into the record for `slug` (read-modify-write).
 Creates the record if absent and stamps `updated_at`. Returns the
 merged record.
 
-* **Return type:**
-  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Any`](https://docs.python.org/3/library/typing.html#typing.Any)]
-
 ```pycon
 >>> import tempfile, os
 >>> store = JsonStateStore(os.path.join(tempfile.mkdtemp(), "s.json"))
@@ -98,6 +95,9 @@ merged record.
 >>> rec["title"], rec["canonical_url"]
 ('T', 'c')
 ```
+
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Any`](https://docs.python.org/3/library/typing.html#typing.Any)]
 
 ### article.state.default_state_store(state_path)
 

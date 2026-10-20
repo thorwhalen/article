@@ -53,31 +53,32 @@ detail. Importing this package registers the built-in platform adapters.
 
 ### Classes
 
-| [`Article`](#article.Article)(\*\*data)                           | A single-source-of-truth article authored once and published everywhere.           |
-|----------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
-| [`PlatformConfigs`](#article.PlatformConfigs)(\*\*data)                   | Per-platform map.                                                                  |
-| [`SubstackConfig`](#article.SubstackConfig)(\*\*data)                    | Primary platform: creates an **unpublished draft** (it defines the canonical URL). |
-| [`MediumConfig`](#article.MediumConfig)(\*\*data)                      | Medium syndication options.                                                        |
-| [`DevToConfig`](#article.DevToConfig)(\*\*data)                       | Dev.to / Forem syndication options (`canonical_url` carries SEO).                  |
-| [`HashnodeConfig`](#article.HashnodeConfig)(\*\*data)                    | Hashnode syndication options (`originalArticleURL` carries SEO).                   |
-| [`Settings`](#article.Settings)([_case_sensitive, ...])            | Secrets and runtime config, loaded from environment / `.env`.                      |
-| [`PublishResult`](#article.PublishResult)(platform, state[, url, ...])  | Immutable outcome of one platform publish attempt.                                 |
-| [`PublishState`](#article.PublishState)(\*values)                      | Outcome state of a single platform publish attempt.                                |
-| [`RunSummary`](#article.RunSummary)(phase, results[, canonical_url]) | Structured result of one pipeline phase across all targeted platforms.             |
-| [`Phase`](#article.Phase)(\*values)                             | The two pipeline phases, named exactly as their CLI commands.                      |
-| [`JsonStateStore`](#article.JsonStateStore)(path)                        | A whole-file JSON `MutableMapping` keyed by article slug.                          |
-| [`PublishAdapter`](#article.PublishAdapter)(\*args, \*\*kwargs)          | The contract every platform adapter satisfies.                                     |
-| [`PipelineEngine`](#article.PipelineEngine)(settings, store[, ...])      | Coordinates the publishing phases over an injected store + settings.               |
+| [`Article`](#article.Article)(\*, title[, subtitle, tags, ...])          | A single-source-of-truth article authored once and published everywhere.           |
+|-----------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
+| [`PlatformConfigs`](#article.PlatformConfigs)(\*[, substack, medium, ...])       | Per-platform map.                                                                  |
+| [`SubstackConfig`](#article.SubstackConfig)(\*[, publish_as_draft, title, ...]) | Primary platform: creates an **unpublished draft** (it defines the canonical URL). |
+| [`MediumConfig`](#article.MediumConfig)(\*[, publish_as_draft, title, ...])   | Medium syndication options.                                                        |
+| [`DevToConfig`](#article.DevToConfig)(\*[, publish_as_draft, title, ...])    | Dev.to / Forem syndication options (`canonical_url` carries SEO).                  |
+| [`HashnodeConfig`](#article.HashnodeConfig)(\*[, publish_as_draft, title, ...]) | Hashnode syndication options (`originalArticleURL` carries SEO).                   |
+| [`Settings`](#article.Settings)([_case_sensitive, ...])                   | Secrets and runtime config, loaded from environment / `.env`.                      |
+| [`PublishResult`](#article.PublishResult)(platform, state[, url, ...])         | Immutable outcome of one platform publish attempt.                                 |
+| [`PublishState`](#article.PublishState)(\*values)                             | Outcome state of a single platform publish attempt.                                |
+| [`RunSummary`](#article.RunSummary)(phase, results[, canonical_url])        | Structured result of one pipeline phase across all targeted platforms.             |
+| [`Phase`](#article.Phase)(\*values)                                    | The two pipeline phases, named exactly as their CLI commands.                      |
+| [`JsonStateStore`](#article.JsonStateStore)(path)                               | A whole-file JSON `MutableMapping` keyed by article slug.                          |
+| [`PublishAdapter`](#article.PublishAdapter)(\*args, \*\*kwargs)                 | The contract every platform adapter satisfies.                                     |
+| [`PipelineEngine`](#article.PipelineEngine)(settings, store[, ...])             | Coordinates the publishing phases over an injected store + settings.               |
 
 ### Exceptions
 
-| [`ArticleError`](#article.ArticleError)           | Base class for every error this package raises deliberately.             |
-|-------------------------------------------------------------------------|--------------------------------------------------------------------------|
-| [`ArticleValidationError`](#article.ArticleValidationError) | An article JSON file failed schema validation (with a friendly message). |
-| [`ConfigError`](#article.ConfigError)            | Required configuration or secret is missing/invalid.                     |
-| [`AdapterError`](#article.AdapterError)           | A platform adapter could not complete its publish attempt.               |
-| [`UnknownPlatformError`](#article.UnknownPlatformError)   | No adapter is registered under the requested platform name.              |
-| [`CanonicalUrlMissing`](#article.CanonicalUrlMissing)    | Phase 2 was requested before phase 1 recorded a canonical_url.           |
+| [`ArticleError`](#article.ArticleError)           | Base class for every error this package raises deliberately.                |
+|-------------------------------------------------------------------------|-----------------------------------------------------------------------------|
+| [`ArticleValidationError`](#article.ArticleValidationError) | An article JSON file failed schema validation (with a friendly message).    |
+| [`ConfigError`](#article.ConfigError)            | Required configuration or secret is missing/invalid.                        |
+| [`AdapterError`](#article.AdapterError)           | A platform adapter could not complete its publish attempt.                  |
+| [`UnknownPlatformError`](#article.UnknownPlatformError)   | No adapter is registered under the requested platform name.                 |
+| [`CanonicalUrlMissing`](#article.CanonicalUrlMissing)    | Phase 2 was requested before phase 1 recorded a canonical_url.              |
+| [`CanonicalUrlNotLive`](#article.CanonicalUrlNotLive)    | Phase 2 was requested while the primary post is still an unpublished draft. |
 
 ### *exception* article.AdapterError
 
@@ -85,7 +86,7 @@ Bases: [`ArticleError`](article.base.html.md#article.base.ArticleError)
 
 A platform adapter could not complete its publish attempt.
 
-### *class* article.Article(\*\*data)
+### *class* article.Article(\*, title, subtitle=None, slug, content_markdown, tags=<factory>, keywords=<factory>, cover_image_url=None, description=None, assets_dir=None, platforms=<factory>)
 
 Bases: `BaseModel`
 
@@ -105,7 +106,7 @@ A single-source-of-truth article authored once and published everywhere.
 ['dev_to', 'medium']
 ```
 
-#### assets_dir *: [str](https://docs.python.org/3/builtins/stdtypes.html#str) | [None](https://docs.python.org/3/builtins/constants.html#None)*
+#### assets_dir *: [Optional](https://docs.python.org/3/library/typing.html#typing.Optional)[[str](https://docs.python.org/3/builtins/stdtypes.html#str)]*
 
 Directory that relative image paths in `content_markdown` resolve
 against. [`load_article()`](#article.load_article) sets it to the source file’s directory.
@@ -132,13 +133,22 @@ Bases: [`ArticleError`](article.base.html.md#article.base.ArticleError)
 
 Phase 2 was requested before phase 1 recorded a canonical_url.
 
+### *exception* article.CanonicalUrlNotLive
+
+Bases: [`ArticleError`](article.base.html.md#article.base.ArticleError)
+
+Phase 2 was requested while the primary post is still an unpublished draft.
+
+The recorded canonical URL is the post’s *future* address, so syndicating now
+would point other platforms at a 404.
+
 ### *exception* article.ConfigError
 
 Bases: [`ArticleError`](article.base.html.md#article.base.ArticleError)
 
 Required configuration or secret is missing/invalid.
 
-### *class* article.DevToConfig(\*\*data)
+### *class* article.DevToConfig(, publish_as_draft=True, title=None, tags=None, organization_id=None, series=None)
 
 Bases: `_PlatformConfig`
 
@@ -148,7 +158,7 @@ Dev.to / Forem syndication options (`canonical_url` carries SEO).
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* article.HashnodeConfig(\*\*data)
+### *class* article.HashnodeConfig(, publish_as_draft=True, title=None, tags=None, publication_id=None, series_id=None, subtitle=None)
 
 Bases: `_PlatformConfig`
 
@@ -158,7 +168,7 @@ Hashnode syndication options (`originalArticleURL` carries SEO).
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-#### publication_id *: [str](https://docs.python.org/3/builtins/stdtypes.html#str) | [None](https://docs.python.org/3/builtins/constants.html#None)*
+#### publication_id *: [Optional](https://docs.python.org/3/library/typing.html#typing.Optional)[[str](https://docs.python.org/3/builtins/stdtypes.html#str)]*
 
 ObjectId of the target publication; else taken from settings.
 
@@ -210,9 +220,6 @@ Merge `fields` into the record for `slug` (read-modify-write).
 Creates the record if absent and stamps `updated_at`. Returns the
 merged record.
 
-* **Return type:**
-  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Any`](https://docs.python.org/3/library/typing.html#typing.Any)]
-
 ```pycon
 >>> import tempfile, os
 >>> store = JsonStateStore(os.path.join(tempfile.mkdtemp(), "s.json"))
@@ -222,7 +229,10 @@ merged record.
 ('T', 'c')
 ```
 
-### *class* article.MediumConfig(\*\*data)
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Any`](https://docs.python.org/3/library/typing.html#typing.Any)]
+
+### *class* article.MediumConfig(, publish_as_draft=True, title=None, tags=None, publication_id=None, notify_followers=False, license='all-rights-reserved')
 
 Bases: `_PlatformConfig`
 
@@ -240,7 +250,7 @@ One of Medium’s license enum values.
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-#### publication_id *: [str](https://docs.python.org/3/builtins/stdtypes.html#str) | [None](https://docs.python.org/3/builtins/constants.html#None)*
+#### publication_id *: [Optional](https://docs.python.org/3/library/typing.html#typing.Optional)[[str](https://docs.python.org/3/builtins/stdtypes.html#str)]*
 
 Publish under a Medium publication instead of the user profile.
 
@@ -250,7 +260,7 @@ Bases: [`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Enum`](h
 
 The two pipeline phases, named exactly as their CLI commands.
 
-### *class* article.PipelineEngine(settings, store, resolve_adapter=<function get_adapter>)
+### *class* article.PipelineEngine(settings, store, resolve_adapter=<function get_adapter>, is_live=<function url_is_live>)
 
 Bases: [`object`](https://docs.python.org/3/builtins/functions.html#object)
 
@@ -260,6 +270,14 @@ Coordinates the publishing phases over an injected store + settings.
   * **settings** ([`Settings`](article.config.html.md#article.config.Settings)) – secrets/runtime config facade.
   * **store** ([`MutableMapping`](https://docs.python.org/3/library/collections.abc.html#collections.abc.MutableMapping)) – the state store (any `MutableMapping` keyed by slug).
   * **resolve_adapter** ([`Callable`](https://docs.python.org/3/library/typing.html#typing.Callable)[[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str)], [`PublishAdapter`](article.registry.html.md#article.registry.PublishAdapter)]) – registry lookup (injected for testing / overrides).
+
+#### is_live(, timeout=10.0)
+
+`url -> bool`: is the canonical URL live? Asked in phase 2 only while the
+primary post is still a draft. Defaults to one HTTP GET (`url_is_live()`).
+
+* **Return type:**
+  [`bool`](https://docs.python.org/3/builtins/functions.html#bool)
 
 #### *async* publish_primary(article)
 
@@ -272,9 +290,6 @@ Publish to the primary platform and record its URL as `canonical_url`.
 
 Resolve the adapter registered under `name`.
 
-* **Return type:**
-  [`PublishAdapter`](article.registry.html.md#article.registry.PublishAdapter)
-
 ```pycon
 >>> get_adapter("nope")
 Traceback (most recent call last):
@@ -282,17 +297,22 @@ Traceback (most recent call last):
 article.base.UnknownPlatformError: ...no adapter registered for 'nope'...
 ```
 
-#### *async* syndicate_secondary(article, , platforms=None)
+* **Return type:**
+  [`PublishAdapter`](article.registry.html.md#article.registry.PublishAdapter)
+
+#### *async* syndicate_secondary(article, , platforms=None, allow_unpublished=False)
 
 Syndicate to each configured secondary, injecting the canonical URL.
 
 Raises [`CanonicalUrlMissing`](article.base.html.md#article.base.CanonicalUrlMissing) if phase 1 hasn’t
-recorded a canonical URL for this slug yet.
+recorded a canonical URL for this slug yet, and
+[`CanonicalUrlNotLive`](article.base.html.md#article.base.CanonicalUrlNotLive) if the primary post is still a
+draft whose URL does not resolve (`allow_unpublished=True` skips the check).
 
 * **Return type:**
   [`RunSummary`](article.base.html.md#article.base.RunSummary)
 
-### *class* article.PlatformConfigs(\*\*data)
+### *class* article.PlatformConfigs(, substack=None, medium=None, dev_to=None, hashnode=None)
 
 Bases: `BaseModel`
 
@@ -302,13 +322,13 @@ Per-platform map. A `None` (absent) entry means *skip that platform*.
 
 The subset of platforms that are present (non-`None`), keyed by name.
 
-* **Return type:**
-  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)[[`Literal`](https://docs.python.org/3/library/typing.html#typing.Literal)[`'substack'`, `'medium'`, `'dev_to'`, `'hashnode'`], `_PlatformConfig`]
-
 ```pycon
 >>> PlatformConfigs(medium=MediumConfig()).configured().keys()
 dict_keys(['medium'])
 ```
+
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)[[`Literal`](https://docs.python.org/3/library/typing.html#typing.Literal)[`'substack'`, `'medium'`, `'dev_to'`, `'hashnode'`], `_PlatformConfig`]
 
 #### model_config *: [ClassVar](https://docs.python.org/3/library/typing.html#typing.ClassVar)[ConfigDict]* *= {'extra': 'forbid'}*
 
@@ -330,7 +350,7 @@ An adapter is an `async` callable. The engine injects:
 
 and receives a [`PublishResult`](article.base.html.md#article.base.PublishResult) back.
 
-### *class* article.PublishResult(platform, state, url=None, status=None, canonical_url=None, error=None, detail=<factory>)
+### *class* article.PublishResult(platform, state, url=None, status=None, canonical_url=None, error=None, detail=dict())
 
 Bases: [`object`](https://docs.python.org/3/builtins/functions.html#object)
 
@@ -458,7 +478,7 @@ A compact human-readable, multi-line summary.
 
 The subset of results that succeeded.
 
-### *class* article.Settings(\_case_sensitive=None, \_nested_model_default_partial_update=None, \_env_prefix=None, \_env_prefix_target=None, \_env_file=PosixPath('.'), \_env_file_encoding=None, \_env_ignore_empty=None, \_env_nested_delimiter=None, \_env_nested_max_split=None, \_env_parse_none_str=None, \_env_parse_enums=None, \_cli_prog_name=None, \_cli_parse_args=None, \_cli_settings_source=None, \_cli_parse_none_str=None, \_cli_hide_none_type=None, \_cli_avoid_json=None, \_cli_enforce_required=None, \_cli_use_class_docs_for_groups=None, \_cli_show_env_vars=None, \_cli_exit_on_error=None, \_cli_prefix=None, \_cli_flag_prefix_char=None, \_cli_implicit_flags=None, \_cli_ignore_unknown_args=None, \_cli_kebab_case=None, \_cli_shortcuts=None, \_secrets_dir=None, \_build_sources=None, \*\*values)
+### *class* article.Settings(\_case_sensitive=None, \_nested_model_default_partial_update=None, \_env_prefix=None, \_env_prefix_target=None, \_env_file=PosixPath('.'), \_env_file_encoding=None, \_env_file_depth=None, \_env_ignore_empty=None, \_env_nested_delimiter=None, \_env_nested_max_split=None, \_env_parse_none_str=None, \_env_parse_enums=None, \_cli_prog_name=None, \_cli_parse_args=None, \_cli_settings_source=None, \_cli_parse_none_str=None, \_cli_hide_none_type=None, \_cli_avoid_json=None, \_cli_enforce_required=None, \_cli_use_class_docs_for_groups=None, \_cli_show_env_vars=None, \_cli_exit_on_error=None, \_cli_prefix=None, \_cli_flag_prefix_char=None, \_cli_implicit_flags=None, \_cli_ignore_unknown_args=None, \_cli_kebab_case=None, \_cli_shortcuts=None, \_secrets_dir=None, \_build_sources=None, , substack_cookies=None, substack_cookies_path=None, substack_email=None, substack_password=None, substack_publication_url=None, medium_token=None, medium_user_id=None, devto_api_key=None, hashnode_token=None, hashnode_publication_id=None, state_path='pipeline_state.json')
 
 Bases: `BaseSettings`
 
@@ -468,7 +488,7 @@ Env var names are the field names upper-cased (e.g. `MEDIUM_TOKEN`,
 `DEVTO_API_KEY`, `SUBSTACK_EMAIL`). Use [`load_settings()`](#article.load_settings) rather
 than constructing this directly.
 
-#### model_config *: [ClassVar](https://docs.python.org/3/library/typing.html#typing.ClassVar)[SettingsConfigDict]* *= {'arbitrary_types_allowed': True, 'case_sensitive': False, 'cli_avoid_json': False, 'cli_enforce_required': False, 'cli_exit_on_error': True, 'cli_flag_prefix_char': '-', 'cli_hide_none_type': False, 'cli_ignore_unknown_args': False, 'cli_implicit_flags': False, 'cli_kebab_case': False, 'cli_parse_args': None, 'cli_parse_none_str': None, 'cli_prefix': '', 'cli_prog_name': None, 'cli_shortcuts': None, 'cli_show_env_vars': False, 'cli_use_class_docs_for_groups': False, 'enable_decoding': True, 'env_file': '.env', 'env_file_encoding': 'utf-8', 'env_ignore_empty': False, 'env_nested_delimiter': None, 'env_nested_max_split': None, 'env_parse_enums': None, 'env_parse_none_str': None, 'env_prefix': '', 'env_prefix_target': 'variable', 'extra': 'ignore', 'json_file': None, 'json_file_encoding': None, 'nested_model_default_partial_update': False, 'protected_namespaces': ('model_validate', 'model_dump', 'settings_customise_sources'), 'secrets_dir': None, 'toml_file': None, 'validate_default': True, 'yaml_config_section': None, 'yaml_file': None, 'yaml_file_encoding': None}*
+#### model_config *: [ClassVar](https://docs.python.org/3/library/typing.html#typing.ClassVar)[SettingsConfigDict]* *= {'arbitrary_types_allowed': True, 'case_sensitive': False, 'cli_avoid_json': False, 'cli_enforce_required': False, 'cli_exit_on_error': True, 'cli_flag_prefix_char': '-', 'cli_hide_none_type': False, 'cli_ignore_unknown_args': False, 'cli_implicit_flags': False, 'cli_kebab_case': False, 'cli_parse_args': None, 'cli_parse_none_str': None, 'cli_prefix': '', 'cli_prog_name': None, 'cli_shortcuts': None, 'cli_show_env_vars': False, 'cli_use_class_docs_for_groups': False, 'enable_decoding': True, 'env_file': '.env', 'env_file_depth': 0, 'env_file_encoding': 'utf-8', 'env_ignore_empty': False, 'env_nested_delimiter': None, 'env_nested_max_split': None, 'env_parse_enums': None, 'env_parse_none_str': None, 'env_prefix': '', 'env_prefix_target': 'variable', 'extra': 'ignore', 'json_file': None, 'json_file_encoding': None, 'nested_model_default_partial_update': False, 'protected_namespaces': ('model_validate', 'model_dump', 'settings_cached', 'settings_clear_cache', 'settings_customise_sources'), 'secrets_case_sensitive': None, 'secrets_dir': None, 'secrets_dir_max_size': None, 'secrets_dir_missing': None, 'secrets_nested_delimiter': None, 'secrets_nested_subdir': None, 'secrets_prefix': None, 'toml_file': None, 'validate_default': True, 'yaml_config_section': None, 'yaml_file': None, 'yaml_file_encoding': None}*
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
@@ -479,20 +499,20 @@ The minimal secrets/identity an adapter needs — injected, not global.
 Returning only the relevant subset keeps adapters from reaching into a
 global `Settings` (dependency injection + least privilege).
 
-* **Return type:**
-  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Any`](https://docs.python.org/3/library/typing.html#typing.Any)]
-
 ```pycon
 >>> s = Settings(medium_token="t", medium_user_id="u", _env_file=None)
 >>> s.secrets_for("medium") == {"token": "t", "user_id": "u"}
 True
 ```
 
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Any`](https://docs.python.org/3/library/typing.html#typing.Any)]
+
 #### state_path *: [str](https://docs.python.org/3/builtins/stdtypes.html#str)*
 
 JSON state store path (the canonical_url SSOT lives here, keyed by slug).
 
-### *class* article.SubstackConfig(\*\*data)
+### *class* article.SubstackConfig(, publish_as_draft=True, title=None, tags=None, publication_url=None, section_id=None, send_email=False, audience='everyone', tables='error', draft_id=None, expected_revision=None, overwrite_edits=False)
 
 Bases: `_PlatformConfig`
 
@@ -508,11 +528,24 @@ everyone / only_paid / founding / only_free.
 * **Type:**
   Audience visibility
 
+#### draft_id *: [Optional](https://docs.python.org/3/library/typing.html#typing.Optional)[[int](https://docs.python.org/3/builtins/functions.html#int)]*
+
+Update this existing draft in place instead of creating a new one (the CLI’s
+`--update` fills it, and `expected_revision`, from the state store).
+
+#### expected_revision *: [Optional](https://docs.python.org/3/library/typing.html#typing.Optional)[[dict](https://docs.python.org/3/builtins/stdtypes.html#dict)]*
+
+The draft’s revision as last recorded; a draft edited since is refused.
+
 #### model_config *: [ClassVar](https://docs.python.org/3/library/typing.html#typing.ClassVar)[ConfigDict]* *= {'extra': 'forbid'}*
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-#### publication_url *: [str](https://docs.python.org/3/builtins/stdtypes.html#str) | [None](https://docs.python.org/3/builtins/constants.html#None)*
+#### overwrite_edits *: [bool](https://docs.python.org/3/builtins/functions.html#bool)*
+
+Overwrite edits made in the Substack editor since `expected_revision`.
+
+#### publication_url *: [Optional](https://docs.python.org/3/library/typing.html#typing.Optional)[[str](https://docs.python.org/3/builtins/stdtypes.html#str)]*
 
 `https://<sub>.substack.com` (or custom domain); else taken from settings.
 
@@ -520,7 +553,7 @@ Configuration for the model, should be a dictionary conforming to [`ConfigDict`]
 
 Default to a draft for visual QA before going public. Overridden per platform.
 
-#### section_id *: [int](https://docs.python.org/3/builtins/functions.html#int) | [None](https://docs.python.org/3/builtins/constants.html#None)*
+#### section_id *: [Optional](https://docs.python.org/3/library/typing.html#typing.Optional)[[int](https://docs.python.org/3/builtins/functions.html#int)]*
 
 Optional Substack section id to file the post under.
 
@@ -528,7 +561,7 @@ Optional Substack section id to file the post under.
 
 Kept for article-file compatibility; unused, since this tool never publishes.
 
-#### tables *: [Literal](https://docs.python.org/3/library/typing.html#typing.Literal)['error', 'code']*
+#### tables *: [Literal](https://docs.python.org/3/library/typing.html#typing.Literal)['error', 'code', 'image']*
 
 What to do with a Markdown table, which Substack cannot represent:
 `"error"` (refuse, naming every table) or `"code"` (keep it as a
@@ -570,15 +603,15 @@ A single seam to swap the backend implementation package-wide.
 
 Resolve the adapter registered under `name`.
 
-* **Return type:**
-  [`PublishAdapter`](article.registry.html.md#article.registry.PublishAdapter)
-
 ```pycon
 >>> get_adapter("nope")
 Traceback (most recent call last):
 ...
 article.base.UnknownPlatformError: ...no adapter registered for 'nope'...
 ```
+
+* **Return type:**
+  [`PublishAdapter`](article.registry.html.md#article.registry.PublishAdapter)
 
 ### article.is_registered(name)
 
@@ -598,9 +631,6 @@ file’s directory (`assets_dir`) unless the article sets its own.
 
 Validation failures are re-raised as [`ArticleValidationError`](article.base.html.md#article.base.ArticleValidationError)
 with a single message naming each offending field — not a raw traceback.
-
-* **Return type:**
-  [`Article`](article.config.html.md#article.config.Article)
 
 ```pycon
 >>> load_article({
@@ -625,6 +655,9 @@ Traceback (most recent call last):
 ...
 article.base.ArticleValidationError: Invalid article ...slug: String should match pattern...
 ```
+
+* **Return type:**
+  [`Article`](article.config.html.md#article.config.Article)
 
 ### article.load_settings(, env_file=None, \*\*overrides)
 
@@ -654,7 +687,7 @@ Decorator registering an adapter callable under `name`.
 ...     ...
 ```
 
-### *async* article.syndicate_secondary(article, , settings=None, store=None, platforms=None)
+### *async* article.syndicate_secondary(article, , settings=None, store=None, platforms=None, allow_unpublished=False)
 
 Phase 2 facade: syndicate to secondaries with the canonical_url injected.
 

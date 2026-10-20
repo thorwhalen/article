@@ -34,13 +34,14 @@ types and keeps import edges acyclic: `base` imports nothing from the package.
 
 ### Exceptions
 
-| [`AdapterError`](#article.base.AdapterError)           | A platform adapter could not complete its publish attempt.               |
-|-------------------------------------------------------------------------|--------------------------------------------------------------------------|
-| [`ArticleError`](#article.base.ArticleError)           | Base class for every error this package raises deliberately.             |
-| [`ArticleValidationError`](#article.base.ArticleValidationError) | An article JSON file failed schema validation (with a friendly message). |
-| [`CanonicalUrlMissing`](#article.base.CanonicalUrlMissing)    | Phase 2 was requested before phase 1 recorded a canonical_url.           |
-| [`ConfigError`](#article.base.ConfigError)            | Required configuration or secret is missing/invalid.                     |
-| [`UnknownPlatformError`](#article.base.UnknownPlatformError)   | No adapter is registered under the requested platform name.              |
+| [`AdapterError`](#article.base.AdapterError)           | A platform adapter could not complete its publish attempt.                  |
+|-------------------------------------------------------------------------|-----------------------------------------------------------------------------|
+| [`ArticleError`](#article.base.ArticleError)           | Base class for every error this package raises deliberately.                |
+| [`ArticleValidationError`](#article.base.ArticleValidationError) | An article JSON file failed schema validation (with a friendly message).    |
+| [`CanonicalUrlMissing`](#article.base.CanonicalUrlMissing)    | Phase 2 was requested before phase 1 recorded a canonical_url.              |
+| [`CanonicalUrlNotLive`](#article.base.CanonicalUrlNotLive)    | Phase 2 was requested while the primary post is still an unpublished draft. |
+| [`ConfigError`](#article.base.ConfigError)            | Required configuration or secret is missing/invalid.                        |
+| [`UnknownPlatformError`](#article.base.UnknownPlatformError)   | No adapter is registered under the requested platform name.                 |
 
 ### article.base.ALL_PLATFORMS *: [tuple](https://docs.python.org/3/builtins/stdtypes.html#tuple)[[Literal](https://docs.python.org/3/library/typing.html#typing.Literal)['substack', 'medium', 'dev_to', 'hashnode'], ...]* *= ('substack', 'medium', 'dev_to', 'hashnode')*
 
@@ -70,6 +71,15 @@ Bases: [`ArticleError`](#article.base.ArticleError)
 
 Phase 2 was requested before phase 1 recorded a canonical_url.
 
+### *exception* article.base.CanonicalUrlNotLive
+
+Bases: [`ArticleError`](#article.base.ArticleError)
+
+Phase 2 was requested while the primary post is still an unpublished draft.
+
+The recorded canonical URL is the post’s *future* address, so syndicating now
+would point other platforms at a 404.
+
 ### *exception* article.base.ConfigError
 
 Bases: [`ArticleError`](#article.base.ArticleError)
@@ -86,7 +96,7 @@ Bases: [`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Enum`](h
 
 The two pipeline phases, named exactly as their CLI commands.
 
-### *class* article.base.PublishResult(platform, state, url=None, status=None, canonical_url=None, error=None, detail=<factory>)
+### *class* article.base.PublishResult(platform, state, url=None, status=None, canonical_url=None, error=None, detail=dict())
 
 Bases: [`object`](https://docs.python.org/3/builtins/functions.html#object)
 

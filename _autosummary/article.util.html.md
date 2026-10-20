@@ -42,9 +42,6 @@ crashed write never leaves a half-written state file behind.
 
 First non-`None` value, else `None` (SQL `COALESCE`).
 
-* **Return type:**
-  [`Optional`](https://docs.python.org/3/library/typing.html#typing.Optional)[[`TypeVar`](https://docs.python.org/3/library/typing.html#typing.TypeVar)(`T`)]
-
 ```pycon
 >>> coalesce(None, None, 3, 4)
 3
@@ -52,14 +49,14 @@ First non-`None` value, else `None` (SQL `COALESCE`).
 True
 ```
 
+* **Return type:**
+  [`Optional`](https://docs.python.org/3/library/typing.html#typing.Optional)[`T`]
+
 ### article.util.get_logger(name='article')
 
 Return the package logger, attaching a single stderr handler once.
 
 Idempotent: repeated calls don’t stack handlers.
-
-* **Return type:**
-  [`Logger`](https://docs.python.org/3/library/logging.html#logging.Logger)
 
 ```pycon
 >>> log = get_logger()
@@ -69,6 +66,9 @@ Idempotent: repeated calls don’t stack handlers.
 True
 ```
 
+* **Return type:**
+  [`Logger`](https://docs.python.org/3/library/logging.html#logging.Logger)
+
 ### *async* article.util.human_delay(min_seconds, max_seconds, \*, \_sleep=<function sleep>, \_rand=<bound method Random.uniform of <random.Random object>>)
 
 Sleep a randomized, human-like interval; return the delay used.
@@ -77,15 +77,15 @@ Used between scripted browser actions so automation of one’s own account
 paces like a person. The sleeper and RNG are injectable for deterministic
 tests:
 
-* **Return type:**
-  [`float`](https://docs.python.org/3/builtins/functions.html#float)
-
 ```pycon
 >>> import asyncio
 >>> async def _no_sleep(_): pass
 >>> asyncio.run(human_delay(0.5, 0.5, _sleep=_no_sleep))
 0.5
 ```
+
+* **Return type:**
+  [`float`](https://docs.python.org/3/builtins/functions.html#float)
 
 ### article.util.read_json(path, , default=None)
 
@@ -101,9 +101,6 @@ Return `canonical_url` or raise — the SSOT link is never optional.
 Every *secondary* adapter calls this first so a missing canonical link
 fails loudly instead of silently emitting a self-canonical post.
 
-* **Return type:**
-  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
-
 ```pycon
 >>> require_canonical_url("medium", "https://x.substack.com/p/y")
 'https://x.substack.com/p/y'
@@ -113,6 +110,9 @@ Traceback (most recent call last):
 article.base.AdapterError: medium: canonical_url is required for syndication but was missing
 ```
 
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
+
 ### article.util.run_sync(coro)
 
 Run an async coroutine to completion from sync code (CLI entry points).
@@ -121,7 +121,7 @@ A thin, named wrapper over [`asyncio.run()`](https://docs.python.org/3/library/a
 seam is obvious and easy to swap (e.g. for an existing event loop later).
 
 * **Return type:**
-  [`TypeVar`](https://docs.python.org/3/library/typing.html#typing.TypeVar)(`T`)
+  `T`
 
 ### *class* article.util.suppress_errors
 
@@ -133,11 +133,11 @@ A tiny `contextlib.suppress(Exception)` without the import churn.
 
 Current UTC time as an ISO-8601 string (clock injectable for tests).
 
-* **Return type:**
-  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
-
 ```pycon
 >>> from datetime import datetime, timezone
 >>> utcnow_iso(_now=lambda: datetime(2026, 6, 21, tzinfo=timezone.utc))
 '2026-06-21T00:00:00+00:00'
 ```
+
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)

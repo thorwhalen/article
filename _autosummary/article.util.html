@@ -7,6 +7,7 @@
     setColorMode(localStorage._theme||"auto");
   </script><link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d88b86f9" />
     <link rel="stylesheet" type="text/css" href="../_static/shibuya.css?v=2ceb65ce" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx_autodoc_typehints.css?v=057ac668" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link media="print" rel="stylesheet" type="text/css" href="../_static/print.css?v=20ff2c19" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -201,7 +202,7 @@ keyword-only parameters so the helpers stay deterministic under test.</p>
 crashed write never leaves a half-written state file behind.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><span class="highlight sphinx_autodoc_typehints-value"><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="kc"><span class="pre">None</span></span></code></a></span></span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -210,17 +211,17 @@ crashed write never leaves a half-written state file behind.</p>
 <dt class="sig sig-object py" id="article.util.coalesce">
 <span class="sig-prename descclassname"><span class="pre">article.util.</span></span><span class="sig-name descname"><span class="pre">coalesce</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/article/util.html#coalesce"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.util.coalesce" title="Link to this definition">#</a></dt>
 <dd><p>First non-<code class="docutils literal notranslate"><span class="pre">None</span></code> value, else <code class="docutils literal notranslate"><span class="pre">None</span></code> (SQL <code class="docutils literal notranslate"><span class="pre">COALESCE</span></code>).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.TypeVar" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TypeVar</span></code></a>(<code class="docutils literal notranslate"><span class="pre">T</span></code>)]</span></p>
-</dd>
-</dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="gp">&gt;&gt;&gt; </span><span class="n">coalesce</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
 </span><span data-line="2"><span class="go">3</span>
 </span><span data-line="3"><span class="gp">&gt;&gt;&gt; </span><span class="n">coalesce</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
 </span><span data-line="4"><span class="go">True</span>
 </span></pre></div>
 </div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.15)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<code class="docutils literal notranslate"><span class="pre">T</span></code>]</span></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
@@ -228,11 +229,6 @@ crashed write never leaves a half-written state file behind.</p>
 <span class="sig-prename descclassname"><span class="pre">article.util.</span></span><span class="sig-name descname"><span class="pre">get_logger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'article'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/article/util.html#get_logger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.util.get_logger" title="Link to this definition">#</a></dt>
 <dd><p>Return the package logger, attaching a single stderr handler once.</p>
 <p>Idempotent: repeated calls don’t stack handlers.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/logging.html#logging.Logger" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Logger</span></code></a></span></p>
-</dd>
-</dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="gp">&gt;&gt;&gt; </span><span class="n">log</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">()</span>
 </span><span data-line="2"><span class="gp">&gt;&gt;&gt; </span><span class="n">log</span><span class="o">.</span><span class="n">name</span>
 </span><span data-line="3"><span class="go">'article'</span>
@@ -240,6 +236,11 @@ crashed write never leaves a half-written state file behind.</p>
 </span><span data-line="5"><span class="go">True</span>
 </span></pre></div>
 </div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/logging.html#logging.Logger" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Logger</span></code></a></span></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
@@ -249,17 +250,17 @@ crashed write never leaves a half-written state file behind.</p>
 <p>Used between scripted browser actions so automation of one’s own account
 paces like a person. The sleeper and RNG are injectable for deterministic
 tests:</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></p>
-</dd>
-</dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
 </span><span data-line="2"><span class="gp">&gt;&gt;&gt; </span><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_no_sleep</span><span class="p">(</span><span class="n">_</span><span class="p">):</span> <span class="k">pass</span>
 </span><span data-line="3"><span class="gp">&gt;&gt;&gt; </span><span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">human_delay</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">_sleep</span><span class="o">=</span><span class="n">_no_sleep</span><span class="p">))</span>
 </span><span data-line="4"><span class="go">0.5</span>
 </span></pre></div>
 </div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
@@ -268,7 +269,7 @@ tests:</p>
 <dd><p>Read and parse a JSON file, returning <code class="docutils literal notranslate"><span class="pre">default</span></code> if it doesn’t exist.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span></p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.15)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -279,11 +280,6 @@ tests:</p>
 <dd><p>Return <code class="docutils literal notranslate"><span class="pre">canonical_url</span></code> or raise — the SSOT link is never optional.</p>
 <p>Every <em>secondary</em> adapter calls this first so a missing canonical link
 fails loudly instead of silently emitting a self-canonical post.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
-</dd>
-</dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="gp">&gt;&gt;&gt; </span><span class="n">require_canonical_url</span><span class="p">(</span><span class="s2">"medium"</span><span class="p">,</span> <span class="s2">"https://x.substack.com/p/y"</span><span class="p">)</span>
 </span><span data-line="2"><span class="go">'https://x.substack.com/p/y'</span>
 </span><span data-line="3"><span class="gp">&gt;&gt;&gt; </span><span class="n">require_canonical_url</span><span class="p">(</span><span class="s2">"medium"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
@@ -292,17 +288,22 @@ fails loudly instead of silently emitting a self-canonical post.</p>
 </span><span data-line="6"><span class="gr">article.base.AdapterError</span>: <span class="n">medium: canonical_url is required for syndication but was missing</span>
 </span></pre></div>
 </div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="article.util.run_sync">
 <span class="sig-prename descclassname"><span class="pre">article.util.</span></span><span class="sig-name descname"><span class="pre">run_sync</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coro</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/article/util.html#run_sync"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.util.run_sync" title="Link to this definition">#</a></dt>
 <dd><p>Run an async coroutine to completion from sync code (CLI entry points).</p>
-<p>A thin, named wrapper over <a class="reference external" href="https://docs.python.org/3/library/asyncio-runner.html#asyncio.run" title="(in Python v3.14)"><code class="xref py py-func docutils literal notranslate"><span class="pre">asyncio.run()</span></code></a> so the dispatch-to-interface
+<p>A thin, named wrapper over <a class="reference external" href="https://docs.python.org/3/library/asyncio-runner.html#asyncio.run" title="(in Python v3.15)"><code class="xref py py-func docutils literal notranslate"><span class="pre">asyncio.run()</span></code></a> so the dispatch-to-interface
 seam is obvious and easy to swap (e.g. for an existing event loop later).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.TypeVar" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TypeVar</span></code></a>(<code class="docutils literal notranslate"><span class="pre">T</span></code>)</span></p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="docutils literal notranslate"><span class="pre">T</span></code></span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -310,7 +311,7 @@ seam is obvious and easy to swap (e.g. for an existing event loop later).</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="article.util.suppress_errors">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">article.util.</span></span><span class="sig-name descname"><span class="pre">suppress_errors</span></span><a class="reference internal" href="../_modules/article/util.html#suppress_errors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.util.suppress_errors" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>A tiny <code class="docutils literal notranslate"><span class="pre">contextlib.suppress(Exception)</span></code> without the import churn.</p>
 </dd></dl>
 
@@ -318,16 +319,16 @@ seam is obvious and easy to swap (e.g. for an existing event loop later).</p>
 <dt class="sig sig-object py" id="article.util.utcnow_iso">
 <span class="sig-prename descclassname"><span class="pre">article.util.</span></span><span class="sig-name descname"><span class="pre">utcnow_iso</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_now</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/article/util.html#utcnow_iso"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.util.utcnow_iso" title="Link to this definition">#</a></dt>
 <dd><p>Current UTC time as an ISO-8601 string (clock injectable for tests).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
-</dd>
-</dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timezone</span>
 </span><span data-line="2"><span class="gp">&gt;&gt;&gt; </span><span class="n">utcnow_iso</span><span class="p">(</span><span class="n">_now</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2026</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="n">tzinfo</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">))</span>
 </span><span data-line="3"><span class="go">'2026-06-21T00:00:00+00:00'</span>
 </span></pre></div>
 </div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -364,7 +365,7 @@ seam is obvious and easy to swap (e.g. for an existing event loop later).</p>
     </div>
   </div>
 </footer>
-      <script src="../_static/documentation_options.js?v=360bc84d"></script>
+      <script src="../_static/documentation_options.js?v=fd825880"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>

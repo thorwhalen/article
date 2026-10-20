@@ -2,18 +2,18 @@
 
 # About this build
 
-This documentation was built on **2026-10-08 06:54 UTC** from commit <a href="https://github.com/thorwhalen/article/commit/4697f04a278901473291adbd6f875ef939b9e7e1"><code>4697f04</code></a> on branch <code>main</code>, for **article 0.1.3** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-10-20 12:40 UTC** from commit <a href="https://github.com/thorwhalen/article/commit/d27aca1348a09fecf5ffd09db777bd615ddf7624"><code>d27aca1</code></a> on branch <code>main</code>, for **article 0.1.4** (from <code>pyproject.toml</code>).
 
 #### WARNING
 The documentation and the package may be misaligned:
 
-- The documented version (0.1.3) is behind the latest release on PyPI (0.1.4): `pip install article` gives newer code than these docs describe.
+- The documented version (0.1.4) is behind the latest release on PyPI (0.1.5): `pip install article` gives newer code than these docs describe.
 
 ## Source
 
 |                     |                                                                                                                                                           |
 |---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/thorwhalen/article/commit/4697f04a278901473291adbd6f875ef939b9e7e1"><code>4697f04a278901473291adbd6f875ef939b9e7e1</code></a> |
+| Commit              | <a href="https://github.com/thorwhalen/article/commit/d27aca1348a09fecf5ffd09db777bd615ddf7624"><code>d27aca1348a09fecf5ffd09db777bd615ddf7624</code></a> |
 | Branch              | <code>main</code>                                                                                                                                         |
 | Tags at this commit | none                                                                                                                                                      |
 | Working tree        | clean                                                                                                                                                     |
@@ -24,18 +24,18 @@ The documentation and the package may be misaligned:
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>thorwhalen/article</code>                                                            |
-| Run          | <a href="https://github.com/thorwhalen/article/actions/runs/37740132644">37740132644</a>   |
+| Run          | <a href="https://github.com/thorwhalen/article/actions/runs/39423880789">39423880789</a>   |
 | Ref          | <code>refs/heads/main</code>                                                               |
-| Event commit | <code>4697f04a278901473291adbd6f875ef939b9e7e1</code> (in the history of the built commit) |
+| Event commit | <code>d27aca1348a09fecf5ffd09db777bd615ddf7624</code> (in the history of the built commit) |
 
 ## Tools
 
 |          |         |
 |----------|---------|
-| epythet  | 0.2.12  |
-| Sphinx   | 9.1.0   |
+| epythet  | 0.2.20  |
+| Sphinx   | 9.1.1   |
 | docutils | 0.22.4  |
-| Python   | 3.12.14 |
+| Python   | 3.12.15 |
 
 ## Configuration as resolved
 
@@ -51,14 +51,14 @@ The documentation and the package may be misaligned:
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/article/0.1.4/">0.1.4</a>, newer than the documented version (0.1.3).
+Latest release: <a href="https://pypi.org/project/article/0.1.5/">0.1.5</a>, newer than the documented version (0.1.4).
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/article && cd article
-git checkout 4697f04a278901473291adbd6f875ef939b9e7e1
-pip install "epythet==0.2.12"
+git checkout d27aca1348a09fecf5ffd09db777bd615ddf7624
+pip install "epythet==0.2.20"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```
 

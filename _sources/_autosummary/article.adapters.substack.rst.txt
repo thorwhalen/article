@@ -20,5 +20,6 @@ article.adapters.substack
       make_substack_api
       preflight
       publish
+      render_table_image
       summarize_document
    

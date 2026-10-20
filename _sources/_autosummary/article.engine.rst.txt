@@ -4,6 +4,12 @@ article.engine
 .. automodule:: article.engine
 
    
+   .. rubric:: Module Attributes
+
+   .. autosummary::
+   
+      DFLT_LIVE_TIMEOUT
+   
    .. rubric:: Functions
 
    .. autosummary::
@@ -11,6 +17,7 @@ article.engine
       build_engine
       publish_primary
       syndicate_secondary
+      url_is_live
    
    .. rubric:: Classes
 

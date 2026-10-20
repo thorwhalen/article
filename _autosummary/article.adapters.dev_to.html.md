@@ -34,9 +34,6 @@ Quirks encoded here (these *drift* — verified live):
 
 Syndicate `article` to Dev.to with `canonical_url` pointing at the SSOT.
 
-* **Return type:**
-  [`PublishResult`](article.base.html.md#article.base.PublishResult)
-
 ```pycon
 >>> import asyncio
 >>> from article.config import Article, DevToConfig
@@ -52,3 +49,6 @@ Syndicate `article` to Dev.to with `canonical_url` pointing at the SSOT.
 >>> res.detail["payload"]["article"]["published"]  # draft default => False
 False
 ```
+
+* **Return type:**
+  [`PublishResult`](article.base.html.md#article.base.PublishResult)

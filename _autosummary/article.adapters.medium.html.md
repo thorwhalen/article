@@ -31,20 +31,17 @@ Medium’s “Import a story” page (Profile menu > Stories > Import a story).
 
 The one-line instruction for importing `canonical_url` into Medium.
 
-* **Return type:**
-  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
-
 ```pycon
 >>> import_steps("https://me.substack.com/p/t")
 'Once https://me.substack.com/p/t is live, open https://medium.com/p/import, ...'
 ```
 
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
+
 ### *async* article.adapters.medium.publish(article, , canonical_url, config, secrets)
 
 Return the *Import a story* step for `article`; sends nothing to Medium.
-
-* **Return type:**
-  [`PublishResult`](article.base.html.md#article.base.PublishResult)
 
 ```pycon
 >>> import asyncio
@@ -57,3 +54,6 @@ Return the *Import a story* step for `article`; sends nothing to Medium.
 >>> res.state.value, res.detail["import_url"]
 ('manual', 'https://me.substack.com/p/t')
 ```
+
+* **Return type:**
+  [`PublishResult`](article.base.html.md#article.base.PublishResult)

@@ -7,6 +7,7 @@
     setColorMode(localStorage._theme||"auto");
   </script><link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d88b86f9" />
     <link rel="stylesheet" type="text/css" href="_static/shibuya.css?v=2ceb65ce" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx_autodoc_typehints.css?v=057ac668" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link media="print" rel="stylesheet" type="text/css" href="_static/print.css?v=20ff2c19" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -173,7 +174,7 @@ cross-platform reach without an SEO duplicate-content penalty.</p>
 <tbody>
 <tr class="row-even"><td><p>A table</p></td>
 <td><p>Substack has no table node</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">--tables</span> <span class="pre">code</span></code> keeps it as a monospace code block; or render it to an image (in Python, pass <code class="docutils literal notranslate"><span class="pre">tables=</span></code> a function returning the image Markdown)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--tables</span> <span class="pre">code</span></code> keeps it as a monospace code block; <code class="docutils literal notranslate"><span class="pre">--tables</span> <span class="pre">image</span></code> renders it to a PNG (needs <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">'article[images]'</span></code>); in Python, <code class="docutils literal notranslate"><span class="pre">tables=</span></code> also takes a function returning the image Markdown</p></td>
 </tr>
 <tr class="row-odd"><td><p>An image in a paragraph with text</p></td>
 <td><p>the converter keeps only the alt text</p></td>
@@ -201,6 +202,8 @@ cross-platform reach without an SEO duplicate-content penalty.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">article<span class="w"> </span>draft-substack<span class="w"> </span>essay.md<span class="w"> </span>--dry-run<span class="w">          </span><span class="c1"># what survives, no credentials needed</span>
 </span><span data-line="2">article<span class="w"> </span>draft-substack<span class="w"> </span>essay.md<span class="w">                    </span><span class="c1"># create the draft; prints its edit link</span>
 </span><span data-line="3">article<span class="w"> </span>draft-substack<span class="w"> </span>essay.md<span class="w"> </span>--tables<span class="w"> </span>code<span class="w">      </span><span class="c1"># keep tables as code blocks</span>
+</span><span data-line="4">article<span class="w"> </span>draft-substack<span class="w"> </span>essay.md<span class="w"> </span>--update<span class="w">           </span><span class="c1"># rewrite the draft the last run created (refuses if you edited it in Substack; --overwrite-edits to replace those edits)</span>
+</span><span data-line="5">article<span class="w"> </span>syndicate-secondary<span class="w"> </span>essay.md<span class="w">               </span><span class="c1"># refused until the Substack post is live (--allow-unpublished to override)</span>
 </span></pre></div>
 </div>
 <p>The draft’s future public URL (<code class="docutils literal notranslate"><span class="pre">&lt;publication&gt;/p/&lt;slug&gt;</span></code>) is recorded as the canonical URL, so <code class="docutils literal notranslate"><span class="pre">syndicate-secondary</span></code> can point the other platforms at it.</p>
@@ -363,7 +366,7 @@ no core changes:</p>
 </section>
 </section>
 
-<p class="epythet-provenance" style="font-size:.8em;opacity:.65;margin-top:2.5em;text-align:right">built 2026-10-08 06:54 UTC from <a href="https://github.com/thorwhalen/article/commit/4697f04a278901473291adbd6f875ef939b9e7e1">4697f04</a> (main) · article 0.1.3 · <a href="about-this-build.html">about this build</a></p>
+<p class="epythet-provenance" style="font-size:.8em;opacity:.65;margin-top:2.5em;text-align:right">built 2026-10-20 12:40 UTC from <a href="https://github.com/thorwhalen/article/commit/d27aca1348a09fecf5ffd09db777bd615ddf7624">d27aca1</a> (main) · article 0.1.4 · <a href="about-this-build.html">about this build</a></p>
         </article><button class="back-to-top" type="button">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
     <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
@@ -398,7 +401,7 @@ no core changes:</p>
     </div>
   </div>
 </footer>
-      <script src="_static/documentation_options.js?v=360bc84d"></script>
+      <script src="_static/documentation_options.js?v=fd825880"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>

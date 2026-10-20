@@ -29,6 +29,7 @@ article.base
       ArticleError
       ArticleValidationError
       CanonicalUrlMissing
+      CanonicalUrlNotLive
       ConfigError
       UnknownPlatformError
    

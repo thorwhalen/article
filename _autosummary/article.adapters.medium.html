@@ -7,6 +7,7 @@
     setColorMode(localStorage._theme||"auto");
   </script><link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d88b86f9" />
     <link rel="stylesheet" type="text/css" href="../_static/shibuya.css?v=2ceb65ce" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx_autodoc_typehints.css?v=057ac668" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link media="print" rel="stylesheet" type="text/css" href="../_static/print.css?v=20ff2c19" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -184,26 +185,21 @@ published to Medium.</p>
 <dt class="sig sig-object py" id="article.adapters.medium.import_steps">
 <span class="sig-prename descclassname"><span class="pre">article.adapters.medium.</span></span><span class="sig-name descname"><span class="pre">import_steps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">canonical_url</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/article/adapters/medium.html#import_steps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.adapters.medium.import_steps" title="Link to this definition">#</a></dt>
 <dd><p>The one-line instruction for importing <code class="docutils literal notranslate"><span class="pre">canonical_url</span></code> into Medium.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
-</dd>
-</dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="gp">&gt;&gt;&gt; </span><span class="n">import_steps</span><span class="p">(</span><span class="s2">"https://me.substack.com/p/t"</span><span class="p">)</span>
 </span><span data-line="2"><span class="go">'Once https://me.substack.com/p/t is live, open https://medium.com/p/import, ...'</span>
 </span></pre></div>
 </div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="article.adapters.medium.publish">
 <span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">article.adapters.medium.</span></span><span class="sig-name descname"><span class="pre">publish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">article</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">canonical_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">secrets</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/article/adapters/medium.html#publish"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.adapters.medium.publish" title="Link to this definition">#</a></dt>
 <dd><p>Return the <em>Import a story</em> step for <code class="docutils literal notranslate"><span class="pre">article</span></code>; sends nothing to Medium.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="article.base.html#article.base.PublishResult" title="article.base.PublishResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">PublishResult</span></code></a></span></p>
-</dd>
-</dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
 </span><span data-line="2"><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">article.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">Article</span><span class="p">,</span> <span class="n">MediumConfig</span>
 </span><span data-line="3"><span class="gp">&gt;&gt;&gt; </span><span class="n">art</span> <span class="o">=</span> <span class="n">Article</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"T"</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="s2">"t"</span><span class="p">,</span> <span class="n">content_markdown</span><span class="o">=</span><span class="s2">"x"</span><span class="p">)</span>
@@ -215,6 +211,11 @@ published to Medium.</p>
 </span><span data-line="9"><span class="go">('manual', 'https://me.substack.com/p/t')</span>
 </span></pre></div>
 </div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="article.base.html#article.base.PublishResult" title="article.base.PublishResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">PublishResult</span></code></a></span></p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -259,7 +260,7 @@ published to Medium.</p>
     </div>
   </div>
 </footer>
-      <script src="../_static/documentation_options.js?v=360bc84d"></script>
+      <script src="../_static/documentation_options.js?v=fd825880"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>

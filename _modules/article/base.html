@@ -7,6 +7,7 @@
     setColorMode(localStorage._theme||"auto");
   </script><link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d88b86f9" />
     <link rel="stylesheet" type="text/css" href="../../_static/shibuya.css?v=2ceb65ce" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx_autodoc_typehints.css?v=057ac668" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link media="print" rel="stylesheet" type="text/css" href="../../_static/print.css?v=20ff2c19" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -464,6 +465,17 @@ data-aria-dark="Switch to auto color mode">
 </span><span data-line="287"><span class="k">class</span><span class="w"> </span><span class="nc">CanonicalUrlMissing</span><span class="p">(</span><span class="n">ArticleError</span><span class="p">):</span>
 </span><span data-line="288"><span class="w">    </span><span class="sd">"""Phase 2 was requested before phase 1 recorded a canonical_url."""</span></div>
 
+</span><span data-line="289">
+</span><span data-line="290">
+<div class="viewcode-block" id="CanonicalUrlNotLive">
+<a class="viewcode-back" href="../../_autosummary/article.base.html#article.CanonicalUrlNotLive">[docs]</a>
+</span><span data-line="291"><span class="k">class</span><span class="w"> </span><span class="nc">CanonicalUrlNotLive</span><span class="p">(</span><span class="n">ArticleError</span><span class="p">):</span>
+</span><span data-line="292"><span class="w">    </span><span class="sd">"""Phase 2 was requested while the primary post is still an unpublished draft.</span>
+</span><span data-line="293">
+</span><span data-line="294"><span class="sd">    The recorded canonical URL is the post's *future* address, so syndicating now</span>
+</span><span data-line="295"><span class="sd">    would point other platforms at a 404.</span>
+</span><span data-line="296"><span class="sd">    """</span></div>
+
 </span></pre></div>
         </article><button class="back-to-top" type="button">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -491,7 +503,7 @@ data-aria-dark="Switch to auto color mode">
     </div>
   </div>
 </footer>
-      <script src="../../_static/documentation_options.js?v=360bc84d"></script>
+      <script src="../../_static/documentation_options.js?v=fd825880"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>

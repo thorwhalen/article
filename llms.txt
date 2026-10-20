@@ -20,7 +20,7 @@
 - [article.registry](_autosummary/article.registry.html.md): Adapter &#96;Protocol&#96; + an open-closed registry keyed by platform name.
 - [article.state](_autosummary/article.state.html.md): Pipeline state store — a &#96;MutableMapping&#96; facade over a JSON backend.
 - [article.util](_autosummary/article.util.html.md): Thin, dependency-light utilities shared across the package.
-- [About this build](about-this-build.html.md): This documentation was built on &#42;&#42;2026-10-08 06:54 UTC&#42;&#42; from commit &lt;a href="https://github.com/tho...
+- [About this build](about-this-build.html.md): This documentation was built on &#42;&#42;2026-10-20 12:40 UTC&#42;&#42; from commit &lt;a href="https://github.com/tho...
 
 ## Optional
 

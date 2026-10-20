@@ -48,15 +48,15 @@ The platform names with a registered adapter (sorted).
 
 Resolve the adapter registered under `name`.
 
-* **Return type:**
-  [`PublishAdapter`](#article.registry.PublishAdapter)
-
 ```pycon
 >>> get_adapter("nope")
 Traceback (most recent call last):
 ...
 article.base.UnknownPlatformError: ...no adapter registered for 'nope'...
 ```
+
+* **Return type:**
+  [`PublishAdapter`](#article.registry.PublishAdapter)
 
 ### article.registry.is_registered(name)
 

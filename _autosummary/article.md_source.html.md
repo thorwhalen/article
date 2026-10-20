@@ -47,10 +47,10 @@ Article fields from Markdown text: front matter, then the H1 title, then the slu
 
 A URL-safe slug: ASCII-folded, lowercase, hyphen-joined alphanumerics.
 
-* **Return type:**
-  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
-
 ```pycon
 >>> slugify("Déjà vu: the Agile Religion & the Agentic Reformation")
 'deja-vu-the-agile-religion-the-agentic-reformation'
 ```
+
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)

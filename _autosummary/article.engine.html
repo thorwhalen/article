@@ -7,6 +7,7 @@
     setColorMode(localStorage._theme||"auto");
   </script><link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d88b86f9" />
     <link rel="stylesheet" type="text/css" href="../_static/shibuya.css?v=2ceb65ce" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx_autodoc_typehints.css?v=057ac668" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link media="print" rel="stylesheet" type="text/css" href="../_static/print.css?v=20ff2c19" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -95,7 +96,9 @@ data-aria-dark="Switch to auto color mode">
       <i class="i-lucide close"></i>
     </button>
     <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#article.engine.DFLT_LIVE_TIMEOUT"><code class="docutils literal notranslate"><span class="pre">DFLT_LIVE_TIMEOUT</span></code></a></li>
 <li><a class="reference internal" href="#article.engine.PipelineEngine"><code class="docutils literal notranslate"><span class="pre">PipelineEngine</span></code></a><ul>
+<li><a class="reference internal" href="#article.engine.PipelineEngine.is_live"><code class="docutils literal notranslate"><span class="pre">PipelineEngine.is_live()</span></code></a></li>
 <li><a class="reference internal" href="#article.engine.PipelineEngine.publish_primary"><code class="docutils literal notranslate"><span class="pre">PipelineEngine.publish_primary()</span></code></a></li>
 <li><a class="reference internal" href="#article.engine.PipelineEngine.resolve_adapter"><code class="docutils literal notranslate"><span class="pre">PipelineEngine.resolve_adapter()</span></code></a></li>
 <li><a class="reference internal" href="#article.engine.PipelineEngine.syndicate_secondary"><code class="docutils literal notranslate"><span class="pre">PipelineEngine.syndicate_secondary()</span></code></a></li>
@@ -104,6 +107,7 @@ data-aria-dark="Switch to auto color mode">
 <li><a class="reference internal" href="#article.engine.build_engine"><code class="docutils literal notranslate"><span class="pre">build_engine()</span></code></a></li>
 <li><a class="reference internal" href="#article.engine.publish_primary"><code class="docutils literal notranslate"><span class="pre">publish_primary()</span></code></a></li>
 <li><a class="reference internal" href="#article.engine.syndicate_secondary"><code class="docutils literal notranslate"><span class="pre">syndicate_secondary()</span></code></a></li>
+<li><a class="reference internal" href="#article.engine.url_is_live"><code class="docutils literal notranslate"><span class="pre">url_is_live()</span></code></a></li>
 </ul>
 </div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
   </aside>
@@ -165,6 +169,16 @@ never aborts the sequence. Every phase returns a structured
 <a class="reference internal" href="#article.engine.syndicate_secondary" title="article.engine.syndicate_secondary"><code class="xref py py-func docutils literal notranslate"><span class="pre">syndicate_secondary()</span></code></a> build a default engine); complex things possible
 (construct <a class="reference internal" href="#article.engine.PipelineEngine" title="article.engine.PipelineEngine"><code class="xref py py-class docutils literal notranslate"><span class="pre">PipelineEngine</span></code></a> with an injected store, settings, or adapter
 resolver for testing and alternate backends).</p>
+<p class="rubric">Module Attributes</p>
+<div class="table-wrapper autosummary longtable docutils container">
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#article.engine.DFLT_LIVE_TIMEOUT" title="article.engine.DFLT_LIVE_TIMEOUT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DFLT_LIVE_TIMEOUT</span></code></a></p></td>
+<td><p>Seconds the draft-liveness GET may take before the URL counts as not live.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 <p class="rubric">Functions</p>
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
@@ -177,6 +191,9 @@ resolver for testing and alternate backends).</p>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#article.engine.syndicate_secondary" title="article.engine.syndicate_secondary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">syndicate_secondary</span></code></a>(article, *[, settings, ...])</p></td>
 <td><p>Phase 2 facade: syndicate to secondaries with the canonical_url injected.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#article.engine.url_is_live" title="article.engine.url_is_live"><code class="xref py py-obj docutils literal notranslate"><span class="pre">url_is_live</span></code></a>(url, *[, timeout])</p></td>
+<td><p>Whether one GET of <code class="docutils literal notranslate"><span class="pre">url</span></code> answers 2xx (redirects followed); any failure is False.</p></td>
 </tr>
 </tbody>
 </table>
@@ -191,20 +208,38 @@ resolver for testing and alternate backends).</p>
 </tbody>
 </table>
 </div>
+<dl class="py data">
+<dt class="sig sig-object py" id="article.engine.DFLT_LIVE_TIMEOUT">
+<span class="sig-prename descclassname"><span class="pre">article.engine.</span></span><span class="sig-name descname"><span class="pre">DFLT_LIVE_TIMEOUT</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">10.0</span></span><a class="headerlink" href="#article.engine.DFLT_LIVE_TIMEOUT" title="Link to this definition">#</a></dt>
+<dd><p>Seconds the draft-liveness GET may take before the URL counts as not live.</p>
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="article.engine.PipelineEngine">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">article.engine.</span></span><span class="sig-name descname"><span class="pre">PipelineEngine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolve_adapter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;function</span> <span class="pre">get_adapter&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/article/engine.html#PipelineEngine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.engine.PipelineEngine" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">article.engine.</span></span><span class="sig-name descname"><span class="pre">PipelineEngine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolve_adapter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;function</span> <span class="pre">get_adapter&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_live</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;function</span> <span class="pre">url_is_live&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/article/engine.html#PipelineEngine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.engine.PipelineEngine" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Coordinates the publishing phases over an injected store + settings.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>settings</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="article.config.html#article.config.Settings" title="article.config.Settings"><code class="xref py py-class docutils literal notranslate"><span class="pre">Settings</span></code></a></span>) – secrets/runtime config facade.</p></li>
-<li><p><strong>store</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.MutableMapping" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">MutableMapping</span></code></a></span>) – the state store (any <code class="docutils literal notranslate"><span class="pre">MutableMapping</span></code> keyed by slug).</p></li>
-<li><p><strong>resolve_adapter</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a>[[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>], <a class="reference internal" href="article.registry.html#article.registry.PublishAdapter" title="article.registry.PublishAdapter"><code class="xref py py-class docutils literal notranslate"><span class="pre">PublishAdapter</span></code></a>]</span>) – registry lookup (injected for testing / overrides).</p></li>
+<li><p><strong>store</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.MutableMapping" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">MutableMapping</span></code></a></span>) – the state store (any <code class="docutils literal notranslate"><span class="pre">MutableMapping</span></code> keyed by slug).</p></li>
+<li><p><strong>resolve_adapter</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.15)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a>[[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>], <a class="reference internal" href="article.registry.html#article.registry.PublishAdapter" title="article.registry.PublishAdapter"><code class="xref py py-class docutils literal notranslate"><span class="pre">PublishAdapter</span></code></a>]</span>) – registry lookup (injected for testing / overrides).</p></li>
 </ul>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="article.engine.PipelineEngine.is_live">
+<span class="sig-name descname"><span class="pre">is_live</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#article.engine.PipelineEngine.is_live" title="Link to this definition">#</a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">url</span> <span class="pre">-&gt;</span> <span class="pre">bool</span></code>: is the canonical URL live? Asked in phase 2 only while the
+primary post is still a draft. Defaults to one HTTP GET (<a class="reference internal" href="#article.engine.url_is_live" title="article.engine.url_is_live"><code class="xref py py-func docutils literal notranslate"><span class="pre">url_is_live()</span></code></a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="article.engine.PipelineEngine.publish_primary">
 <span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">publish_primary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">article</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/article/engine.html#PipelineEngine.publish_primary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.engine.PipelineEngine.publish_primary" title="Link to this definition">#</a></dt>
@@ -220,25 +255,27 @@ resolver for testing and alternate backends).</p>
 <dt class="sig sig-object py" id="article.engine.PipelineEngine.resolve_adapter">
 <span class="sig-name descname"><span class="pre">resolve_adapter</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#article.engine.PipelineEngine.resolve_adapter" title="Link to this definition">#</a></dt>
 <dd><p>Resolve the adapter registered under <code class="docutils literal notranslate"><span class="pre">name</span></code>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="article.registry.html#article.registry.PublishAdapter" title="article.registry.PublishAdapter"><code class="xref py py-class docutils literal notranslate"><span class="pre">PublishAdapter</span></code></a></span></p>
-</dd>
-</dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="gp">&gt;&gt;&gt; </span><span class="n">get_adapter</span><span class="p">(</span><span class="s2">"nope"</span><span class="p">)</span>
 </span><span data-line="2"><span class="gt">Traceback (most recent call last):</span>
 </span><span data-line="3"><span class="c">...</span>
 </span><span data-line="4"><span class="gr">article.base.UnknownPlatformError</span>: <span class="n">...no adapter registered for 'nope'...</span>
 </span></pre></div>
 </div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="article.registry.html#article.registry.PublishAdapter" title="article.registry.PublishAdapter"><code class="xref py py-class docutils literal notranslate"><span class="pre">PublishAdapter</span></code></a></span></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="article.engine.PipelineEngine.syndicate_secondary">
-<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">syndicate_secondary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">article</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">platforms</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/article/engine.html#PipelineEngine.syndicate_secondary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.engine.PipelineEngine.syndicate_secondary" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">syndicate_secondary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">article</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">platforms</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_unpublished</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/article/engine.html#PipelineEngine.syndicate_secondary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.engine.PipelineEngine.syndicate_secondary" title="Link to this definition">#</a></dt>
 <dd><p>Syndicate to each configured secondary, injecting the canonical URL.</p>
 <p>Raises <a class="reference internal" href="article.base.html#article.base.CanonicalUrlMissing" title="article.base.CanonicalUrlMissing"><code class="xref py py-class docutils literal notranslate"><span class="pre">CanonicalUrlMissing</span></code></a> if phase 1 hasn’t
-recorded a canonical URL for this slug yet.</p>
+recorded a canonical URL for this slug yet, and
+<a class="reference internal" href="article.base.html#article.base.CanonicalUrlNotLive" title="article.base.CanonicalUrlNotLive"><code class="xref py py-class docutils literal notranslate"><span class="pre">CanonicalUrlNotLive</span></code></a> if the primary post is still a
+draft whose URL does not resolve (<code class="docutils literal notranslate"><span class="pre">allow_unpublished=True</span></code> skips the check).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="article.base.html#article.base.RunSummary" title="article.base.RunSummary"><code class="xref py py-class docutils literal notranslate"><span class="pre">RunSummary</span></code></a></span></p>
@@ -274,11 +311,22 @@ recorded a canonical URL for this slug yet.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="article.engine.syndicate_secondary">
-<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">article.engine.</span></span><span class="sig-name descname"><span class="pre">syndicate_secondary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">article</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">settings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">platforms</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/article/engine.html#syndicate_secondary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.engine.syndicate_secondary" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">article.engine.</span></span><span class="sig-name descname"><span class="pre">syndicate_secondary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">article</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">settings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">platforms</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_unpublished</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/article/engine.html#syndicate_secondary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.engine.syndicate_secondary" title="Link to this definition">#</a></dt>
 <dd><p>Phase 2 facade: syndicate to secondaries with the canonical_url injected.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="article.base.html#article.base.RunSummary" title="article.base.RunSummary"><code class="xref py py-class docutils literal notranslate"><span class="pre">RunSummary</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="article.engine.url_is_live">
+<span class="sig-prename descclassname"><span class="pre">article.engine.</span></span><span class="sig-name descname"><span class="pre">url_is_live</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/article/engine.html#url_is_live"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.engine.url_is_live" title="Link to this definition">#</a></dt>
+<dd><p>Whether one GET of <code class="docutils literal notranslate"><span class="pre">url</span></code> answers 2xx (redirects followed); any failure is False.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -325,7 +373,7 @@ recorded a canonical URL for this slug yet.</p>
     </div>
   </div>
 </footer>
-      <script src="../_static/documentation_options.js?v=360bc84d"></script>
+      <script src="../_static/documentation_options.js?v=fd825880"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
