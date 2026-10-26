@@ -8,6 +8,7 @@ one draft and deletes it again; it never publishes.
 
 from __future__ import annotations
 
+import json
 import os
 
 import pytest
@@ -29,6 +30,13 @@ pytestmark = pytest.mark.skipif(
 )
 
 
+def _image_nodes(node):
+    found = [node] if node.get("type") == "image2" else []
+    for child in node.get("content") or []:
+        found += _image_nodes(child)
+    return found
+
+
 def test_a_real_draft_keeps_footnotes_and_captions(tmp_path, png_bytes):
     (tmp_path / "fig.png").write_bytes(png_bytes)
     (tmp_path / "smoke.md").write_text(
@@ -47,6 +55,9 @@ def test_a_real_draft_keeps_footnotes_and_captions(tmp_path, png_bytes):
         draft = api.get_draft(result.detail["draft_id"])
         assert not draft.get("is_published")
         body = str(draft.get("draft_body"))
-        assert "footnote" in body and "A caption" in body and "substackcdn" in body
+        assert "footnote" in body and "A caption" in body
+        (image,) = _image_nodes(json.loads(draft["draft_body"]))
+        assert image["attrs"]["src"].startswith("https://")
+        assert (image["attrs"]["width"], image["attrs"]["height"]) == (1, 1)
     finally:
         api.delete_draft(result.detail["draft_id"])
