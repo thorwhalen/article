@@ -70,9 +70,14 @@ def syndicate_secondary(
     env_file: Optional[str] = None,
     state_path: Optional[str] = None,
     platforms: Optional[str] = None,
+    allow_unpublished: bool = False,
     json_out: bool = False,
 ):
-    """Phase 2 — syndicate to secondary platforms, injecting canonical_url for SEO."""
+    """Phase 2 — syndicate to secondary platforms, injecting canonical_url for SEO.
+
+    Refused while the Substack post is still a draft (its URL would be a 404), unless
+    ``allow_unpublished``.
+    """
     settings, article, store = _prepare(
         article_path, env_file=env_file, state_path=state_path
     )
@@ -80,7 +85,11 @@ def syndicate_secondary(
     try:
         summary = run_sync(
             _syndicate_secondary(
-                article, settings=settings, store=store, platforms=selected
+                article,
+                settings=settings,
+                store=store,
+                platforms=selected,
+                allow_unpublished=allow_unpublished,
             )
         )
     except ArticleError as e:
@@ -105,22 +114,41 @@ def draft_substack(
     state_path: Optional[str] = None,
     tables: Optional[str] = None,
     dry_run: bool = False,
+    update: bool = False,
+    overwrite_edits: bool = False,
     json_out: bool = False,
 ):
-    """Create an UNPUBLISHED Substack draft from a Markdown file; never publishes."""
+    """Create an UNPUBLISHED Substack draft from a Markdown file; never publishes.
+
+    With ``update``, rewrite the draft this article's earlier run created (from the
+    state file) instead of creating another one.
+    """
     settings, article, store = _prepare(
         article_path, env_file=env_file, state_path=state_path
     )
     config = article.platforms.substack or SubstackConfig()
     if tables is not None:
         config = config.model_copy(update={"tables": tables})
+    earlier = store.get(article.slug, {}).get("primary", {}).get("detail", {})
+    if update:
+        if not earlier.get("draft_id"):
+            raise cw.CommandError(
+                f"--update: no earlier draft is recorded for {article.slug!r} in the "
+                f"state file; run once without --update first"
+            )
+        config = config.model_copy(
+            update={
+                "draft_id": earlier["draft_id"],
+                "expected_revision": earlier.get("revision"),
+                "overwrite_edits": overwrite_edits,
+            }
+        )
     try:
         if dry_run:
             report = _substack.dry_run(article, config=config)
             return json.dumps(report, indent=2) if json_out else _render_dry_run(report)
         platforms = article.platforms.model_copy(update={SUBSTACK: config})
         article = article.model_copy(update={"platforms": platforms})
-        earlier = store.get(article.slug, {}).get("primary", {}).get("detail", {})
         summary = run_sync(_publish_primary(article, settings=settings, store=store))
     except ArticleError as e:
         raise cw.CommandError(str(e)) from e
@@ -131,7 +159,7 @@ def draft_substack(
     detail = summary.by_platform[SUBSTACK].detail
     lines = [summary.render(), f"Edit the draft: {detail.get('edit_url')}"]
     lines += [f"  warning: {w}" for w in detail.get("warnings", ())]
-    if earlier.get("edit_url"):
+    if earlier.get("edit_url") and not update:
         lines.append(
             f"Note: an earlier draft of this article is still on Substack "
             f"({earlier['edit_url']}); delete it if this one replaces it."
@@ -149,11 +177,21 @@ _dispatch_config = {
     command: {"article_path": {"help": "Path to the article JSON file"}}
     for command in ("publish-primary", "syndicate-secondary")
 }
+_dispatch_config["syndicate-secondary"]["allow_unpublished"] = {
+    "help": "Syndicate even though the Substack post is still a draft (its URL is a 404)"
+}
 _dispatch_config["draft-substack"] = {
     "article_path": {"help": "Path to the essay Markdown file (or article JSON)"},
     "tables": {
-        "choices": ["error", "code"],
-        "help": "Markdown tables: refuse (error, the default) or keep as code blocks",
+        "choices": ["error", "code", "image"],
+        "help": "Markdown tables: refuse (error, the default), keep as code blocks, "
+        "or render to an image (needs article[images])",
+    },
+    "update": {
+        "help": "Rewrite the draft an earlier run created instead of making a new one"
+    },
+    "overwrite_edits": {
+        "help": "With --update: replace edits made in the Substack editor since the last run"
     },
     "dry_run": {"help": "Check and convert only; no credentials, nothing sent"},
 }

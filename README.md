@@ -36,7 +36,7 @@ Image paths resolve against the Markdown file's directory. Before anything is up
 
 | Construct | Why | What to do |
 |---|---|---|
-| A table | Substack has no table node | `--tables code` keeps it as a monospace code block; or render it to an image (in Python, pass `tables=` a function returning the image Markdown) |
+| A table | Substack has no table node | `--tables code` keeps it as a monospace code block; `--tables image` renders it to a PNG (needs `pip install 'article[images]'`); in Python, `tables=` also takes a function returning the image Markdown |
 | An image in a paragraph with text | the converter keeps only the alt text | give the image its own paragraph; caption goes in the title slot |
 | A missing local image | nothing to upload | fix the path |
 | A raw HTML block | the converter drops it | rewrite it in Markdown |
@@ -47,6 +47,8 @@ Image paths resolve against the Markdown file's directory. Before anything is up
 article draft-substack essay.md --dry-run          # what survives, no credentials needed
 article draft-substack essay.md                    # create the draft; prints its edit link
 article draft-substack essay.md --tables code      # keep tables as code blocks
+article draft-substack essay.md --update           # rewrite the draft the last run created (refuses if you edited it in Substack; --overwrite-edits to replace those edits)
+article syndicate-secondary essay.md               # refused until the Substack post is live (--allow-unpublished to override)
 ```
 
 The draft's future public URL (`<publication>/p/<slug>`) is recorded as the canonical URL, so `syndicate-secondary` can point the other platforms at it.

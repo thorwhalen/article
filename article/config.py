@@ -73,7 +73,14 @@ class SubstackConfig(_PlatformConfig):
     #: What to do with a Markdown table, which Substack cannot represent:
     #: ``"error"`` (refuse, naming every table) or ``"code"`` (keep it as a
     #: monospace code block). Never dropped silently.
-    tables: Literal["error", "code"] = "error"
+    tables: Literal["error", "code", "image"] = "error"
+    #: Update this existing draft in place instead of creating a new one (the CLI's
+    #: ``--update`` fills it, and ``expected_revision``, from the state store).
+    draft_id: Optional[int] = None
+    #: The draft's revision as last recorded; a draft edited since is refused.
+    expected_revision: Optional[dict] = None
+    #: Overwrite edits made in the Substack editor since ``expected_revision``.
+    overwrite_edits: bool = False
 
 
 class MediumConfig(_PlatformConfig):

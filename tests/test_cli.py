@@ -82,7 +82,7 @@ def test_draft_substack_usage_line(subparsers):
     usage = " ".join(subparsers["draft-substack"].format_usage().split())
     assert usage == (
         "usage: article draft-substack [-h] [-e ENV_FILE] [-s STATE_PATH]"
-        " [-t {error,code}] [-d] [-j] article-path"
+        " [-t {error,code,image}] [-d] [-u] [-o] [-j] article-path"
     )
 
 
@@ -97,7 +97,7 @@ def test_draft_substack_usage_line(subparsers):
         (
             "syndicate-secondary",
             "usage: article syndicate-secondary [-h] [-e ENV_FILE] [-s STATE_PATH]"
-            " [-p PLATFORMS] [-j] article-path",
+            " [-p PLATFORMS] [-a] [-j] article-path",
         ),
     ],
 )
