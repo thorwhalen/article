@@ -17,6 +17,7 @@ article.adapters.substack
       create_substack_draft
       draft_document
       dry_run
+      image_size
       make_substack_api
       preflight
       publish

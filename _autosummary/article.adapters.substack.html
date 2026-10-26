@@ -100,6 +100,7 @@ data-aria-dark="Switch to auto color mode">
 <li><a class="reference internal" href="#article.adapters.substack.create_substack_draft"><code class="docutils literal notranslate"><span class="pre">create_substack_draft()</span></code></a></li>
 <li><a class="reference internal" href="#article.adapters.substack.draft_document"><code class="docutils literal notranslate"><span class="pre">draft_document()</span></code></a></li>
 <li><a class="reference internal" href="#article.adapters.substack.dry_run"><code class="docutils literal notranslate"><span class="pre">dry_run()</span></code></a></li>
+<li><a class="reference internal" href="#article.adapters.substack.image_size"><code class="docutils literal notranslate"><span class="pre">image_size()</span></code></a></li>
 <li><a class="reference internal" href="#article.adapters.substack.make_substack_api"><code class="docutils literal notranslate"><span class="pre">make_substack_api()</span></code></a></li>
 <li><a class="reference internal" href="#article.adapters.substack.preflight"><code class="docutils literal notranslate"><span class="pre">preflight()</span></code></a></li>
 <li><a class="reference internal" href="#article.adapters.substack.publish"><code class="docutils literal notranslate"><span class="pre">publish()</span></code></a></li>
@@ -209,19 +210,22 @@ methods) to <a class="reference internal" href="#article.adapters.substack.creat
 <tr class="row-odd"><td><p><a class="reference internal" href="#article.adapters.substack.dry_run" title="article.adapters.substack.dry_run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dry_run</span></code></a>(article, *[, config, tables])</p></td>
 <td><p>Preflight and convert <code class="docutils literal notranslate"><span class="pre">article</span></code> without credentials or network; report counts.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#article.adapters.substack.make_substack_api" title="article.adapters.substack.make_substack_api"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_substack_api</span></code></a>(secrets, *[, publication_url])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#article.adapters.substack.image_size" title="article.adapters.substack.image_size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">image_size</span></code></a>(path)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(width,</span> <span class="pre">height)</span></code> of a PNG, GIF or JPEG file read from its header, else <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#article.adapters.substack.make_substack_api" title="article.adapters.substack.make_substack_api"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_substack_api</span></code></a>(secrets, *[, publication_url])</p></td>
 <td><p>A logged-in python-substack <code class="docutils literal notranslate"><span class="pre">Api</span></code> from <code class="docutils literal notranslate"><span class="pre">secrets</span></code> (cookies preferred).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#article.adapters.substack.preflight" title="article.adapters.substack.preflight"><code class="xref py py-obj docutils literal notranslate"><span class="pre">preflight</span></code></a>(markdown, *[, assets_dir, tables])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#article.adapters.substack.preflight" title="article.adapters.substack.preflight"><code class="xref py py-obj docutils literal notranslate"><span class="pre">preflight</span></code></a>(markdown, *[, assets_dir, tables])</p></td>
 <td><p>Check <code class="docutils literal notranslate"><span class="pre">markdown</span></code> for content Substack would lose; return it ready to convert.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#article.adapters.substack.publish" title="article.adapters.substack.publish"><code class="xref py py-obj docutils literal notranslate"><span class="pre">publish</span></code></a>(article, *[, canonical_url, api, tables])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#article.adapters.substack.publish" title="article.adapters.substack.publish"><code class="xref py py-obj docutils literal notranslate"><span class="pre">publish</span></code></a>(article, *[, canonical_url, api, tables])</p></td>
 <td><p>Registry entry point: <a class="reference internal" href="#article.adapters.substack.create_substack_draft" title="article.adapters.substack.create_substack_draft"><code class="xref py py-func docutils literal notranslate"><span class="pre">create_substack_draft()</span></code></a> off the event loop.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#article.adapters.substack.render_table_image" title="article.adapters.substack.render_table_image"><code class="xref py py-obj docutils literal notranslate"><span class="pre">render_table_image</span></code></a>(table_markdown, *[, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#article.adapters.substack.render_table_image" title="article.adapters.substack.render_table_image"><code class="xref py py-obj docutils literal notranslate"><span class="pre">render_table_image</span></code></a>(table_markdown, *[, ...])</p></td>
 <td><p>Render a Markdown table to a PNG and return the Markdown image that shows it.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#article.adapters.substack.summarize_document" title="article.adapters.substack.summarize_document"><code class="xref py py-obj docutils literal notranslate"><span class="pre">summarize_document</span></code></a>(draft)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#article.adapters.substack.summarize_document" title="article.adapters.substack.summarize_document"><code class="xref py py-obj docutils literal notranslate"><span class="pre">summarize_document</span></code></a>(draft)</p></td>
 <td><p>Count what survived conversion: footnotes, images, captions, LaTeX, ...</p></td>
 </tr>
 </tbody>
@@ -273,6 +277,18 @@ absolute). With <code class="docutils literal notranslate"><span class="pre">api
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.15)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="article.adapters.substack.image_size">
+<span class="sig-prename descclassname"><span class="pre">article.adapters.substack.</span></span><span class="sig-name descname"><span class="pre">image_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/article/adapters/substack.html#image_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#article.adapters.substack.image_size" title="Link to this definition">#</a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">(width,</span> <span class="pre">height)</span></code> of a PNG, GIF or JPEG file read from its header, else <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+<p>Stdlib only; other formats are measured with Pillow when it is installed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.15)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]]</span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -391,7 +407,7 @@ problem at once.</p>
     </div>
   </div>
 </footer>
-      <script src="../_static/documentation_options.js?v=fd825880"></script>
+      <script src="../_static/documentation_options.js?v=59fadc99"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>

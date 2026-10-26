@@ -1,4 +1,4 @@
-> built 2026-10-20 12:40 UTC from d27aca1 (main) · article 0.1.4. Details: build_info.json
+> built 2026-10-26 01:29 UTC from 48c51c7 (main) · article 0.1.5. Details: build_info.json
 
 # index.html.md
 
@@ -450,6 +450,7 @@ methods) to [`create_substack_draft()`](_autosummary/article.adapters.substack.h
 |------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------|
 | [`draft_document`](_autosummary/article.adapters.substack.html.md#article.adapters.substack.draft_document)(article, markdown, \*, config)       | The draft payload python-substack posts (`draft_body` is a JSON string).                                           |
 | [`dry_run`](_autosummary/article.adapters.substack.html.md#article.adapters.substack.dry_run)(article, \*[, config, tables])              | Preflight and convert `article` without credentials or network; report counts.                                     |
+| [`image_size`](_autosummary/article.adapters.substack.html.md#article.adapters.substack.image_size)(path)                                    | `(width, height)` of a PNG, GIF or JPEG file read from its header, else `None`.                                    |
 | [`make_substack_api`](_autosummary/article.adapters.substack.html.md#article.adapters.substack.make_substack_api)(secrets, \*[, publication_url])   | A logged-in python-substack `Api` from `secrets` (cookies preferred).                                              |
 | [`preflight`](_autosummary/article.adapters.substack.html.md#article.adapters.substack.preflight)(markdown, \*[, assets_dir, tables])       | Check `markdown` for content Substack would lose; return it ready to convert.                                      |
 | [`publish`](_autosummary/article.adapters.substack.html.md#article.adapters.substack.publish)(article, \*[, canonical_url, api, tables])  | Registry entry point: [`create_substack_draft()`](_autosummary/article.adapters.substack.html.md#article.adapters.substack.create_substack_draft) off the event loop. |
@@ -492,6 +493,15 @@ Preflight and convert `article` without credentials or network; report counts.
 
 * **Return type:**
   [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Any`](https://docs.python.org/3/library/typing.html#typing.Any)]
+
+### article.adapters.substack.image_size(path)
+
+`(width, height)` of a PNG, GIF or JPEG file read from its header, else `None`.
+
+Stdlib only; other formats are measured with Pillow when it is installed.
+
+* **Return type:**
+  [`Optional`](https://docs.python.org/3/library/typing.html#typing.Optional)[[`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple)[[`int`](https://docs.python.org/3/builtins/functions.html#int), [`int`](https://docs.python.org/3/builtins/functions.html#int)]]
 
 ### article.adapters.substack.make_substack_api(secrets, , publication_url=None)
 
@@ -2318,18 +2328,18 @@ Current UTC time as an ISO-8601 string (clock injectable for tests).
 
 # About this build
 
-This documentation was built on **2026-10-20 12:40 UTC** from commit <a href="https://github.com/thorwhalen/article/commit/d27aca1348a09fecf5ffd09db777bd615ddf7624"><code>d27aca1</code></a> on branch <code>main</code>, for **article 0.1.4** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-10-26 01:29 UTC** from commit <a href="https://github.com/thorwhalen/article/commit/48c51c745e52c4d18c1bef2646df568cbf54251a"><code>48c51c7</code></a> on branch <code>main</code>, for **article 0.1.5** (from <code>pyproject.toml</code>).
 
 #### WARNING
 The documentation and the package may be misaligned:
 
-- The documented version (0.1.4) is behind the latest release on PyPI (0.1.5): `pip install article` gives newer code than these docs describe.
+- The documented version (0.1.5) is behind the latest release on PyPI (0.1.6): `pip install article` gives newer code than these docs describe.
 
 ## Source
 
 |                     |                                                                                                                                                           |
 |---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/thorwhalen/article/commit/d27aca1348a09fecf5ffd09db777bd615ddf7624"><code>d27aca1348a09fecf5ffd09db777bd615ddf7624</code></a> |
+| Commit              | <a href="https://github.com/thorwhalen/article/commit/48c51c745e52c4d18c1bef2646df568cbf54251a"><code>48c51c745e52c4d18c1bef2646df568cbf54251a</code></a> |
 | Branch              | <code>main</code>                                                                                                                                         |
 | Tags at this commit | none                                                                                                                                                      |
 | Working tree        | clean                                                                                                                                                     |
@@ -2340,15 +2350,15 @@ The documentation and the package may be misaligned:
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>thorwhalen/article</code>                                                            |
-| Run          | <a href="https://github.com/thorwhalen/article/actions/runs/39423880789">39423880789</a>   |
+| Run          | <a href="https://github.com/thorwhalen/article/actions/runs/40254289374">40254289374</a>   |
 | Ref          | <code>refs/heads/main</code>                                                               |
-| Event commit | <code>d27aca1348a09fecf5ffd09db777bd615ddf7624</code> (in the history of the built commit) |
+| Event commit | <code>48c51c745e52c4d18c1bef2646df568cbf54251a</code> (in the history of the built commit) |
 
 ## Tools
 
 |          |         |
 |----------|---------|
-| epythet  | 0.2.20  |
+| epythet  | 0.2.22  |
 | Sphinx   | 9.1.1   |
 | docutils | 0.22.4  |
 | Python   | 3.12.15 |
@@ -2367,14 +2377,14 @@ The documentation and the package may be misaligned:
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/article/0.1.5/">0.1.5</a>, newer than the documented version (0.1.4).
+Latest release: <a href="https://pypi.org/project/article/0.1.6/">0.1.6</a>, newer than the documented version (0.1.5).
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/article && cd article
-git checkout d27aca1348a09fecf5ffd09db777bd615ddf7624
-pip install "epythet==0.2.20"
+git checkout 48c51c745e52c4d18c1bef2646df568cbf54251a
+pip install "epythet==0.2.22"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```
 

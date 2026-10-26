@@ -54,6 +54,7 @@ methods) to [`create_substack_draft()`](#article.adapters.substack.create_substa
 |------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------|
 | [`draft_document`](#article.adapters.substack.draft_document)(article, markdown, \*, config)       | The draft payload python-substack posts (`draft_body` is a JSON string).                                           |
 | [`dry_run`](#article.adapters.substack.dry_run)(article, \*[, config, tables])              | Preflight and convert `article` without credentials or network; report counts.                                     |
+| [`image_size`](#article.adapters.substack.image_size)(path)                                    | `(width, height)` of a PNG, GIF or JPEG file read from its header, else `None`.                                    |
 | [`make_substack_api`](#article.adapters.substack.make_substack_api)(secrets, \*[, publication_url])   | A logged-in python-substack `Api` from `secrets` (cookies preferred).                                              |
 | [`preflight`](#article.adapters.substack.preflight)(markdown, \*[, assets_dir, tables])       | Check `markdown` for content Substack would lose; return it ready to convert.                                      |
 | [`publish`](#article.adapters.substack.publish)(article, \*[, canonical_url, api, tables])  | Registry entry point: [`create_substack_draft()`](#article.adapters.substack.create_substack_draft) off the event loop. |
@@ -96,6 +97,15 @@ Preflight and convert `article` without credentials or network; report counts.
 
 * **Return type:**
   [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Any`](https://docs.python.org/3/library/typing.html#typing.Any)]
+
+### article.adapters.substack.image_size(path)
+
+`(width, height)` of a PNG, GIF or JPEG file read from its header, else `None`.
+
+Stdlib only; other formats are measured with Pillow when it is installed.
+
+* **Return type:**
+  [`Optional`](https://docs.python.org/3/library/typing.html#typing.Optional)[[`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple)[[`int`](https://docs.python.org/3/builtins/functions.html#int), [`int`](https://docs.python.org/3/builtins/functions.html#int)]]
 
 ### article.adapters.substack.make_substack_api(secrets, , publication_url=None)
 
