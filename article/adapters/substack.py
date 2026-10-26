@@ -34,8 +34,10 @@ methods) to :func:`create_substack_draft`; tests pass a fake.
 from __future__ import annotations
 
 import asyncio
+import json
 import os
 import re
+import struct
 import threading
 from collections import Counter
 from contextlib import contextmanager
@@ -281,6 +283,69 @@ def _working_directory(path: Optional[str]) -> Iterator[None]:
             os.chdir(previous)
 
 
+def image_size(path: Union[str, Path]) -> Optional[tuple[int, int]]:
+    """``(width, height)`` of a PNG, GIF or JPEG file read from its header, else ``None``.
+
+    Stdlib only; other formats are measured with Pillow when it is installed.
+    """
+    with open(path, "rb") as f:
+        head = f.read(26)
+        if head[:8] == b"\x89PNG\r\n\x1a\n":
+            return struct.unpack(">II", head[16:24])
+        if head[:6] in (b"GIF87a", b"GIF89a"):
+            return struct.unpack("<HH", head[6:10])
+        if head[:2] == b"\xff\xd8":
+            f.seek(2)
+            while True:
+                marker = f.read(4)
+                if len(marker) < 4 or marker[0] != 0xFF:
+                    break
+                code, length = marker[1], struct.unpack(">H", marker[2:4])[0]
+                if 0xC0 <= code <= 0xCF and code not in (0xC4, 0xC8, 0xCC):
+                    h, w = struct.unpack(">HH", f.read(5)[1:5])
+                    return w, h
+                f.seek(length - 2, 1)
+    try:
+        from PIL import Image
+
+        with Image.open(path) as im:
+            return im.size
+    except Exception:
+        return None
+
+
+class _MeasuringApi:
+    """Wraps a python-substack ``Api``, remembering the pixel size of each upload.
+
+    python-substack gives every image node a default 1456x819; the sizes
+    recorded here are written back by :func:`_apply_image_sizes`.
+    """
+
+    def __init__(self, api: Any):
+        self._api = api
+        self.sizes: dict[str, tuple[int, int]] = {}
+
+    def get_image(self, path):
+        uploaded = self._api.get_image(path)
+        size = image_size(path)
+        if size and isinstance(uploaded, Mapping) and uploaded.get("url"):
+            self.sizes[uploaded["url"]] = size
+        return uploaded
+
+    def __getattr__(self, name):
+        return getattr(self._api, name)
+
+
+def _apply_image_sizes(node: Any, sizes: Mapping[str, tuple[int, int]]) -> None:
+    if isinstance(node, dict):
+        attrs = node.get("attrs")
+        if node.get("type") == "image2" and isinstance(attrs, dict):
+            if attrs.get("src") in sizes:
+                attrs["width"], attrs["height"] = sizes[attrs["src"]]
+        for child in node.get("content") or []:
+            _apply_image_sizes(child, sizes)
+
+
 def draft_document(
     article: Article,
     markdown: str,
@@ -303,9 +368,15 @@ def draft_document(
         user_id=user_id,
         audience=config.audience,
     )
+    measuring = _MeasuringApi(api) if api is not None else None
     with _working_directory(article.assets_dir):
-        post.from_markdown(markdown, api=api)
-    return post.get_draft()
+        post.from_markdown(markdown, api=measuring)
+    draft = post.get_draft()
+    if measuring and measuring.sizes:
+        body = json.loads(draft["draft_body"])
+        _apply_image_sizes(body, measuring.sizes)
+        draft["draft_body"] = json.dumps(body)
+    return draft
 
 
 def make_substack_api(

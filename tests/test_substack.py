@@ -362,3 +362,29 @@ def test_a_title_without_ascii_asks_for_a_slug(tmp_path):
     (tmp_path / "x.md").write_text("# 日本語\n\nx\n", encoding="utf-8")
     with pytest.raises(Exception, match="add a 'slug:'"):
         load_article(str(tmp_path / "x.md"))
+
+
+def test_uploaded_images_keep_their_real_pixel_size(tmp_path, fake_api):
+    import struct, zlib
+
+    def png(w, h):
+        def chunk(t, d):
+            return struct.pack(">I", len(d)) + t + d + struct.pack(">I", zlib.crc32(t + d))
+
+        raw = b"".join(b"\x00" + b"\x00\x00\x00" * w for _ in range(h))
+        return (
+            b"\x89PNG\r\n\x1a\n"
+            + chunk(b"IHDR", struct.pack(">IIBBBBB", w, h, 8, 2, 0, 0, 0))
+            + chunk(b"IDAT", zlib.compress(raw))
+            + chunk(b"IEND", b"")
+        )
+
+    (tmp_path / "wide.png").write_bytes(png(30, 10))
+    (tmp_path / "tall.png").write_bytes(png(7, 21))
+    (tmp_path / "a.md").write_text("# T\n\n![w](wide.png)\n\n![t](tall.png)\n")
+    create_substack_draft(load_article(str(tmp_path / "a.md")), api=fake_api)
+    sizes = [
+        (n["attrs"]["width"], n["attrs"]["height"])
+        for n in _of_type(_body(fake_api), "image2")
+    ]
+    assert sizes == [(30, 10), (7, 21)]
